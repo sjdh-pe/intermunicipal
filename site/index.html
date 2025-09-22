@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PE Livre Acesso Intermunicipal - Cadastro de Beneficiário</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0 text-center">PE Livre Acesso Intermunicipal</h2>
+                    <h4 class="mb-0 text-center">Cadastro de Beneficiário</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Progress Bar -->
+                    <div class="progress mb-4">
+                        <div id="form-progress" class="progress-bar bg-primary" role="progressbar" style="width: 33.33%"></div>
+                    </div>
+
+                    <!-- Step Indicators -->
+                    <div class="step-indicator">
+                        <div class="step active" id="step1-indicator">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Dados Pessoais</div>
+                        </div>
+                        <div class="step" id="step2-indicator">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Contato e Endereço</div>
+                        </div>
+                        <div class="step" id="step3-indicator">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Documentos</div>
+                        </div>
+                    </div>
+
+                    <!-- Form Sections -->
+                    <form id="beneficiary-form">
+                        <!-- Section 1: Personal Data -->
+                        <div class="form-section active" id="section1">
+                            <h5 class="mb-4"><i class="bi bi-person-fill"></i> Dados Pessoais</h5>
+
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label required-field">Nome do Beneficiário</label>
+                                <input type="text" class="form-control" id="fullName" value="FullName" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="socialName" class="form-label">Nome Social</label>
+                                <input type="text" class="form-control" id="socialName">
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label for="cpf" class="form-label required-field">CPF do Beneficiário</label>
+                                <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" value="000.000.000-00" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="rg" class="form-label required-field">RG do Beneficiário</label>
+                                <input type="text" class="form-control" id="rg" value="11111" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="birthDate" class="form-label required-field" >Data de Nascimento</label>
+                                <input type="date" class="form-control" id="birthDate" value="04/01/1988" required>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label for="deficiencia" class="form-label required-field">Tipo de Deficiência</label>
+                                <select class="form-select" id="deficiencia" required>
+                                    <option value="">Selecione</option>
+                                    <option value="Auditiva" selected>Auditiva</option>
+                                    <option value="Fisica">Física</option>
+                                    <option value="Intelectual">Intelectual</option>
+                                    <option value="Visual">Visual</option>
+                                    <option value="Multiplas">Múltiplas</option>
+                                </select>
+                            </div>
+
+
+
+                            <div class="mb-3">
+                                <label class="form-label required-field">Tem Cartão Vem Livre Acesso RMR?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vemLivreRm" id="vemLivreRmYes" value="sim" required>
+                                    <label class="form-check-label" for="vemLivreRmYes">Sim</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vemLivreRm" id="vemLivreRmNo" value="nao" required>
+                                    <label class="form-check-label" for="vemLivreRmNo">Não</label>
+                                </div>
+                            </div>
+
+
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary" onclick="nextSection(1)">Continuar <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Contact and Address -->
+                        <div class="form-section" id="section2">
+                            <h5 class="mb-4"><i class="bi bi-house-fill"></i> Contato e Endereço</h5>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label required-field">E-mail</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="confirmEmail" class="form-label required-field">Confirmação de E-mail</label>
+                                <input type="email" class="form-control" id="confirmEmail" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="telefone" class="form-label required-field">Telefone</label>
+                                <input type="tel" class="form-control" id="telefone" placeholder="(00) 00000-0000" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="cep" class="form-label required-field">CEP</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="cep" placeholder="00000-000" required>
+                                    <button type="button" class="btn btn-primary" id="btnBuscarCep">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="logradouro" class="form-label required-field">Endereço (Rua, Av., Logradouro)</label>
+                                <input type="text" class="form-control" id="logradouro" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="numero" class="form-label ">número</label>
+                                <input type="text" class="form-control" id="numero">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="bairro" class="form-label required-field">Bairro</label>
+                                <input type="text" class="form-control" id="bairro" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="cidade" class="form-label required-field">Cidade</label>
+                                <input type="text" class="form-control" id="cidade" required>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label for="uf" class="form-label required-field">Estado</label>
+                                <select class="form-select" id="uf" required>
+                                    <option value="">Selecione</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <!-- Add other states if needed -->
+                                </select>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label for="localRetirada" class="form-label required-field">Local da Retirada da Carteira</label>
+                                <select class="form-select" id="localRetirada" required>
+                                    <option value="">Selecione</option>
+                                    <option value="RECIFE-SESES">RECIFE - SESES</option>
+                                    <!-- Add other locations if needed -->
+                                </select>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary" onclick="prevSection(2)"><i class="bi bi-arrow-left"></i> Voltar</button>
+                                <button type="button" class="btn btn-primary" onclick="nextSection(2)">Continuar <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: Documents -->
+                        <div class="form-section" id="section3">
+                            <h5 class="mb-4"><i class="bi bi-file-earmark-fill"></i> Documentos Necessários</h5>
+
+                            <div class="alert alert-info mb-4">
+                                <i class="bi bi-info-circle-fill"></i> Formatos aceitos: JPG, PNG ou PDF (exceto foto 3x4 que aceita apenas JPG e PNG)
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label required-field">RG Beneficiário</label>
+                                <div class="upload-area" onclick="document.getElementById('rgFile').click()">
+                                    <i class="bi bi-cloud-arrow-up fs-1"></i>
+                                    <p class="mb-0">Clique para enviar o arquivo</p>
+                                    <small class="text-muted">(Formatos: JPG, PNG ou PDF)</small>
+                                    <input type="file" id="rgFile" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
+                                </div>
+                                <div id="rgFileName" class="mt-2 text-muted"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label required-field">CPF Beneficiário</label>
+                                <div class="upload-area" onclick="document.getElementById('cpfFile').click()">
+                                    <i class="bi bi-cloud-arrow-up fs-1"></i>
+                                    <p class="mb-0">Clique para enviar o arquivo</p>
+                                    <small class="text-muted">(Formatos: JPG, PNG ou PDF)</small>
+                                    <input type="file" id="cpfFile" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
+                                </div>
+                                <div id="cpfFileName" class="mt-2 text-muted"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label required-field">Laudo Médico</label>
+                                <div class="upload-area" onclick="document.getElementById('laudoFile').click()">
+                                    <i class="bi bi-cloud-arrow-up fs-1"></i>
+                                    <p class="mb-0">Clique para enviar o arquivo</p>
+                                    <small class="text-muted">(Formatos: JPG, PNG ou PDF)</small>
+                                    <input type="file" id="laudoFile" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
+                                </div>
+                                <div id="laudoFileName" class="mt-2 text-muted"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label required-field">Comprovante de Residência</label>
+                                <div class="upload-area" onclick="document.getElementById('residenceProof').click()">
+                                    <i class="bi bi-cloud-arrow-up fs-1"></i>
+                                    <p class="mb-0">Clique para enviar o arquivo</p>
+                                    <small class="text-muted">(Formatos: JPG, PNG ou PDF)</small>
+                                    <input type="file" id="residenceProof" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
+                                </div>
+                                <div id="residenceProofName" class="mt-2 text-muted"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label required-field">Foto 3x4</label>
+                                <div class="upload-area" onclick="document.getElementById('photo').click()">
+                                    <i class="bi bi-cloud-arrow-up fs-1"></i>
+                                    <p class="mb-0">Clique para enviar o arquivo</p>
+                                    <small class="text-muted">(Formatos: JPG ou PNG)</small>
+                                    <input type="file" id="photo" class="d-none" accept=".jpg,.jpeg,.png">
+                                </div>
+                                <div id="photoName" class="mt-2 text-muted"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary" onclick="prevSection(3)"><i class="bi bi-arrow-left"></i> Voltar</button>
+                                <button type="submit" class="btn btn-success">Enviar Cadastro <i class="bi bi-check-circle-fill"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script src="script.js"></script>
+<script>
+
+    document.getElementById('cep').addEventListener('blur', function () {
+        buscarEnderecoPorCep(this.value);
+    });
+
+    document.getElementById('btncep').addEventListener('click', function () {
+        const cep = document.getElementById('cep').value;
+        if(cep){
+            buscarEnderecoPorCep(cep);
+        }
+    });
+
+    // Form navigation
+    function nextSection(currentSection) {
+        // Validate current section before proceeding
+        if (validateSection(currentSection)) {
+            document.getElementById(`section${currentSection}`).classList.remove('active');
+            document.getElementById(`section${currentSection + 1}`).classList.add('active');
+
+            // Update progress bar
+            document.getElementById('form-progress').style.width = `${(currentSection / 3) * 100}%`;
+
+            // Update step indicators
+            document.getElementById(`step${currentSection}-indicator`).classList.remove('active');
+            document.getElementById(`step${currentSection}-indicator`).classList.add('completed');
+            document.getElementById(`step${currentSection + 1}-indicator`).classList.add('active');
+        }
+    }
+
+    function prevSection(currentSection) {
+        document.getElementById(`section${currentSection}`).classList.remove('active');
+        document.getElementById(`section${currentSection - 1}`).classList.add('active');
+
+        // Update progress bar
+        document.getElementById('form-progress').style.width = `${((currentSection - 2) / 3) * 100}%`;
+
+        // Update step indicators
+        document.getElementById(`step${currentSection}-indicator`).classList.remove('active');
+        document.getElementById(`step${currentSection - 1}-indicator`).classList.add('active');
+        document.getElementById(`step${currentSection - 1}-indicator`).classList.remove('completed');
+    }
+
+    function validateSection(sectionNumber) {
+        // Simple validation - in a real app, you'd want more thorough validation
+        if (sectionNumber === 1) {
+            const fullName = document.getElementById('fullName').value;
+            const cpf = document.getElementById('cpf').value;
+            const rg = document.getElementById('rg').value;
+            const birthDate = document.getElementById('birthDate').value;
+            const deficiencia = document.getElementById('deficiencia').value;
+            const vemLivreRm = document.querySelector('input[name="vemLivreRm"]:checked')?.value === 'sim';
+            let payload = { "nome": fullName, "cpf": cpf, "rg": rg, "data_nascimento": birthDate, "deficiencia": deficiencia, "vem_livre_rm": vemLivreRm };
+            console.log(payload);
+
+            if (!fullName || !cpf || !birthDate || !rg || !deficiencia || vemLivreRm )  {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return false;
+            }
+        } else if (sectionNumber === 2) {
+
+            const email = document.getElementById('email').value;
+            const confirmEmail = document.getElementById('confirmEmail').value;
+            const telefone = document.getElementById('telefone').value;
+            const cep = document.getElementById('cep').value;
+            const bairro = document.getElementById('bairro').value;
+            const cidade = document.getElementById('cidade').value;
+            const uf = document.getElementById('uf').value;
+            const localRetirada = document.getElementById('localRetirada').value;
+
+            if (!email || !confirmEmail || !telefone || !cep || !localRetirada || !cidade || !bairro || !uf) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return false;
+            }
+
+            if (email !== confirmEmail) {
+                alert('Os e-mails não coincidem.');
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Form submission
+    document.getElementById('beneficiary-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Validate all sections
+        if (validateSection(3)) {
+            // In a real app, you would submit the form data to the server here
+            alert('Cadastro enviado com sucesso!');
+            // Reset form and go back to first section
+            this.reset();
+            document.getElementById('section3').classList.remove('active');
+            document.getElementById('section1').classList.add('active');
+            document.getElementById('form-progress').style.width = '33.33%';
+            document.getElementById('step3-indicator').classList.remove('active');
+            document.getElementById('step1-indicator').classList.add('active');
+            document.getElementById('step1-indicator').classList.remove('completed');
+            document.getElementById('step2-indicator').classList.remove('completed');
+        }
+    });
+
+    // File upload handlers
+    document.getElementById('rgFile').addEventListener('change', function(e) {
+        if (this.files.length > 0) {
+            document.getElementById('rgFileName').textContent = this.files[0].name;
+        }
+    });
+
+    document.getElementById('cpfFile').addEventListener('change', function(e) {
+        if (this.files.length > 0) {
+            document.getElementById('cpfFileName').textContent = this.files[0].name;
+        }
+    });
+
+    document.getElementById('laudoFile').addEventListener('change', function(e) {
+        if (this.files.length > 0) {
+            document.getElementById('laudoFileName').textContent = this.files[0].name;
+        }
+    });
+
+    document.getElementById('residenceProof').addEventListener('change', function(e) {
+        if (this.files.length > 0) {
+            document.getElementById('residenceProofName').textContent = this.files[0].name;
+        }
+    });
+
+    document.getElementById('photo').addEventListener('change', function(e) {
+        if (this.files.length > 0) {
+            document.getElementById('photoName').textContent = this.files[0].name;
+        }
+    });
+
+    // Input masks
+    $(document).ready(function(){
+        $('#cpf').mask('000.000.000-00', {reverse: true});
+        $('#telefone').mask('(00) 00000-0000');
+        $('#cep').mask('00000-000');
+    });
+</script>
+</body>
+</html>

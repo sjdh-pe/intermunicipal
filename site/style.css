@@ -1,0 +1,81 @@
+.form-section {
+    display: none;
+}
+.form-section.active {
+    display: block;
+}
+.progress-bar {
+    height: 10px;
+    border-radius: 5px;
+}
+.required-field::after {
+    content: " *";
+    color: red;
+}
+.upload-area {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.upload-area:hover {
+    border-color: #0d6efd;
+    background-color: #f8f9fa;
+}
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+.step {
+    text-align: center;
+    position: relative;
+    flex: 1;
+}
+.step-number {
+    width: 40px;
+    height: 40px;
+    background-color: #dee2e6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    color: white;
+    font-weight: bold;
+}
+.step.active .step-number {
+    background-color: #0d6efd;
+}
+.step.completed .step-number {
+    background-color: #198754;
+}
+.step-title {
+    font-size: 14px;
+    color: #6c757d;
+}
+.step.active .step-title {
+    color: #0d6efd;
+    font-weight: bold;
+}
+.step.completed .step-title {
+    color: #198754;
+}
+.step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 60%;
+    width: 80%;
+    height: 2px;
+    background-color: #dee2e6;
+    z-index: -1;
+}
+.step.active:not(:last-child)::after {
+    background-color: #0d6efd;
+}
+.step.completed:not(:last-child)::after {
+    background-color: #198754;
+}
