@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <!-- Progress Bar -->
                     <div class="progress mb-4">
-                        <div id="form-progress" class="progress-bar bg-primary" role="progressbar" style="width: 33.33%"></div>
+                        <div id="form-progress" class="progress-bar bg-primary" role="progressbar" style="width: 0%;"></div>
                     </div>
 
                     <!-- Step Indicators -->
@@ -40,14 +40,14 @@
                     </div>
 
                     <!-- Form Sections -->
-                    <form id="beneficiary-form">
+                    <form id="form-cadastro-beneficiario">
                         <!-- Section 1: Personal Data -->
                         <div class="form-section active" id="section1">
                             <h5 class="mb-4"><i class="bi bi-person-fill"></i> Dados Pessoais</h5>
 
                             <div class="mb-3">
                                 <label for="fullName" class="form-label required-field">Nome do Beneficiário</label>
-                                <input type="text" class="form-control" id="fullName" value="FullName" required>
+                                <input type="text" class="form-control" id="fullName" value="FullName" required="">
                             </div>
 
                             <div class="mb-3">
@@ -58,46 +58,73 @@
 
                             <div class="mb-3">
                                 <label for="cpf" class="form-label required-field">CPF do Beneficiário</label>
-                                <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" value="000.000.000-00" required>
+                                <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" value="000.000.000-00" required="">
                             </div>
 
                             <div class="mb-3">
                                 <label for="rg" class="form-label required-field">RG do Beneficiário</label>
-                                <input type="text" class="form-control" id="rg" value="11111" required>
+                                <input type="text" class="form-control" id="rg" value="11111" required="">
                             </div>
 
                             <div class="mb-3">
-                                <label for="birthDate" class="form-label required-field" >Data de Nascimento</label>
-                                <input type="date" class="form-control" id="birthDate" value="04/01/1988" required>
+                                <label for="birthDate" class="form-label required-field">Data de Nascimento</label>
+                                <input type="date" class="form-control" id="birthDate" value="04/01/1988" required="">
                             </div>
 
-
-                            <div class="mb-3">
-                                <label for="deficiencia" class="form-label required-field">Tipo de Deficiência</label>
-                                <select class="form-select" id="deficiencia" required>
-                                    <option value="">Selecione</option>
-                                    <option value="Auditiva" selected>Auditiva</option>
-                                    <option value="Fisica">Física</option>
-                                    <option value="Intelectual">Intelectual</option>
-                                    <option value="Visual">Visual</option>
-                                    <option value="Multiplas">Múltiplas</option>
-                                </select>
-                            </div>
-
-
-
-                            <div class="mb-3">
-                                <label class="form-label required-field">Tem Cartão Vem Livre Acesso RMR?</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="vemLivreRm" id="vemLivreRmYes" value="sim" required>
-                                    <label class="form-check-label" for="vemLivreRmYes">Sim</label>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="deficiencia" class="form-label required-field">Tipo de Deficiência</label>
+                                    <select class="form-control" id="deficiencia" required="">
+                                        <option value="">Selecione</option>
+                                        <option value="Auditiva" selected="">Auditiva</option>
+                                        <option value="Fisica">Física</option>
+                                        <option value="Intelectual">Intelectual</option>
+                                        <option value="Visual">Visual</option>
+                                        <option value="Multiplas">Múltiplas</option>
+                                    </select>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="vemLivreRm" id="vemLivreRmNo" value="nao" required>
-                                    <label class="form-check-label" for="vemLivreRmNo">Não</label>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label required-field">Tem Cartão Vem Livre Acesso RMR?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="vemLivreRm" id="vemLivreRmYes" value="sim" required="">
+                                        <label class="form-check-label" for="vemLivreRmYes">Sim</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="vemLivreRm" id="vemLivreRmNo" value="nao" required="">
+                                        <label class="form-check-label" for="vemLivreRmNo">Não</label>
+                                    </div>
                                 </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="sexoBeneficiario" class="form-label required-field">Sexo do Beneficiário</label>
+                                    <select class="form-control" id="sexoBeneficiario" name="sexoBeneficiario" required="">
+                                        <option value="">Selecione</option>
+                                        <option value="1">Mulher cisgênera</option>
+                                        <option value="2">Mulher transsexual</option>
+                                        <option value="3">Homem cisgênero</option>
+                                        <option value="4">Homem transsexual</option>
+                                        <option value="5">Travesti</option>
+                                        <option value="6">Não binário</option>
+                                        <option value="7">Prefiro não informar</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="etniaBeneficiario" class="form-label required-field">Etnia</label>
+                                    <select class="form-control" id="etniaBeneficiario" name="etniaBeneficiario" required="">
+                                        <option value="">Selecione</option>
+                                        <option value="1">Branca</option>
+                                        <option value="2">Preta</option>
+                                        <option value="3">Parda</option>
+                                        <option value="4">Amarela</option>
+                                        <option value="5">Indígena</option>
+                                        <option value="6">Não quero declarar</option>
+                                    </select>
+                                </div>
+                            </div>
 
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary" onclick="nextSection(1)">Continuar <i class="bi bi-arrow-right"></i></button>
@@ -110,23 +137,23 @@
 
                             <div class="mb-3">
                                 <label for="email" class="form-label required-field">E-mail</label>
-                                <input type="email" class="form-control" id="email" required>
+                                <input type="email" class="form-control" id="email" required="">
                             </div>
 
                             <div class="mb-3">
                                 <label for="confirmEmail" class="form-label required-field">Confirmação de E-mail</label>
-                                <input type="email" class="form-control" id="confirmEmail" required>
+                                <input type="email" class="form-control" id="confirmEmail" required="">
                             </div>
 
                             <div class="mb-3">
                                 <label for="telefone" class="form-label required-field">Telefone</label>
-                                <input type="tel" class="form-control" id="telefone" placeholder="(00) 00000-0000" required>
+                                <input type="tel" class="form-control" id="telefone" placeholder="(00) 00000-0000" required="">
                             </div>
 
                             <div class="mb-3">
                                 <label for="cep" class="form-label required-field">CEP</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="cep" placeholder="00000-000" required>
+                                    <input type="text" class="form-control" id="cep" placeholder="00000-000" required="">
                                     <button type="button" class="btn btn-primary" id="btnBuscarCep">
                                         <i class="bi bi-search"></i>
                                     </button>
@@ -135,7 +162,7 @@
 
                             <div class="mb-3">
                                 <label for="logradouro" class="form-label required-field">Endereço (Rua, Av., Logradouro)</label>
-                                <input type="text" class="form-control" id="logradouro" required>
+                                <input type="text" class="form-control" id="logradouro" required="">
                             </div>
 
                             <div class="mb-3">
@@ -144,19 +171,24 @@
                             </div>
 
                             <div class="mb-3">
+                                <label for="complemento" class="form-label ">complemento</label>
+                                <input type="text" class="form-control" id="complemento">
+                            </div>
+
+                            <div class="mb-3">
                                 <label for="bairro" class="form-label required-field">Bairro</label>
-                                <input type="text" class="form-control" id="bairro" required>
+                                <input type="text" class="form-control" id="bairro" required="">
                             </div>
 
                             <div class="mb-3">
                                 <label for="cidade" class="form-label required-field">Cidade</label>
-                                <input type="text" class="form-control" id="cidade" required>
+                                <input type="text" class="form-control" id="cidade" required="">
                             </div>
 
 
                             <div class="mb-3">
                                 <label for="uf" class="form-label required-field">Estado</label>
-                                <select class="form-select" id="uf" required>
+                                <select class="form-select" id="uf" required="">
                                     <option value="">Selecione</option>
                                     <option value="PE">Pernambuco</option>
                                     <!-- Add other states if needed -->
@@ -166,7 +198,7 @@
 
                             <div class="mb-3">
                                 <label for="localRetirada" class="form-label required-field">Local da Retirada da Carteira</label>
-                                <select class="form-select" id="localRetirada" required>
+                                <select class="form-select" id="localRetirada" required="">
                                     <option value="">Selecione</option>
                                     <option value="RECIFE-SESES">RECIFE - SESES</option>
                                     <!-- Add other locations if needed -->
@@ -222,24 +254,24 @@
 
                             <div class="mb-3">
                                 <label class="form-label required-field">Comprovante de Residência</label>
-                                <div class="upload-area" onclick="document.getElementById('residenceProof').click()">
+                                <div class="upload-area" onclick="document.getElementById('comprovanteResidencia').click()">
                                     <i class="bi bi-cloud-arrow-up fs-1"></i>
                                     <p class="mb-0">Clique para enviar o arquivo</p>
                                     <small class="text-muted">(Formatos: JPG, PNG ou PDF)</small>
-                                    <input type="file" id="residenceProof" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
+                                    <input type="file" id="comprovanteResidencia" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
                                 </div>
-                                <div id="residenceProofName" class="mt-2 text-muted"></div>
+                                <div id="comprovanteResidenciaName" class="mt-2 text-muted"></div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label required-field">Foto 3x4</label>
-                                <div class="upload-area" onclick="document.getElementById('photo').click()">
+                                <div class="upload-area" onclick="document.getElementById('foto').click()">
                                     <i class="bi bi-cloud-arrow-up fs-1"></i>
                                     <p class="mb-0">Clique para enviar o arquivo</p>
                                     <small class="text-muted">(Formatos: JPG ou PNG)</small>
-                                    <input type="file" id="photo" class="d-none" accept=".jpg,.jpeg,.png">
+                                    <input type="file" id="foto" class="d-none" accept=".jpg,.jpeg,.png">
                                 </div>
-                                <div id="photoName" class="mt-2 text-muted"></div>
+                                <div id="fotoName" class="mt-2 text-muted"></div>
                             </div>
 
                             <div class="d-flex justify-content-between">
@@ -260,6 +292,7 @@
 <script src="script.js"></script>
 <script>
 
+    let payload = {};
     document.getElementById('cep').addEventListener('blur', function () {
         buscarEnderecoPorCep(this.value);
     });
@@ -310,7 +343,7 @@
             const birthDate = document.getElementById('birthDate').value;
             const deficiencia = document.getElementById('deficiencia').value;
             const vemLivreRm = document.querySelector('input[name="vemLivreRm"]:checked')?.value === 'sim';
-            let payload = { "nome": fullName, "cpf": cpf, "rg": rg, "data_nascimento": birthDate, "deficiencia": deficiencia, "vem_livre_rm": vemLivreRm };
+            payload = { "nome": fullName, "cpf": cpf, "rg": rg, "data_nascimento": birthDate, "deficiencia": deficiencia, "vem_livre_rm": vemLivreRm };
             console.log(payload);
 
             if (!fullName || !cpf || !birthDate || !rg || !deficiencia || vemLivreRm )  {
@@ -323,12 +356,15 @@
             const confirmEmail = document.getElementById('confirmEmail').value;
             const telefone = document.getElementById('telefone').value;
             const cep = document.getElementById('cep').value;
+            const logradouro = document.getElementById('logradouro').value;
+            const numero = document.getElementById('numero').value;
+            const complemento = document.getElementById('complemento').value;
             const bairro = document.getElementById('bairro').value;
             const cidade = document.getElementById('cidade').value;
             const uf = document.getElementById('uf').value;
             const localRetirada = document.getElementById('localRetirada').value;
 
-            if (!email || !confirmEmail || !telefone || !cep || !localRetirada || !cidade || !bairro || !uf) {
+            if (!email || !confirmEmail || !telefone || !cep || !logradouro || !cidade || !bairro || !uf || !localRetirada ) {
                 alert('Por favor, preencha todos os campos obrigatórios.');
                 return false;
             }
@@ -343,8 +379,9 @@
     }
 
     // Form submission
-    document.getElementById('beneficiary-form').addEventListener('submit', function(e) {
-        e.preventDefault();
+    document.getElementById('form-cadastro-beneficiario').addEventListener('submit', function(e) {
+        // e.preventDefault();
+        enviarFormulario();
 
         // Validate all sections
         if (validateSection(3)) {
@@ -381,15 +418,15 @@
         }
     });
 
-    document.getElementById('residenceProof').addEventListener('change', function(e) {
+    document.getElementById('comprovanteResidencia').addEventListener('change', function(e) {
         if (this.files.length > 0) {
-            document.getElementById('residenceProofName').textContent = this.files[0].name;
+            document.getElementById('comprovanteResidenciaName').textContent = this.files[0].name;
         }
     });
 
-    document.getElementById('photo').addEventListener('change', function(e) {
+    document.getElementById('foto').addEventListener('change', function(e) {
         if (this.files.length > 0) {
-            document.getElementById('photoName').textContent = this.files[0].name;
+            document.getElementById('fotoName').textContent = this.files[0].name;
         }
     });
 
@@ -399,6 +436,7 @@
         $('#telefone').mask('(00) 00000-0000');
         $('#cep').mask('00000-000');
     });
+
 </script>
 </body>
 </html>
