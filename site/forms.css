@@ -1,17 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
-    color: #333;
-}
 
 header {
     background-color: #0d6efd;
     padding: 10px 5%;
     border-bottom: 3px solid #0d6efd;
+    font-family: 'Roboto', sans-serif;
 }
 
 .header-top {
@@ -27,7 +21,7 @@ header {
 }
 
 
-/*ACESSIBILIDADE*/
+/* Acessibilidade */
 
 .accessibility-menu {
     position: fixed;
@@ -53,14 +47,13 @@ header {
     visibility: hidden;
 }
 
-/* Classe que o JavaScript irá adicionar para mostrar as opções */
+/* Adicionar para mostrar as opções */
 .accessibility-menu.active .accessibility-options {
     opacity: 1;
     transform: translateY(0);
     visibility: visible;
 }
 
-/* Botão principal, sempre visível */
 .btn-access-main {
     width: 60px;
     height: 60px;
@@ -80,7 +73,7 @@ header {
 }
 
 .btn-access-main img {
-    width: 30px; /* Ajuste o tamanho do ícone principal */
+    width: 30px;
     height: auto;
 }
 
@@ -100,7 +93,7 @@ header {
     padding: 10px 15px;
     gap: 8px;
     font-size: 1rem;
-    white-space: nowrap;
+    white-space: nowrap
 }
 
 .btn-access:hover {
@@ -187,183 +180,123 @@ body.high-contrast .step.completed .step-number {
     padding-top: 20px;
 }
 
-.header-text h2 {
-    margin: 0;
-    font-size: 1.5em;
-    color: #0d6efd;
-    font-weight: normal;
-    line-height: 1.2;
-}
-
-/* Main Content */
-main {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 20px;
-}
-
-.intro {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
 .intermunicipal-logo {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 15px;
     margin-bottom: 20px;
+    padding: 30px 0;
 }
 
-.intro h2 {
-    font-size: 1.4em;
-    color: #333;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    padding: 15px 0;
-    margin: 20px 0;
+.form-section {
+    display: none;
 }
-
-.intro h4 {
-    text-align: left;
-    line-height: 1;
-    color: #555;
+.form-section.active {
+    display: block;
 }
-
-.intro p {
-    text-align: left;
-    line-height: 1.6;
-    color: #555;
+.progress-bar {
+    height: 15px;
+    border-radius: 5px;
 }
-
-.intro p a {
-    color: #0d6efd;
-    text-decoration: none;
+.required-field::after {
+    content: " *";
+    color: red;
 }
-
-.intro ul{
-    text-align: left;
-    line-height: 1.6;
-    color: #555;
-}
-
-.contact-info {
-    text-align: left;
-    margin-bottom: 40px;
-    line-height: 1.6;
-}
-
-
-.link-btn {
-    width: 50%;
-    margin: 20px auto;
-    padding: 15px;
-    border-radius: 25px;
-    border: none;
-    font-size: 1.1em;
+.upload-area {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
     cursor: pointer;
-    background-color: #0d6efd;
-    color: #fff;
-    font-weight: bold;
-    transition: background-color 0.3s, color 0.3s;
+    transition: all 0.3s;
 }
-
-.link-btn:hover {
-    background-color: #e0e0e0;
+.upload-area:hover {
+    border-color: #0d6efd;
+    background-color: #f8f9fa;
 }
-
-.actions {
+.step-indicator {
     display: flex;
     justify-content: space-between;
-    gap: 40px;
+    margin-bottom: 30px;
 }
-
-.card {
-    border-radius: 25px;
-    padding: 30px;
-    color: #fff;
-    flex: 1;
+.step {
     text-align: center;
+    position: relative;
+    flex: 1;
 }
-
-.solicitar {
+.step-number {
+    width: 40px;
+    height: 40px;
+    background-color: #dee2e6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    color: white;
+    font-weight: bold;
+}
+.step.active .step-number {
     background-color: #0d6efd;
 }
-
-.consultar {
-    background-color: #0d6efd;
+.step.completed .step-number {
+    background-color: #198754;
 }
-
-.card h3 {
-    font-size: 1.8em;
-    margin-top: 0;
-    margin-bottom: 20px;
+.step-title {
+    font-size: 14px;
+    color: #6c757d;
 }
-
-.card p {
-    margin-bottom: 20px;
-    font-size: 0.9em;
-}
-
-.action-btn {
-    display: block;
-    width: 80%;
-    margin: 20px auto;
-    padding: 15px;
-    border-radius: 25px;
-    border: none;
-    font-size: 1.1em;
-    cursor: pointer;
-    background-color: #fff;
+.step.active .step-title {
     color: #0d6efd;
     font-weight: bold;
-    transition: background-color 0.3s, color 0.3s;
+}
+.step.completed .step-title {
+    color: #198754;
+}
+.step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 60%;
+    width: 80%;
+    height: 2px;
+    background-color: #dee2e6;
+    z-index: -1;
+}
+.step.active:not(:last-child)::after {
+    background-color: #0d6efd;
+}
+.step.completed:not(:last-child)::after {
+    background-color: #198754;
 }
 
-.action-btn:hover {
-    background-color: #e0e0e0;
+/* Estilo para campos inválidos */
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
 }
 
-.consultar form {
-    display: flex;
-    flex-direction: column;
+.upload-area.is-invalid {
+    border-color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.05);
 }
 
-.consultar label {
-    text-align: left;
-    margin-bottom: 5px;
-    font-size: 0.9em;
-    font-weight: bold;
+.form-check.is-invalid .form-check-label {
+    color: #dc3545;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .body {
+        flex-direction: column;
+        text-align: center;
+    }
 
 }
 
-.consultar input {
-    padding: 12px;
-    border-radius: 50px;
-    border: none;
-    margin-bottom: 20px;
-    font-size: 1em;
-}
-
-.search-btn {
-    padding: 15px;
-    border-radius: 50px;
-    border: none;
-    background-color: #00da62;
-    color: white;
-    font-size: 1.2em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.search-btn:hover {
-    background-color: #008c40;
-}
-
-
-
-
+   
 .mobile-menu-button {
     display: none; 
     flex-direction: column;
@@ -414,7 +347,6 @@ main {
         right: 0; 
     }
 
-    /* Estilo dos links dentro do menu mobile */
     .main-nav a {
         color: white;
         font-size: 1.2rem;
