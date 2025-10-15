@@ -35,6 +35,7 @@ O objetivo principal desta aplicação é modernizar e facilitar o processo de s
   - **Alto Contraste:** Modo claro e escuro para melhorar a legibilidade.
   - **Ajuste de Fonte:** Controles para aumentar e diminuir o tamanho do texto.
   - **Semântica e `alt` text:** Uso correto de tags HTML e textos alternativos em todas as imagens para compatibilidade com leitores de tela.
+  - **Corte de Imagens Inteligente:** Consegue fazer corte no formato 3x4 nas fotos adicionadas para a carteirinha 
 
 ---
 
