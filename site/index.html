@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PE LIVRE ACESSO INTERMUNICIAL</title>
+    <title>PE LIVRE ACESSO INTERMUNICIPAL</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="images/iconPELIVRE.png" type="image/png">
 </head>
@@ -11,7 +11,7 @@
 <header>
     <div class="header-top">
         <div class="header-logo">
-            <img src="images/logo-sjdh 2.png" alt="Logo Secretaria de Justiça, Direitos Humanos e Prevenção a Violência - Governo de Pernambuco - Estado de Mudança">
+            <img src="images/logo-sjdh%202.png" alt="Logo Secretaria de Justiça, Direitos Humanos e Prevenção a Violência - Governo de Pernambuco">
         </div>
 
         <button id="mobile-menu-button" class="mobile-menu-button">
@@ -21,15 +21,15 @@
         </button>
 
         <nav class="main-nav">
-            <a href="#">PERNAMBUCO</a>
-            <a href="#">GOVERNO</a>
-            <a href="#">SECRETARIAS</a>
-            <a href="#">AÇÕES GOVERNO</a>
-            <a href="#">NOTÍCIAS</a>
-            <a href="#">RÁDIO SEI</a>
-            <a href="#">EXPRESSO CIDADÃO VIRTUAL</a>
-            <a href="#">ACESSO À INFORMAÇÃO</a>
-        </nav>
+            <a href="#https://homologacao.pe.gov.br/portal-governo-pe">PERNAMBUCO</a>
+            <a href="#https://www.pe.gov.br/governo">GOVERNO</a>
+            <a href="#https://www.pe.gov.br/secretarias">SECRETARIAS</a>
+            <a href="#https://www.pe.gov.br/noticias">AÇÕES GOVERNO</a>
+            <a href="#https://www.pe.gov.br/noticias">NOTÍCIAS</a>
+            <a href="#https://homologacao.pe.gov.br/portal-governo-pe/radio-sei">RÁDIO SEI</a>
+            <a href="#https://www.expressocidadao.pe.gov.br">EXPRESSO CIDADÃO VIRTUAL</a>
+            <a href="#https://www.sjdh.pe.gov.br/transparencia-2">ACESSO À INFORMAÇÃO</a>
+            </nav>
     </div>
 </header>
 
@@ -83,19 +83,19 @@
         </section>
 
         <section class="contact-info">
-    <h4>EM CASO DE DÚVIDAS:</h4>
-    <p>E-mail: <a href="mailto:pelivreacesso@sjdh.pe.gov.br">pelivreacesso@sjdh.pe.gov.br</a></p>
-    <p>Fones: (81) 99488-2317 | (81) 98223-1533 | 3183-3214</p>
-    <h4>MAIS INFORMAÇÕES:</h4>
-    
-    <button class="link-btn" data-pdf-src="docs/DECRETO-No-52.060-DE-27-DE-DEZEMBRO-DE-2021-1-1.pdf">
-        DECRETO 52.060 DE 27 DE DEZEMBRO DE 2021 - <strong>PDF</strong>
-    </button>
-    
-    <button class="link-btn" data-pdf-src="docs/Laudo_medico_padrao_intermunicipal.pdf">
-        LAUDO MÉDICO PADRÃO INTERMUNICIPAL - <strong>PDF</strong>
-    </button>
-</section>
+            <h4>EM CASO DE DÚVIDAS:</h4>
+            <p>E-mail: <a href="mailto:pelivreacesso@sjdh.pe.gov.br">pelivreacesso@sjdh.pe.gov.br</a></p>
+            <p>Fones: (81) 99488-2317 | (81) 98223-1533 | 3183-3214</p>
+            <h4>MAIS INFORMAÇÕES:</h4>
+            
+            <button class="link-btn" data-pdf-src="docs/DECRETO-No-52.060-DE-27-DE-DEZEMBRO-DE-2021-1-1.pdf">
+                DECRETO 52.060 DE 27 DE DEZEMBRO DE 2021 - <strong>PDF</strong>
+            </button>
+            
+            <button class="link-btn" data-pdf-src="docs/Laudo_medico_padrao_intermunicipal.pdf">
+                LAUDO MÉDICO PADRÃO INTERMUNICIPAL - <strong>PDF</strong>
+            </button>
+        </section>
 
         <section class="actions">
             <div class="card solicitar">
@@ -111,13 +111,29 @@
                 <form>
                     <label for="cpf-nasc">CPF e Data de Nascimento:</label>
                     <input type="text" id="cpf-nasc" placeholder="DIGITE SEU CPF">
-                     <input type="text" id="cpf-nasc" placeholder="DIGITE SUA DATA DE NASCIMENTO">
+                    <input type="text" id="cpf-nasc-2" placeholder="DIGITE SUA DATA DE NASCIMENTO">
                     <button type="submit" class="search-btn">Pesquisar</button>
                 </form>
             </div>
         </section>
     </main>
+
     <script src="script.js"></script>
+
+    <div class="accessibility-menu">
+        <div class="accessibility-options">
+            <button id="contrast-toggle" class="btn-access" title="Ativar Alto Contraste">
+                <img src="images/iconaltocontraste.png" alt="Ícone de contraste">
+                <span>Alto Contraste</span>
+            </button>
+            <button id="font-decrease" class="btn-access" title="Diminuir Fonte">A- Diminuir Fonte</button>
+            <button id="font-increase" class="btn-access" title="Aumentar Fonte">A+ Aumentar Fonte</button>
+        </div>
+    
+        <button id="accessibility-toggle" class="btn-access-main" title="Abrir menu de acessibilidade">
+            <img src="images/iconacessibilidade.png" alt="Ícone de Acessibilidade">
+        </button>
+    </div>
 
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
@@ -129,21 +145,5 @@
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
-
-    <div class="accessibility-menu">
-    <div class="accessibility-options">
-        <button id="contrast-toggle" class="btn-access" title="Ativar Alto Contraste">
-            <img src="images/iconaltocontraste.png" alt="Ícone de contraste">
-            <span>Alto Contraste</span>
-        </button>
-        <button id="font-decrease" class="btn-access" title="Diminuir Fonte">A- Diminuir Fonte</button>
-        <button id="font-increase" class="btn-access" title="Aumentar Fonte">A+ Aumentar Fonte</button>
-    </div>
-
-    <button id="accessibility-toggle" class="btn-access-main" title="Abrir menu de acessibilidade">
-        <img src="images/iconacessibilidade.png" alt="Ícone de Acessibilidade">
-    </button>
-</div>
-
 </body>
 </html>
