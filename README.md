@@ -95,12 +95,10 @@ INTERMUNICIPAL/
 
 O design do projeto e o protótipo de interface foram desenvolvidos no Figma e podem ser acessados através do link abaixo:
 
-**[Link para o protótipo no Figma]** *(<-- Substitua este texto pelo seu link)*
+[Figma](https://www.figma.com/design/P49jEZJYNC7liAEfEm8fpd/SISTEMAS-SJDHPV?node-id=14-5&t=HGv3eGttDJieoxoD-1)
 
 ---
 
 ### 🖼️ Imagem do Projeto
 
-*Substitua a imagem abaixo por um print da sua aplicação. Coloque o print na pasta `site/images/` e ajuste o caminho se necessário.*
-
-![Demonstração do Projeto](site/images/screenshot_do_projeto.png)
+![Demonstração do Projeto](imgproject.png)
