@@ -50,12 +50,16 @@ Este projeto foi construído utilizando as seguintes tecnologias e ferramentas:
 - **Bibliotecas e Frameworks:**
   - `Bootstrap 5`: Para a estrutura e componentes do formulário.
   - `jQuery` e `jQuery Mask Plugin`: Para a aplicação de máscaras nos campos de CPF, telefone e CEP.
+  - `Cropper.js`: para corte inteligentes de imagens.
 
 - **Acessibilidade:**
   - `Widget VLibras`: Ferramenta oficial do Governo Federal para tradução em Libras.
+  - `Widget de Auto-Contraste`: Feito no próprio Js
+  - `Widget de Aumento e diminuição de fonte`: Feito no próprio Js
 
 - **Ambiente de Desenvolvimento:**
   - `Docker` e `Docker Compose`: Para garantir a portabilidade e facilitar a execução do ambiente de desenvolvimento.
+  - `Visual Studio Code`: Para o desenvolvimento do sistema
 
 ---
 
