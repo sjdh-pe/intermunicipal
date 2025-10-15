@@ -5,7 +5,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #fff;
-    color: #333;
+    color: #000;
 }
 
 header {
@@ -114,6 +114,10 @@ body.high-contrast header {
     border-bottom: 2px solid #fff;
 }
 
+body.high-contrast {
+    color: #fff;
+}
+
 body.high-contrast .card {
     background-color: #1a1a1a;
     color: #fff;
@@ -183,6 +187,22 @@ body.high-contrast .step.completed .step-number {
     color: #0d6efd;
     font-weight: normal;
     line-height: 1.2;
+}
+
+body.high-contrast p,
+body.high-contrast li,
+body.high-contrast h2,
+body.high-contrast h3,
+body.high-contrast h4,
+body.high-contrast label,
+body.high-contrast strong {
+    color: #fff !important;
+}
+
+/* Garante que a borda do título também fique visível */
+body.high-contrast .intro h2 {
+    border-top-color: #555;
+    border-bottom-color: #555;
 }
 
 /* Main Content */
