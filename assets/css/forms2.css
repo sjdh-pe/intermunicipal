@@ -1,16 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
-    color: #000;
-}
 
 header {
     background-color: #21409A;
     padding: 10px 5%;
+    font-family: 'Roboto', sans-serif;
 }
 
 .header-top {
@@ -25,12 +19,19 @@ header {
     height: 50px;      
 }
 
+.bg-primary {
+    background-color: #21409A !important;
+}
 
-/*ACESSIBILIDADE*/
+.btn-primary{
+    background-color: #21409A !important;
+}
+
+/* Acessibilidade */
 
 .accessibility-menu {
     position: fixed;
-    top: 22%; 
+    top: 21%; 
     right: 3px;  
     z-index: 1050;
     display: flex;
@@ -51,6 +52,7 @@ header {
     transform: translateY(20px);
     visibility: hidden;
 }
+
 
 /* Classe que o JavaScript irá adicionar para mostrar as opções */
 .accessibility-menu.active .accessibility-options {
@@ -102,6 +104,34 @@ header {
     height: auto;
 }
 
+/* Estilo dos botões de opção (Contraste, A+, A-) */
+.btn-access {
+    background-color: #3185EF;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: baseline;
+    justify-content: baseline;
+    padding: 10px 15px;
+    gap: 8px;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.btn-access:hover {
+    background-color: #0b5ed7;
+}
+
+.btn-access img {
+    width: 20px;
+    height: auto;
+}
+
 /*Contraste*/
 
 body.high-contrast {
@@ -112,10 +142,6 @@ body.high-contrast {
 body.high-contrast header {
     background-color: #000;
     border-bottom: 2px solid #fff;
-}
-
-body.high-contrast {
-    color: #fff;
 }
 
 body.high-contrast .card {
@@ -160,7 +186,7 @@ body.high-contrast .step-number {
 }
 
 body.high-contrast .step.active .step-number {
-    background-color: #0d6efd;
+    background-color: #21409A;
 }
 
 body.high-contrast .step.completed .step-number {
@@ -181,199 +207,123 @@ body.high-contrast .step.completed .step-number {
     padding-top: 20px;
 }
 
-.header-text h2 {
-    margin: 0;
-    font-size: 1.5em;
-    color: #0d6efd;
-    font-weight: normal;
-    line-height: 1.2;
-}
-
-body.high-contrast p,
-body.high-contrast li,
-body.high-contrast h2,
-body.high-contrast h3,
-body.high-contrast h4,
-body.high-contrast label,
-body.high-contrast strong {
-    color: #fff !important;
-}
-
-/* Garante que a borda do título também fique visível */
-body.high-contrast .intro h2 {
-    border-top-color: #555;
-    border-bottom-color: #555;
-}
-
-/* Main Content */
-main {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 20px;
-}
-
-.intro {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
 .intermunicipal-logo {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 15px;
     margin-bottom: 20px;
+    padding: 30px 0;
 }
 
-.intro h2 {
-    font-size: 1.4em;
-    color: #333;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    padding: 15px 0;
-    margin: 20px 0;
+.form-section {
+    display: none;
 }
-
-.intro h4 {
-    text-align: left;
-    line-height: 1;
-    color: #555;
+.form-section.active {
+    display: block;
 }
-
-.intro p {
-    text-align: left;
-    line-height: 1.6;
-    color: #555;
+.progress-bar {
+    height: 15px;
+    border-radius: 5px;
 }
-
-.intro p a {
-    color: #0d6efd;
-    text-decoration: none;
+.required-field::after {
+    content: " *";
+    color: red;
 }
-
-.intro ul{
-    text-align: left;
-    line-height: 1.6;
-    color: #555;
-}
-
-.contact-info {
-    text-align: left;
-    margin-bottom: 40px;
-    line-height: 1.6;
-}
-
-
-.link-btn {
-    width: 50%;
-    margin: 20px auto;
-    padding: 15px;
-    border-radius: 25px;
-    border: none;
-    font-size: 1.1em;
+.upload-area {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
     cursor: pointer;
-    background-color: #21409A;
-    color: #fff;
-    font-weight: bold;
-    transition: background-color 0.3s, color 0.3s;
+    transition: all 0.3s;
 }
-
-.link-btn:hover {
-    background-color: #e0e0e0;
+.upload-area:hover {
+    border-color: #21409A;
+    background-color: #f8f9fa;
 }
-
-.actions {
+.step-indicator {
     display: flex;
     justify-content: space-between;
-    gap: 40px;
+    margin-bottom: 30px;
 }
-
-.card {
-    border-radius: 25px;
-    padding: 30px;
-    color: #fff;
-    flex: 1;
+.step {
     text-align: center;
+    position: relative;
+    flex: 1;
 }
-
-.solicitar {
-    background-color: #21409A;
-}
-
-.consultar {
-    background-color: #21409A;
-}
-
-.card h3 {
-    font-size: 1.8em;
-    margin-top: 0;
-    margin-bottom: 20px;
-}
-
-.card p {
-    margin-bottom: 20px;
-    font-size: 0.9em;
-}
-
-.action-btn {
-    display: block;
-    width: 80%;
-    margin: 20px auto;
-    padding: 15px;
-    border-radius: 25px;
-    border: none;
-    font-size: 1.1em;
-    cursor: pointer;
-    background-color: #fff;
-    color: #0d6efd;
-    font-weight: bold;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.action-btn:hover {
-    background-color: #e0e0e0;
-}
-
-.consultar form {
+.step-number {
+    width: 40px;
+    height: 40px;
+    background-color: #dee2e6;
+    border-radius: 50%;
     display: flex;
-    flex-direction: column;
-}
-
-.consultar label {
-    text-align: left;
-    margin-bottom: 5px;
-    font-size: 0.9em;
-    font-weight: bold;
-
-}
-
-.consultar input {
-    padding: 12px;
-    border-radius: 50px;
-    border: none;
-    margin-bottom: 20px;
-    font-size: 1em;
-}
-
-.search-btn {
-    padding: 15px;
-    border-radius: 50px;
-    border: none;
-    background-color: #00da62;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
     color: white;
-    font-size: 1.2em;
     font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
+}
+.step.active .step-number {
+    background-color: #21409A;
+}
+.step.completed .step-number {
+    background-color: #198754;
+}
+.step-title {
+    font-size: 14px;
+    color: #6c757d;
+}
+.step.active .step-title {
+    color: #21409A;
+    font-weight: bold;
+}
+.step.completed .step-title {
+    color: #198754;
+}
+.step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 60%;
+    width: 80%;
+    height: 2px;
+    background-color: #dee2e6;
+    z-index: -1;
+}
+.step.active:not(:last-child)::after {
+    background-color: #21409A;
+}
+.step.completed:not(:last-child)::after {
+    background-color: #198754;
 }
 
-.search-btn:hover {
-    background-color: #008c40;
+/* Estilo para campos inválidos */
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
 }
 
+.upload-area.is-invalid {
+    border-color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.05);
+}
 
+.form-check.is-invalid .form-check-label {
+    color: #dc3545;
+}
 
+/* Responsividade */
+@media (max-width: 768px) {
+    .body {
+        flex-direction: column;
+        text-align: center;
+    }
 
+}
+
+   
 .mobile-menu-button {
     display: none; 
     flex-direction: column;
@@ -394,51 +344,7 @@ main {
     background-color: #fff; 
     border-radius: 3px;
 }
- /*
-footer {
-  background: #f3f3f3;
-  color: #000;
-  padding: 0px 6rem;
-  font-family: "Source Sans Pro", sans-serif;
-}
 
-.footer-top {
-  display: flex;
-  justify-content: space-between;
-  padding: 4rem 0;
-}
-.footer-top .footer-top-content {
-  width: 40%;
-}
-.footer-top h4 {
-  margin-bottom: 1.6rem;
-}
-.footer-top p {
-  color: #000;
-  font-size: 0.9rem;
-  line-height: 1.7;
-}
-.footer-top i {
-  font-size: 1.6rem;
-  padding: 0rem 5px;
-}
-
-.footer-top a, img {
-    width: 50%;
-}
-
-.footer-bottom {
-  border-top: 1px solid #444;
-  display: flex;
-  justify-content: center;
-  padding: 2.6rem 0;
-  font-size: 0.7rem;
-}
-
-.footer-bottom span{
-    padding: 10px;
-}
-*/
 
 
 /* Responsividade */
@@ -469,7 +375,6 @@ footer {
         right: 0; 
     }
 
-    /* Estilo dos links dentro do menu mobile */
     .main-nav a {
         color: white;
         font-size: 1.2rem;
