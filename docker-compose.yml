@@ -1,9 +1,9 @@
 version: "3"
 
 services:
-  site:
+  web:
     build: .
     ports:
       - "8080:80"
-    volumes:
-      - ./site:/usr/share/nginx/html:ro
+    container_name: pe-livre-web
+    restart: always
