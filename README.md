@@ -99,7 +99,7 @@ INTERMUNICIPAL/
 │   │   │   ├── forms2.js
 │   │   │   ├── login.js
 │   │   │   └── script.js
-│   │   ├── cidades.txt
+│   │   ├── cidades.txt # (pode ser ignorado)
 │   │
 │   ├── public/
 │   │   ├── forms.html
