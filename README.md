@@ -106,7 +106,7 @@ INTERMUNICIPAL/
 │   │   ├── forms2.html
 │   │   ├── index.html
 │   │   └── login.html
-│
+│   │ 
 ├── docker-compose.yml  # Arquivo de orquestração do Docker
 ├── Dockerfile          # Arquivo para construção da imagem Docker
 ├── imgproject.png      # (pode ser ignorada)
