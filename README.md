@@ -73,25 +73,44 @@ INTERMUNICIPAL/
 │
 ├── .idea/              # Pasta de configuração da IDE (pode ser ignorada)
 ├── site/               # Raiz do conteúdo web
-│   ├── docs/
-│   │   ├── DECRETO-No-52.060...pdf
-│   │   └── Laudo_medico_padrao...pdf
+│   ├── assets/
+│   │   ├── css/
+│   │   │   ├── forms.css
+│   │   │   ├── forms2.css
+│   │   │   ├── global.css
+│   │   │   ├── login.css
+│   │   │   └── style.css
+│   │   │   
+│   │   ├── docs/
+│   │   │   ├── DECRETO-No...
+│   │   │   └── Laudo_medico...
+│   │   │   
+│   │   ├── images/
+│   │   │   ├── background...
+│   │   │   ├── iconacessibilidade...
+│   │   │   ├── iconaltocontraste...
+│   │   │   ├── iconPELIVRE...
+│   │   │   ├── logo-sjdh1...
+│   │   │   ├── logo-sjdh2...
+│   │   │   └── PE LIVRE ACESSO...
+│   │   │   
+│   │   └── js/
+│   │   │   ├── forms.js
+│   │   │   ├── forms2.js
+│   │   │   ├── login.js
+│   │   │   └── script.js
+│   │   ├── cidades.txt
 │   │
-│   ├── images/         # Ícones, logos e outras imagens
-│   │   ├── iconacessibilidade.png
-│   │   ├── iconaltocontraste.png
-│   │   └── ...
-│   │
-│   ├── forms.css       # Estilos específicos da página de formulário
-│   ├── forms.html      # Página do formulário de cadastro
-│   ├── forms.js        # Scripts da página de formulário
-│   ├── global.css      # (Opcional) Estilos globais para todas as páginas
-│   ├── index.html      # Página inicial/informativa
-│   ├── script.js       # Scripts da página inicial
-│   └── style.css       # Estilos da página inicial
+│   ├── public/
+│   │   ├── forms.html
+│   │   ├── forms2.html
+│   │   ├── index.html
+│   │   └── login.html
 │
 ├── docker-compose.yml  # Arquivo de orquestração do Docker
-└── Dockerfile          # Arquivo para construção da imagem Docker
+├── Dockerfile          # Arquivo para construção da imagem Docker
+├── imgproject.png      # (pode ser ignorada)
+└── README.md           # (pode ser ignorado)  
 ```
 
 ---
