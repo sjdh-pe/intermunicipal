@@ -26,7 +26,34 @@ async function buscarEnderecoPorCep(cep) {
         }
         document.getElementById('logradouro').value = dados.logradouro || '';
         document.getElementById('bairro').value = dados.bairro || '';
-        document.getElementById('cidade').value = dados.localidade || '';
+               // BUSCAR CIDADE AO COLOCAR O CEP ATRAVÉS DO SELECT
+
+        // Pega o nome da cidade retornado pela API
+        const nomeCidadeApi = dados.localidade; 
+        
+        // Pega o select da cidade
+        const selectCidade = document.getElementById('CidadeBeneficiario'); 
+        
+        let cidadeEncontrada = false;
+        
+        // Procura a cidade dentro das  options 
+        for (let i = 0; i < selectCidade.options.length; i++) {
+            const option = selectCidade.options[i];
+            
+            // Aqui ele vai comparar um os textos da option (ignorando se ter maiúsculas ou minúsculas) com o nome da cidade da API de cep
+            if (option.text.toUpperCase() === nomeCidadeApi.toUpperCase()) {
+                
+                selectCidade.value = option.value; 
+                cidadeEncontrada = true;
+                break; 
+            }
+        }
+        
+        // Aviso de não encontrada, como por exemplo o cep 000.000.000-00
+        if (!cidadeEncontrada && nomeCidadeApi) {
+            alert(`A cidade "${nomeCidadeApi}" retornada pelo CEP não foi encontrada na lista de opções. Por favor, selecione manualmente.`);
+            selectCidade.value = "0"; // Volta para "Selecione"
+        }
         document.getElementById('uf').value = dados.uf || '';
     } catch (erro) {
         alert("Erro ao buscar CEP.");

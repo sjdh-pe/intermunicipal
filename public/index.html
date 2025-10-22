@@ -16,6 +16,7 @@
             alt="Logo Secretaria de Justiça, Direitos Humanos e Prevenção a Violência - Governo de Pernambuco"
           />
         </div>
+        /
 
         <button id="mobile-menu-button" class="mobile-menu-button">
           <span class="bar"></span>
@@ -209,54 +210,46 @@
         </div>
       </section>
     </main>
+    
+    <div class="floating-tools-container">
+
+        <div class="accessibility-menu">
+            <div class="accessibility-options">
+                <button id="contrast-toggle" class="btn-access" title="Ativar Alto Contraste">
+                    <img src="../assets/images/iconaltocontraste.png" alt="Ícone de contraste">
+                    <span>Alto Contraste</span>
+                </button>
+                <button id="font-decrease" class="btn-access" title="Diminuir Fonte">
+                    A- Diminuir Fonte
+                </button>
+                <button id="font-increase" class="btn-access" title="Aumentar Fonte">
+                    A+ Aumentar Fonte
+                </button>
+            </div>
+            <button id="accessibility-toggle" class="btn-access-main" title="Abrir menu de acessibilidade">
+                <img src="../assets/images/iconacessibilidade.png" alt="Ícone de Acessibilidade">
+            </button>
+        </div>
+        
+        <div vw class="enabled">
+            <div vw-access-button class="active"></div>
+            <div vw-plugin-wrapper>
+                <div class="vw-plugin-top-wrapper"></div>
+            </div>
+        </div>
+
+    </div>
 
     <script src="../assets/js/script.js"></script>
-
-    <div class="accessibility-menu">
-      <div class="accessibility-options">
-        <button
-          id="contrast-toggle"
-          class="btn-access"
-          title="Ativar Alto Contraste"
-        >
-          <img src="../assets/images/iconaltocontraste.png" alt="Ícone de contraste" />
-          <span>Alto Contraste</span>
-        </button>
-        <button id="font-decrease" class="btn-access" title="Diminuir Fonte">
-          A- Diminuir Fonte
-        </button>
-        <button id="font-increase" class="btn-access" title="Aumentar Fonte">
-          A+ Aumentar Fonte
-        </button>
-      </div>
-
-      <button
-        id="accessibility-toggle"
-        class="btn-access-main"
-        title="Abrir menu de acessibilidade"
-      >
-        <img
-          src="../assets/images/iconacessibilidade.png"
-          alt="Ícone de Acessibilidade"
-        />
-      </button>
-    </div>
-
-    <div vw class="enabled">
-      <div vw-access-button class="active"></div>
-      <div vw-plugin-wrapper>
-        <div class="vw-plugin-top-wrapper"></div>
-      </div>
-    </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
       new window.VLibras.Widget("https://vlibras.gov.br/app");
     </script>
-    <script src="script.js"></script>
+
     <footer>
       <div class="footer-top">
         <div class="footer-top-content">
-            <a href=""><img src="../assets/images/logo-gov-pe.png" alt=""></a>
+            <a href=""><img src="../assets/images/logo-gov-pe.png" alt="Logo do Governo de Pernambuco"></a>
           <h4>INTERMUNICIPAL</h4>
           <p>para mais informações...</p>
         </div>

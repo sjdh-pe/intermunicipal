@@ -24,41 +24,34 @@
         </form>
     </div>
 
-    <div class="accessibility-menu">
-      <div class="accessibility-options">
-        <button
-          id="contrast-toggle"
-          class="btn-access"
-          title="Ativar Alto Contraste"
-        >
-          <img src="../assets/images/iconaltocontraste.png" alt="Ícone de contraste" />
-          <span>Alto Contraste</span>
-        </button>
-        <button id="font-decrease" class="btn-access" title="Diminuir Fonte">
-          A- Diminuir Fonte
-        </button>
-        <button id="font-increase" class="btn-access" title="Aumentar Fonte">
-          A+ Aumentar Fonte
-        </button>
-      </div>
+    <div class="floating-tools-container">
+        
+        <div class="accessibility-menu">
+            <div class="accessibility-options">
+                <button id="contrast-toggle" class="btn-access" title="Ativar Alto Contraste">
+                    <img src="../assets/images/iconaltocontraste.png" alt="Ícone de contraste">
+                    <span>Alto Contraste</span>
+                </button>
+                <button id="font-decrease" class="btn-access" title="Diminuir Fonte">
+                    A- Diminuir Fonte
+                </button>
+                <button id="font-increase" class="btn-access" title="Aumentar Fonte">
+                    A+ Aumentar Fonte
+                </button>
+            </div>
+    
+            <button id="accessibility-toggle" class="btn-access-main" title="Abrir menu de acessibilidade">
+                <img src="../assets/images/iconacessibilidade.png" alt="Ícone de Acessibilidade">
+            </button>
+        </div>
+        
+        <div vw class="enabled">
+            <div vw-access-button class="active"></div>
+            <div vw-plugin-wrapper>
+                <div class="vw-plugin-top-wrapper"></div>
+            </div>
+        </div>
 
-      <button
-        id="accessibility-toggle"
-        class="btn-access-main"
-        title="Abrir menu de acessibilidade"
-      >
-        <img
-          src="../assets/images/iconacessibilidade.png"
-          alt="Ícone de Acessibilidade"
-        />
-      </button>
-    </div>
-
-    <div vw class="enabled">
-      <div vw-access-button class="active"></div>
-      <div vw-plugin-wrapper>
-        <div class="vw-plugin-top-wrapper"></div>
-      </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

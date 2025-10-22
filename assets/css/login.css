@@ -156,6 +156,12 @@ body.high-contrast {
     color: #fff !important;
 }
 
+body.high-contrast .login-container {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+
 body.high-contrast header {
     background-color: #000;
     border-bottom: 2px solid #fff;

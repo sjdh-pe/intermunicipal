@@ -29,18 +29,24 @@ header {
 
 /* Acessibilidade */
 
+/*
+.floating-tools-container {
+    gap
+}
+*/
+
 .accessibility-menu {
     position: fixed;
     top: 21%; 
-    right: 3px;  
-    z-index: 1050;
+    right: 3px;
     display: flex;
     flex-direction: column;
     align-items: flex-end; 
-    gap: 15px;
+    gap: 3px;
 }
 
 /* Container das opções que aparecem/desaparecem */
+.floating-tools-container 
 .accessibility-options {
     display: flex;
     flex-direction: column;
