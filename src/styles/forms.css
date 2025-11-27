@@ -1,88 +1,42 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-body {
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    color: #333;
 
-    background-image: url('../images/background-login.jpg'); 
-    background-size: cover;
-    background-position: center;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.login-container {
-    background-color: rgba(255, 255, 255, 0.85);
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px); 
-    -webkit-backdrop-filter: blur(10px);
-    text-align: center;
-    max-width: 500px;
-    width: 90%;
-}
-
-.login-container h1 {
-    font-size: 1.5rem;
-    color: #555;
-    margin-top: 0;
-    margin-bottom: 15px;
-    line-height: 1.3;
-}
-
-.login-container h1 span {
-    color: #21409A; 
-    font-weight: 700;
-}
-
-.login-container p {
-    margin-bottom: 30px;
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
-#login-form input {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 50px;
-    font-size: 1rem;
-    box-sizing: border-box; 
-}
-
-#login-form button {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 50px;
+header {
     background-color: #21409A;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    padding: 10px 5%;
+    font-family: 'Roboto', sans-serif;
 }
 
-#login-form button:hover {
-    background-color: #1a337a;
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
 }
 
-/*ACESSIBILIDADE*/
+.header-logo{
+    display: flex;
+    height: 50px;
+}
+
+.bg-primary {
+    background-color: #21409A !important;
+}
+
+.btn-primary{
+    background-color: #21409A !important;
+}
+
+/* Acessibilidade */
 
 .accessibility-menu {
     position: fixed;
-    top: 22%; 
-    right: 3px;  
+    top: 21%;
+    right: 3px;
     z-index: 1050;
     display: flex;
     flex-direction: column;
-    align-items: flex-end; 
+    align-items: flex-end;
     gap: 15px;
 }
 
@@ -98,6 +52,7 @@ body {
     transform: translateY(20px);
     visibility: hidden;
 }
+
 
 /* Classe que o JavaScript irá adicionar para mostrar as opções */
 .accessibility-menu.active .accessibility-options {
@@ -149,6 +104,34 @@ body {
     height: auto;
 }
 
+/* Estilo dos botões de opção (Contraste, A+, A-) */
+.btn-access {
+    background-color: #3185EF;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: baseline;
+    justify-content: baseline;
+    padding: 10px 15px;
+    gap: 8px;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.btn-access:hover {
+    background-color: #0b5ed7;
+}
+
+.btn-access img {
+    width: 20px;
+    height: auto;
+}
+
 /*Contraste*/
 
 body.high-contrast {
@@ -156,19 +139,9 @@ body.high-contrast {
     color: #fff !important;
 }
 
-body.high-contrast .login-container {
-    background-color: #000 !important;
-    color: #fff !important;
-}
-
-
 body.high-contrast header {
     background-color: #000;
     border-bottom: 2px solid #fff;
-}
-
-body.high-contrast {
-    color: #fff;
 }
 
 body.high-contrast .card {
@@ -181,7 +154,7 @@ body.high-contrast .card-header {
     background-color: #333 !important;
 }
 
-body.high-contrast .form-control, 
+body.high-contrast .form-control,
 body.high-contrast .form-select {
     background-color: #333;
     color: #fff;
@@ -213,7 +186,7 @@ body.high-contrast .step-number {
 }
 
 body.high-contrast .step.active .step-number {
-    background-color: #0d6efd;
+    background-color: #21409A;
 }
 
 body.high-contrast .step.completed .step-number {
@@ -234,32 +207,125 @@ body.high-contrast .step.completed .step-number {
     padding-top: 20px;
 }
 
-.header-text h2 {
-    margin: 0;
-    font-size: 1.5em;
-    color: #0d6efd;
-    font-weight: normal;
-    line-height: 1.2;
+.intermunicipal-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 30px 0;
 }
 
-body.high-contrast p,
-body.high-contrast li,
-body.high-contrast h2,
-body.high-contrast h3,
-body.high-contrast h4,
-body.high-contrast label,
-body.high-contrast strong {
-    color: #fff !important;
+.form-section {
+    display: none;
+}
+.form-section.active {
+    display: block;
+}
+.progress-bar {
+    height: 15px;
+    border-radius: 5px;
+}
+.required-field::after {
+    content: " *";
+    color: red;
+}
+.upload-area {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.upload-area:hover {
+    border-color: #21409A;
+    background-color: #f8f9fa;
+}
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+.step {
+    text-align: center;
+    position: relative;
+    flex: 1;
+}
+.step-number {
+    width: 40px;
+    height: 40px;
+    background-color: #dee2e6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    color: white;
+    font-weight: bold;
+}
+.step.active .step-number {
+    background-color: #21409A;
+}
+.step.completed .step-number {
+    background-color: #198754;
+}
+.step-title {
+    font-size: 14px;
+    color: #6c757d;
+}
+.step.active .step-title {
+    color: #21409A;
+    font-weight: bold;
+}
+.step.completed .step-title {
+    color: #198754;
+}
+.step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 60%;
+    width: 80%;
+    height: 2px;
+    background-color: #dee2e6;
+    z-index: -1;
+}
+.step.active:not(:last-child)::after {
+    background-color: #21409A;
+}
+.step.completed:not(:last-child)::after {
+    background-color: #198754;
 }
 
-/* Garante que a borda do título também fique visível */
-body.high-contrast .intro h2 {
-    border-top-color: #555;
-    border-bottom-color: #555;
+/* Estilo para campos inválidos */
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
 }
+
+.upload-area.is-invalid {
+    border-color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.05);
+}
+
+.form-check.is-invalid .form-check-label {
+    color: #dc3545;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .body {
+        flex-direction: column;
+        text-align: center;
+    }
+
+}
+
 
 .mobile-menu-button {
-    display: none; 
+    display: none;
     flex-direction: column;
     justify-content: space-around;
     width: 30px;
@@ -268,61 +334,16 @@ body.high-contrast .intro h2 {
     border: none;
     cursor: pointer;
     padding: 0;
-    z-index: 1001; 
+    z-index: 1001;
 }
 
 .mobile-menu-button .bar {
     display: block;
     width: 100%;
     height: 3px;
-    background-color: #fff; 
+    background-color: #fff;
     border-radius: 3px;
 }
- /*
-footer {
-  background: #f3f3f3;
-  color: #000;
-  padding: 0px 6rem;
-  font-family: "Source Sans Pro", sans-serif;
-}
-
-.footer-top {
-  display: flex;
-  justify-content: space-between;
-  padding: 4rem 0;
-}
-.footer-top .footer-top-content {
-  width: 40%;
-}
-.footer-top h4 {
-  margin-bottom: 1.6rem;
-}
-.footer-top p {
-  color: #000;
-  font-size: 0.9rem;
-  line-height: 1.7;
-}
-.footer-top i {
-  font-size: 1.6rem;
-  padding: 0rem 5px;
-}
-
-.footer-top a, img {
-    width: 50%;
-}
-
-.footer-bottom {
-  border-top: 1px solid #444;
-  display: flex;
-  justify-content: center;
-  padding: 2.6rem 0;
-  font-size: 0.7rem;
-}
-
-.footer-bottom span{
-    padding: 10px;
-}
-*/
 
 
 /* Responsividade */
@@ -331,29 +352,28 @@ footer {
         display: flex;
     }
 
-    
+
     .main-nav {
-        position: fixed; 
+        position: fixed;
         top: 0;
         right: -100%;
-        width: 250px; 
-        height: 100vh; 
+        width: 250px;
+        height: 100vh;
         background-color: #1c1c1c;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        
-        transition: right 0.3s ease-in-out; 
+
+        transition: right 0.3s ease-in-out;
         z-index: 1000;
     }
 
-    
+
     .main-nav.active {
-        right: 0; 
+        right: 0;
     }
 
-    /* Estilo dos links dentro do menu mobile */
     .main-nav a {
         color: white;
         font-size: 1.2rem;
@@ -361,7 +381,7 @@ footer {
         padding: 10px;
     }
 
-    
+
     .header-top, .header-main, .actions {
         flex-direction: row;
         text-align: center;

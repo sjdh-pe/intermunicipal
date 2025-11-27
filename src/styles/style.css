@@ -16,13 +16,13 @@ header {
 .header-top {
     display: flex;
     justify-content: space-between;
-    align-items: center;                                       
-    font-size: 15px;        
-}               
-                                  
+    align-items: center;
+    font-size: 15px;
+}
+
 .header-logo{
     display: flex;
-    height: 50px;      
+    height: 50px;
 }
 
 
@@ -30,12 +30,12 @@ header {
 
 .accessibility-menu {
     position: fixed;
-    top: 22%; 
-    right: 3px;  
+    top: 22%;
+    right: 3px;
     z-index: 1050;
     display: flex;
     flex-direction: column;
-    align-items: flex-end; 
+    align-items: flex-end;
     gap: 15px;
 }
 
@@ -128,7 +128,7 @@ body.high-contrast .card-header {
     background-color: #333 !important;
 }
 
-body.high-contrast .form-control, 
+body.high-contrast .form-control,
 body.high-contrast .form-select {
     background-color: #333;
     color: #fff;
@@ -373,9 +373,8 @@ main {
 
 
 
-
 .mobile-menu-button {
-    display: none; 
+    display: none;
     flex-direction: column;
     justify-content: space-around;
     width: 30px;
@@ -384,14 +383,14 @@ main {
     border: none;
     cursor: pointer;
     padding: 0;
-    z-index: 1001; 
+    z-index: 1001;
 }
 
 .mobile-menu-button .bar {
     display: block;
     width: 100%;
     height: 3px;
-    background-color: #fff; 
+    background-color: #fff;
     border-radius: 3px;
 }
  /*
@@ -402,100 +401,3 @@ footer {
   font-family: "Source Sans Pro", sans-serif;
 }
 
-.footer-top {
-  display: flex;
-  justify-content: space-between;
-  padding: 4rem 0;
-}
-.footer-top .footer-top-content {
-  width: 40%;
-}
-.footer-top h4 {
-  margin-bottom: 1.6rem;
-}
-.footer-top p {
-  color: #000;
-  font-size: 0.9rem;
-  line-height: 1.7;
-}
-.footer-top i {
-  font-size: 1.6rem;
-  padding: 0rem 5px;
-}
-
-.footer-top a, img {
-    width: 50%;
-}
-
-.footer-bottom {
-  border-top: 1px solid #444;
-  display: flex;
-  justify-content: center;
-  padding: 2.6rem 0;
-  font-size: 0.7rem;
-}
-
-.footer-bottom span{
-    padding: 10px;
-}
-*/
-
-
-/* Responsividade */
-@media (max-width: 768px) {
-    .mobile-menu-button {
-        display: flex;
-    }
-
-    
-    .main-nav {
-        position: fixed; 
-        top: 0;
-        right: -100%;
-        width: 250px; 
-        height: 100vh; 
-        background-color: #1c1c1c;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        
-        transition: right 0.3s ease-in-out; 
-        z-index: 1000;
-    }
-
-    
-    .main-nav.active {
-        right: 0; 
-    }
-
-    /* Estilo dos links dentro do menu mobile */
-    .main-nav a {
-        color: white;
-        font-size: 1.2rem;
-        margin: 15px 0;
-        padding: 10px;
-    }
-
-    
-    .header-top, .header-main, .actions {
-        flex-direction: row;
-        text-align: center;
-    }
-
-    .header-main, .actions {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .link-btn {
-        width: 80%;
-        display: block;
-        border-radius: 80px;
-        font-size: 1.1em;
-    }
-
-    .card {
-        margin-bottom: 20px;
-    }
-}
