@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PE Livre Acesso - Beneficiários</title>
+    <link rel="stylesheet" href="../../styles/gestao/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+
+    <!--  header-top  -->
+    <custom-navbar></custom-navbar>
+    <script src="../../components/navbar.js"></script>
+
+
+<main class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-blue-600">Beneficiários PE Livre Acesso Intermunicipal</h1>
+    </div>
+    <div class="flex justify-between items-center mb-8">
+        <div class="flex space-x-4">
+            <div class="flex space-x-2">
+                <div class="relative">
+                    <input type="text" id="search-nome" placeholder="Nome" class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <i data-feather="user" class="absolute left-3 top-2.5 text-gray-400"></i>
+                </div>
+                <div class="relative">
+                    <input type="text" id="search-cpf" placeholder="CPF" class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <i data-feather="credit-card" class="absolute left-3 top-2.5 text-gray-400"></i>
+                </div>
+                <div class="relative">
+                    <input type="text" id="search-cidade" placeholder="Cidade" class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <i data-feather="map-pin" class="absolute left-3 top-2.5 text-gray-400"></i>
+                </div>
+                    <select id="search-status" class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Todos status</option>
+                    <option value="Ativo">Ativo</option>
+                    <option value="Inativo">Inativo</option>
+                    <option value="Em análise">Em análise</option>
+                </select>
+                <button id="btn-filtrar" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
+                    <i data-feather="filter" class="mr-2"></i> Filtrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-blue-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">Nome</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">CPF</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">Cidade</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">Deficiência</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">Ações</th>
+                </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200" id="beneficiarios-table">
+                <!-- Data will be loaded here via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="flex justify-between items-center mt-4">
+        <div class="text-sm text-gray-500">
+            Mostrando <span id="current-items">1</span> a <span id="total-items">5</span> de <span id="total-count">5</span> beneficiários
+        </div>
+        <div class="flex space-x-2">
+            <button class="px-3 py-1 border rounded-md text-blue-600 hover:bg-blue-50 disabled:opacity-50" disabled>
+                <i data-feather="chevron-left"></i>
+            </button>
+            <button class="px-3 py-1 border rounded-md text-blue-600 hover:bg-blue-50 disabled:opacity-50" disabled>
+                <i data-feather="chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</main>
+    <!-- footer -->
+    <custom-footer></custom-footer>
+    <script src="../../components/footer.js"></script>
+
+
+<script src="../../scripts/gestao/script.js"></script>
+<script>
+    feather.replace();
+    // Load data on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadBeneficiarios();
+    });
+</script>
+
+</body>
+</html>

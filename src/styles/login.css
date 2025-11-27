@@ -1,0 +1,43 @@
+/* Estilos específicos da página de login para complementar o Bootstrap */
+
+:root {
+  --brand-primary: #21409A;
+}
+
+body.bg-light {
+  background: linear-gradient(180deg, #f8f9fa 0%, #eef3fb 100%);
+}
+
+.card .text-primary {
+  color: var(--brand-primary) !important;
+}
+
+/* Ajustes de alto contraste para o card e inputs */
+body.high-contrast .card {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+body.high-contrast .form-control,
+body.high-contrast .input-group-text {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+/* Botão principal acessível */
+.btn-primary {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  filter: brightness(0.95);
+}
+
+/* Espaçamento do menu de acessibilidade em telas pequenas */
+@media (max-width: 576px) {
+  .accessibility-menu { top: 30%; }
+}

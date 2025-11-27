@@ -1,0 +1,13 @@
+{
+  "name": "pe-livre-acesso-intermunicipal",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "live-server src --port=3000 --open=pages/index.html",
+    "build": "rm -rf public && mkdir -p public && cp -a src/. public/ && mkdir -p public && cp -f src/pages/index.html public/index.html",
+    "serve": "live-server src --port=3000"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

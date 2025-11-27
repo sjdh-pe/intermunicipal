@@ -3,54 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Informações sobre o Cartão PE Livre Acesso Intermunicipal: quem tem direito, documentos necessários e como solicitar a primeira ou segunda via em Pernambuco." />
     <title>PE LIVRE ACESSO INTERMUNICIPAL</title>
-    <link rel="stylesheet" href="../assets/css/style.css" />
-    <link rel="icon" href="../assets/images/iconPELIVRE.png" type="image/png" />
+    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="icon" href="/assets/images/iconPELIVRE.png" type="image/png" />
   </head>
   <body>
-    <header>
-      <div class="header-top">
-        <div class="header-logo">
-          <img
-            src="../assets/images/logo-sjdh2.png"
-            alt="Logo Secretaria de Justiça, Direitos Humanos e Prevenção a Violência - Governo de Pernambuco"
-          />
-        </div>
-        /
 
-        <button id="mobile-menu-button" class="mobile-menu-button">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </button>
-
-        <nav class="main-nav">
-          <a href="#https://homologacao.pe.gov.br/portal-governo-pe"
-            >PERNAMBUCO</a
-          >
-          <a href="#https://www.pe.gov.br/governo">GOVERNO</a>
-          <a href="#https://www.pe.gov.br/secretarias">SECRETARIAS</a>
-          <a href="#https://www.pe.gov.br/noticias">AÇÕES GOVERNO</a>
-          <a href="#https://www.pe.gov.br/noticias">NOTÍCIAS</a>
-          <a href="#https://homologacao.pe.gov.br/portal-governo-pe/radio-sei"
-            >RÁDIO SEI</a
-          >
-          <a href="#https://www.expressocidadao.pe.gov.br"
-            >EXPRESSO CIDADÃO VIRTUAL</a
-          >
-          <a href="#https://www.sjdh.pe.gov.br/transparencia-2"
-            >ACESSO À INFORMAÇÃO</a
-          >
-        </nav>
-      </div>
-    </header>
+    <!-- header-top -->
+    <custom-navbar></custom-navbar>
+    <script src="../components/navbar.js"></script>
 
     <main>
       <section class="intro">
         <div class="intermunicipal-logo">
           <img
-            src="../assets/images/iconPELIVRE.png"
-            alt="Logo PE LIVRE ACESSO INTERMUNICIAL"
+            src="/assets/images/iconPELIVRE.png"
+            alt="Logo PE LIVRE ACESSO INTERMUNICIPAL"
           />
         </div>
         <h2>PE LIVRE ACESSO INTERMUNICIPAL</h2>
@@ -68,7 +37,7 @@
         <br />
         <h4>QUEM PODE REQUERER O BENEFÍCIO?</h4>
         <p>Pessoas com deficiência</p>
-        <h4>COMO SOLICITAR O CARTÃO PE LIVRE ACESSO INTERMUNICIAL?</h4>
+        <h4>COMO SOLICITAR O CARTÃO PE LIVRE ACESSO INTERMUNICIPAL?</h4>
         <ul>
           <li>Baixar laudo médico padrão no final da página;</li>
           <li>
@@ -97,11 +66,11 @@
         <p>Além das documentações citadas anteriormente, enviar:</p>
         <ul>
           <li>Cópia da Certidão de nascimento, para pessoas de 0 a 17 anos;</li>
-          <li>Cópia da identidade (RG) do resposável</li>
+          <li>Cópia da identidade (RG) do responsável</li>
           <li>
-            Cópia do CPF d resposável - em caso de procurador ou tutor, enviar
-            cópi da procuraçõ registrada em cartório, como também cópia da
-            idetidade RG e CPF;
+            Cópia do CPF d responsável - em caso de procurador ou tutor, enviar
+            cópia da procuração registrada em cartório, como também cópia da
+            identidade RG e CPF;
           </li>
         </ul>
         <h4>IMPORTANTE</h4>
@@ -110,7 +79,7 @@
             Para pessoas com deficiência auditiva, anexar exame de audiometria;
           </li>
           <li>
-            Para pessoas com deificiência visual, anexar exame de acuidade
+            Para pessoas com deficiência visual, anexar exame de acuidade
             visual e campimetria;
           </li>
         </ul>
@@ -159,23 +128,21 @@
         <h4>EM CASO DE DÚVIDAS:</h4>
         <p>
           E-mail:
-          <a href="mailto:pelivreacesso@sjdh.pe.gov.br"
-            >pelivreacesso@sjdh.pe.gov.br</a
-          >
+          <a href="mailto:pelivreacesso@sjdh.pe.gov.br" aria-label="Link para enviar e-mail">pelivreacesso@sjdh.pe.gov.br</a>
         </p>
         <p>Fones: (81) 99488-2317 | (81) 98223-1533 | 3183-3214</p>
         <h4>MAIS INFORMAÇÕES:</h4>
 
         <button
           class="link-btn"
-          data-pdf-src="docs/DECRETO-No-52.060-DE-27-DE-DEZEMBRO-DE-2021-1-1.pdf"
+          data-pdf-src="/assets/docs/DECRETO-No-52.060-DE-27-DE-DEZEMBRO-DE-2021-1-1.pdf"
         >
           DECRETO 52.060 DE 27 DE DEZEMBRO DE 2021 - <strong>PDF</strong>
         </button>
 
         <button
           class="link-btn"
-          data-pdf-src="docs/Laudo_medico_padrao_intermunicipal.pdf"
+          data-pdf-src="/assets/docs/Laudo_medico_padrao_intermunicipal.pdf"
         >
           LAUDO MÉDICO PADRÃO INTERMUNICIPAL - <strong>PDF</strong>
         </button>
@@ -198,25 +165,24 @@
             informando seu CPF e Data de Nascimento.
           </p>
           <form>
-            <label for="cpf-nasc">CPF e Data de Nascimento:</label>
-            <input type="text" id="cpf-nasc" placeholder="DIGITE SEU CPF" />
-            <input
-              type="text"
-              id="cpf-nasc-2"
-              placeholder="DIGITE SUA DATA DE NASCIMENTO"
-            />
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" placeholder="DIGITE SEU CPF" />
+            <label for="nasc">Data de Nascimento:</label>
+            <input type="text" id="nasc" placeholder="DIGITE SUA DATA DE NASCIMENTO" />
+
             <button type="submit" class="search-btn">Pesquisar</button>
           </form>
+
         </div>
       </section>
     </main>
-    
+
     <div class="floating-tools-container">
 
         <div class="accessibility-menu">
             <div class="accessibility-options">
                 <button id="contrast-toggle" class="btn-access" title="Ativar Alto Contraste">
-                    <img src="../assets/images/iconaltocontraste.png" alt="Ícone de contraste">
+                    <img src="/assets/images/iconaltocontraste.png" alt="Ícone de contraste">
                     <span>Alto Contraste</span>
                 </button>
                 <button id="font-decrease" class="btn-access" title="Diminuir Fonte">
@@ -227,10 +193,11 @@
                 </button>
             </div>
             <button id="accessibility-toggle" class="btn-access-main" title="Abrir menu de acessibilidade">
-                <img src="../assets/images/iconacessibilidade.png" alt="Ícone de Acessibilidade">
+                <img src="/assets/images/iconacessibilidade.png" alt="Ícone de Acessibilidade">
             </button>
+
         </div>
-        
+
         <div vw class="enabled">
             <div vw-access-button class="active"></div>
             <div vw-plugin-wrapper>
@@ -240,23 +207,30 @@
 
     </div>
 
-    <script src="../assets/js/script.js"></script>
+    <script src="../scripts/script.js"></script>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
       new window.VLibras.Widget("https://vlibras.gov.br/app");
     </script>
 
+    <!-- footer -->
+    <custom-footer></custom-footer>
+    <script src="../components/footer.js"></script>
+
+
+
+<!--  footer
     <footer>
       <div class="footer-top">
         <div class="footer-top-content">
-            <a href=""><img src="../assets/images/logo-gov-pe.png" alt="Logo do Governo de Pernambuco"></a>
+            <a href="" aria-label=" " ><img src="/assets/images/logo-sjdh2.png" alt="Logo do Governo de Pernambuco"></a>
           <h4>INTERMUNICIPAL</h4>
           <p>para mais informações...</p>
         </div>
 
         <div>
           <h4>Redes sociais</h4>
-          <a href="https://www.instagram.com/secdireitoshumanospe" target="_blank"
+          <a href="https://www.instagram.com/secdireitoshumanospe" target="_blank" aria-label="Link para o Instagram"
             ><i class="fa fa-instagram" aria-hidden="true"></i
           ></a>
         </div>
@@ -264,13 +238,16 @@
 
       <div class="footer-bottom">
         <span>
-          <strong>Desenvolvido por: Área de T.I SJDH</strong>
+          <strong>Desenvolvido por: SUPTI - SJDH</strong>
         </span>
         <span>
           © Copyright 2023. Made by
-          <a href="https://www.instagram.com/secdireitoshumanospe" target="_blank"><strong>SJDH</strong></a>
+          <a href="https://www.instagram.com/secdireitoshumanospe" aria-label="Link para o Instagram" target="_blank"><strong>SJDH</strong></a>
         </span>
       </div>
     </footer>
+
+ -->
+
   </body>
 </html>

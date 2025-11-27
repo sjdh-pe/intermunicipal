@@ -7,3 +7,6 @@ services:
       - "8080:80"
     container_name: pe-livre-web
     restart: always
+    # Para desenvolvimento local com hot-reload de arquivos, descomente a seção volumes abaixo
+    # volumes:
+    #   - ./src:/usr/share/nginx/html:ro
