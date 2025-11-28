@@ -19,7 +19,7 @@
 
 
 <div class="intermunicipal-logo">
-    <img src="/assets/images/iconPELIVRE.png" alt="Logo PE LIVRE ACESSO INTERMUNICIAL">
+    <img src="/assets/images/iconPELIVRE.png" alt="Logo PE LIVRE ACESSO INTERMUNICIPAL">
 </div>
 <div class="container pt-0 pb-5">
     <div class="row justify-content-center">
@@ -59,7 +59,7 @@
 
                             <div class="mb-3">
                                 <label for="fullName" class="form-label required-field">Nome do Beneficiário</label>
-                                <input type="text" class="form-control" id="fullName" value="FullName" required>
+                                <input type="text" class="form-control" id="fullName" value="" required>
                             </div>
 
                             <div class="mb-3">
@@ -85,7 +85,7 @@
 
                             <div class="mb-3">
                                 <label for="rg" class="form-label required-field">RG do Beneficiário</label>
-                                <input type="text" class="form-control" id="rg" value="11111" required>
+                                <input type="text" class="form-control" id="rg" value="" required>
                             </div>
 
 
@@ -93,11 +93,11 @@
                                 <label for="deficiencia" class="form-label required-field">Tipo de Deficiência</label>
                                 <select class="form-select" id="deficiencia" required>
                                     <option value="">Selecione</option>
-                                    <option value="Auditiva" selected>Auditiva</option>
-                                    <option value="Fisica">Física</option>
-                                    <option value="Intelectual">Intelectual</option>
-                                    <option value="Visual">Visual</option>
-                                    <option value="Multiplas">Múltiplas</option>
+                                    <option value="1">Física<option>
+                                    <option value="2">Visual<option>
+                                    <option value="3">Auditiva<option>
+                                    <option value="4">Intelectual<option>
+                                    <option value="5">Múltipla<option>
                                 </select>
                             </div>
 
@@ -107,11 +107,13 @@
                                         <label for="genero" class="form-label required-field">Gênero</label>
                                         <select class="form-select" id="genero" required>
                                             <option value="">Selecione</option>
-                                            <option value="Homem-cis" selected>Homem Cis</option>
-                                            <option value="Mulher-cis">Mulher Cis</option>
-                                            <option value="Homem-trans">Homem Trans</option>
-                                            <option value="Mulher-trans">Mulher Trans</option>
-                                            <option value="nao-binare">Não-Binare</option>
+                                            <option value="1">Mulher cisgênera</option>
+                                            <option value="2">Mulher transsexual</option>
+                                            <option value="3">Homem cisgênero</option>
+                                            <option value="4">Homem transsexual</option>
+                                            <option value="5">Travesti</option>
+                                            <option value="5">Não binário</option>
+                                            <option value="7">Prefiro não informar</option>
                                         </select>
                                     </div>
                                 </div>
@@ -120,12 +122,13 @@
                                         <label for="etnia" class="form-label required-field">Etnia</label>
                                         <select class="form-select" id="etnia" required>
                                             <option value="">Selecione</option>
-                                            <option value="Negro" selected>Negro</option>
-                                            <option value="Pardo">Pardo</option>
-                                            <option value="Indigena">Indígena</option>
-                                            <option value="Branco">Branco</option>
-                                            <option value="Asiatico">Asiático</option>
-                                            <option value="IndigenaAfro">Indígena-Afro (Afro-Indígena)</option>
+                                            <option value="1">Branca</option>
+                                            <option value="2">Preta</option>
+                                            <option value="3">Parda</option>
+                                            <option value="4">Amarela</option>
+                                            <option value="5">Indígena</option>
+                                            <option value="6">Não Declarada</option>
+
                                         </select>
                                     </div>
                                 </div>
@@ -401,8 +404,11 @@
                                 <label for="localRetirada" class="form-label required-field">Local da Retirada da Carteira</label>
                                 <select class="form-select" id="localRetirada" required>
                                     <option value="">Selecione</option>
-                                    <option value="RECIFE-SESES">RECIFE - SESES</option>
-
+                                    <option value="1">Recife</option>
+                                    <option value="2">Caruaru</option>
+                                    <option value="3">Paulista</option>
+                                    <option value="4">Jaboatão dos Guararapes</option>
+                                    <option value="5">Olinda</option>
                                 </select>
                             </div>
 
@@ -490,10 +496,17 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-<script src="../scripts/forms.js"></script>
+
+<!-- Área de saída para exibir mensagens de validação/resultado do envio -->
+<div class="container mt-3">
+    <pre id="saida" class="bg-white border rounded p-3" style="min-height: 80px; white-space: pre-wrap;
+    word-break: break-word;"></pre>
+    
+    <!-- Dicas para o usuário -->
+    <small class="text-muted">As mensagens de validação e o retorno da API serão exibidos aqui.</small>
+    
+    
+</div>
 
 
 <div class="modal fade" id="cropModal" tabindex="-1" aria-labelledby="cropModalLabel" aria-hidden="true">
@@ -545,6 +558,11 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script src="../scripts/forms.js"></script>
+
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
@@ -553,7 +571,11 @@
     <!-- footer -->
     <custom-footer></custom-footer>
     <script src="../components/footer.js"></script>
-
+    <!-- Tipos JSDoc (documentação e autocomplete) -->
+    <script src="../scripts/types/beneficiario.js"></script>
+    <script src="../scripts/cadastrarBeneficiario.js"></script>
+    <!-- Script que lê o formulário, valida e envia -->
+    <script src="../scripts/cadastrarBeneficiarioForm.js"></script>
 
 
 </body>
