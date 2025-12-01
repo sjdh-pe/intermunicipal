@@ -7,22 +7,23 @@
     <title>PE LIVRE ACESSO INTERMUNICIPAL</title>
     <link rel="stylesheet" href="../styles/style.css" />
     <link rel="icon" href="/assets/images/iconPELIVRE.png" type="image/png" />
+
   </head>
-  <body>
+  <body class="bg-light" >
 
     <!-- header-top -->
     <custom-navbar></custom-navbar>
     <script src="../components/navbar.js"></script>
 
+
     <main>
       <section class="intro">
-        <div class="intermunicipal-logo">
-          <img
-            src="/assets/images/iconPELIVRE.png"
-            alt="Logo PE LIVRE ACESSO INTERMUNICIPAL"
-          />
-        </div>
-        <h2>PE LIVRE ACESSO INTERMUNICIPAL</h2>
+          <!--     Logo em texto     -->
+          <div class="text-logo">
+              <h1>PE LIVRE ACESSO</h1>
+              <p>INTERMUNICIPAL</p>
+          </div>
+
         <p>
           O Cartão PE Livre Acesso Intermunicipal garante a gratuidade das
           pessoas com deficiência nos veículos do Sistema de Transporte Coletivo
@@ -167,8 +168,8 @@
           <form>
             <label for="cpf">CPF:</label>
             <input type="text" id="cpf" placeholder="DIGITE SEU CPF" />
-            <label for="nasc">Data de Nascimento:</label>
-            <input type="text" id="nasc" placeholder="DIGITE SUA DATA DE NASCIMENTO" />
+            <label for="birthDate">Data de Nascimento:</label>
+            <input type="text" id="birthDate" placeholder="DIGITE SUA DATA DE NASCIMENTO" />
 
             <button type="submit" class="search-btn">Pesquisar</button>
           </form>
@@ -208,6 +209,12 @@
     </div>
 
     <script src="../scripts/script.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="../scripts/utils.js"></script>
+
+
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
       new window.VLibras.Widget("https://vlibras.gov.br/app");

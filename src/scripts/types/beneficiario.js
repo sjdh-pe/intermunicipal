@@ -17,7 +17,7 @@
 /**
  * @typedef {Object} Beneficiario
  * @property {string} nome - Nome completo do beneficiário.
- * @property {string} [nomeMae] - Nome da mãe (se disponível no formulário).
+ * @property {string} [nomeMae] - Nome da mãe.
  * @property {string} cpf - Apenas dígitos.
  * @property {string} rg - Até 20 caracteres.
  * @property {string} dataNascimento - Formato YYYY-MM-DD.

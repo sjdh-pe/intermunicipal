@@ -34,7 +34,7 @@
     const cpf = onlyDigits(cpfRaw);
     const rg = (document.getElementById('rg')?.value || '').trim();
     const dataNascimento = document.getElementById('birthDate')?.value; // já é YYYY-MM-DD
-
+      const nomeMae = document.getElementById('nomeMae')?.value?.trim();
     // Selects (IDs numéricos)
     const tipoDeficienciaId = Number(document.getElementById('deficiencia')?.value || 0);
     const sexoId = Number(document.getElementById('genero')?.value || 0);
@@ -57,31 +57,31 @@
     const cidadeId = Number(document.getElementById('cidade')?.value || 0);
     const uf = (document.getElementById('uf')?.value || '').toUpperCase();
 
-    /** @type {Beneficiario} */
-    const payload = {
-      nome,
-      // Nome da mãe não existe no forms.html no momento; se for adicionado, mapear aqui
-      nomeMae: undefined,
-      cpf,
-      rg,
-      dataNascimento,
-      sexoId,
-      etniaId,
-      tipoDeficienciaId,
-      // statusBeneficioId e localRetiradaId não existem no formulário; omissos
-      cidadeId,
-      telefone,
-      email,
-      endereco: {
-        endereco: logradouro,
-        bairro,
-        cep: cepNorm,
-        numero,
-        complemento: undefined,
-        uf
-      },
-      vemLivreAcessoRmr
-    };
+      /** @type {Beneficiario} */
+      let payload;
+      payload = {
+          nome,
+          nomeMae,
+          cpf,
+          rg,
+          dataNascimento,
+          sexoId,
+          etniaId,
+          tipoDeficienciaId,
+          // statusBeneficioId e localRetiradaId não existem no formulário; omissos
+          cidadeId,
+          telefone,
+          email,
+          endereco: {
+              endereco: logradouro,
+              bairro,
+              cep: cepNorm,
+              numero,
+              complemento: undefined,
+              uf
+          },
+          vemLivreAcessoRmr
+      };
 
     return payload;
   }
@@ -93,8 +93,10 @@
 
     if (!p.nome || p.nome.length < 3) erros.push('Nome é obrigatório e deve ter ao menos 3 caracteres.');
     if (!p.cpf || p.cpf.length !== 11) erros.push('CPF deve conter 11 dígitos (apenas números).');
-    if (!p.rg || p.rg.length > 20) erros.push('RG é obrigatório e deve ter no máximo 20 caracteres.');
     if (!p.dataNascimento || !isValidDateISO(p.dataNascimento)) erros.push('Data de nascimento inválida (use YYYY-MM-DD).');
+
+    if (!p.nome || p.nome.length < 3) erros.push('Nome da mãe é obrigatório e deve ter ao menos 3 caracteres.');
+    if (!p.rg || p.rg.length > 20) erros.push('RG é obrigatório e deve ter no máximo 20 caracteres.');
 
     if (!Number.isInteger(p.sexoId) || p.sexoId <= 0) erros.push('Selecione um gênero válido.');
     if (!Number.isInteger(p.etniaId) || p.etniaId <= 0) erros.push('Selecione uma etnia válida.');

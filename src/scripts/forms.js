@@ -30,7 +30,7 @@ async function buscarEnderecoPorCep(cep) {
         document.getElementById('bairro').value = dados.bairro || '';
 
         const nomeCidadeApi = dados.localidade;
-        const selectCidade = document.getElementById('CidadeBeneficiario');
+        const selectCidade = document.getElementById('cidade');
         let cidadeEncontrada = false;
         for (let i = 0; i < selectCidade.options.length; i++) {
             const option = selectCidade.options[i];
@@ -46,6 +46,7 @@ async function buscarEnderecoPorCep(cep) {
         }
         document.getElementById('uf').value = dados.uf || '';
     } catch (erro) {
+        console.log(erro);
         alert("Erro ao buscar CEP.");
         console.error(erro);
     }
@@ -130,12 +131,11 @@ function updateStepIndicator(current, next) {
     nextIndicator.classList.add('active');
     nextIndicator.classList.remove('completed');
 }
+
 function updateProgressBar(currentSection) {
     const progress = ((currentSection) / 3) * 100;
     document.getElementById('form-progress').style.width = `${progress}%`;
 }
-
-
 
 document.addEventListener('DOMContentLoaded', () => {
 
