@@ -1,33 +1,51 @@
-# PE Livre Acesso — Intermunicipal
+# ♿ PE Livre Acesso Intermunicipal
 
-Breve descrição: aplicação web estática para apoio ao projeto PE Livre Acesso (módulo Intermunicipal), contendo páginas públicas, telas de login/gestão e componentes web reutilizáveis.
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-green)
+
+Projeto de interface web para a solicitação e consulta do cartão "PE Livre Acesso Intermunicipal", um benefício do Governo de Pernambuco destinado a garantir a gratuidade no transporte coletivo intermunicipal para pessoas com deficiência.
+
+A aplicação foi desenvolvida com foco total em acessibilidade, usabilidade e responsividade, garantindo que todos os cidadãos possam interagir com a plataforma de forma simples e eficiente, contendo páginas públicas, telas de login/gestão e componentes web reutilizáveis.
 
 ![Imagem do projeto](./imgproject.png)
 
 ---
 
-## Índice
-- Visão geral
-- Estrutura do projeto
-- Requisitos
-- Como começar (local)
-- Scripts npm
-- Docker (opcional)
-- Build e deploy
-- Convenções e estilos
-- Contribuição
-- Licença
+### Índice
 
+- [Visão Geral](#-visao-geral)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [Requisitos](#-requisitos)
+- [Como Começar](#-como-comecar) (Local)
+- [Scripts npm](#-scripts-npm)
+- [Docker](#-docker) (Opcional)
+- [Build e Deploy](#-build-e-deploy)
+- [Convenções e Estilos](#-converncoes-e-estilos)
+- [Contribuição](#-contribuicao)
+- [Licença](#-licenca)
+  
 ---
 
-## Visão geral
-Este repositório organiza os arquivos-fonte em `src/` (HTML, CSS, JS e assets) e gera uma saída estática em `public/` para publicação simples (ex.: servidor estático, Nginx, GitHub Pages com ajustes). O desenvolvimento local é feito com `live-server` para recarregamento rápido.
+## Visão Geral
+
+O objetivo principal desta aplicação é modernizar e facilitar o processo de solicitação do benefício PE Livre Acesso. Este repositório organiza os arquivos-fonte em `src/` (HTML, CSS, JS e assets) e gera uma saída estática em `public/` para publicação simples (ex.: servidor estático, Nginx, GitHub Pages com ajustes). O desenvolvimento local é feito com `live-server` para recarregamento rápido.
 
 Principais pontos:
 - HTMLs em `src/pages` (ex.: `index.html`, `login.html`, `forms.html`, `gestao/`).
 - Componentes Web em `src/components` (ex.: `footer.js`).
 - Estilos em `src/styles` e scripts em `src/scripts`.
 - Assets (imagens/documentos) em `src/assets`.
+
+#### Funcionalidades Implementadas:
+
+- **Design Responsivo:** A interface se adapta perfeitamente a dispositivos móveis, tablets e desktops.
+- **Validação de Formulário:** Feedback visual imediato para o usuário em caso de campos obrigatórios não preenchidos.
+- **Consulta de Endereço via CEP:** Integração com a API ViaCEP para preenchimento automático de endereço.
+- **Recursos Avançados de Acessibilidade:**
+- **VLibras:** Widget integrado para tradução de conteúdo para a Língua Brasileira de Sinais.
+- **Alto Contraste:** Modo claro e escuro para melhorar a legibilidade.
+- **Ajuste de Fonte:** Controles para aumentar e diminuir o tamanho do texto.
+- **Semântica e `alt` text:** Uso correto de tags HTML e textos alternativos em todas as imagens para compatibilidade com leitores de tela.
 
 ---
 
@@ -47,9 +65,33 @@ intermunicipal/
 ├─ DEVELOPMENT.md
 └─ README.md
 ```
-
 Notas:
 - Alguns caminhos relativos nos HTMLs usam `../` (de `pages/` para `styles/`, `scripts/` e `../../assets`). Ajuste conforme a estratégia de deploy.
+
+---
+
+## Tecnologias Utilizadas
+
+Este projeto foi construído utilizando as seguintes tecnologias e ferramentas:
+
+- **POC**
+  - `Figma`
+  - [Acessar Figma]([./imgproject.png](https://www.figma.com/design/waCd55uaLJ4absuAMCIgz1/POC-PE-LIVRE-ACESSO-INTERMUNICIPAL?node-id=0-1&t=9TDXSltn95WiaKYj-1))
+
+- **Front-end:**
+  - `HTML5`
+  - `CSS3`
+  - `JavaScript` (Vanilla)
+
+- **Bibliotecas e Frameworks:**
+  - `Bootstrap 5`: Para a estrutura e componentes do formulário.
+  - `jQuery` e `jQuery Mask Plugin`: Para a aplicação de máscaras nos campos de CPF, telefone e CEP.
+
+- **Acessibilidade:**
+  - `Widget VLibras`: Ferramenta oficial do Governo Federal para tradução em Libras.
+
+- **Ambiente de Desenvolvimento:**
+  - `Docker` e `Docker Compose`: Para garantir a portabilidade e facilitar a execução do ambiente de desenvolvimento.
 
 ---
 
@@ -135,4 +177,6 @@ Padrões sugeridos:
 
 ## Mantenedores
 - SUPTI — SJDH
-
+- Desenvolvedores:
+  - **Erick Carrasco** E-mail: erick.carrasco@sjdh.gov.pe.br - [GitHub](https://github.com/kcarrasc0)
+  - **Raul França** E-mail: raul.franca@sjdh.gov.pe.br- [GitHub](https://github.com/raul-franca)
