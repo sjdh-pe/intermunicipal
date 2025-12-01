@@ -12,17 +12,17 @@ A aplicação foi desenvolvida com foco total em acessibilidade, usabilidade e r
 
 ### Índice
 
-- [Visão Geral](#-visao-geral)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-- [Requisitos](#-requisitos)
-- [Como Começar](#-como-comecar) (Local)
-- [Scripts npm](#-scripts-npm)
-- [Docker](#-docker) (Opcional)
-- [Build e Deploy](#-build-e-deploy)
-- [Convenções e Estilos](#-converncoes-e-estilos)
-- [Contribuição](#-contribuicao)
-- [Licença](#-licenca)
+- Visão Geral
+- Estrutura do Projeto
+- Tecnologias Utilizadas
+- Requisitos
+- Como Começar (Local)
+- Scripts npm
+- Docker (Opcional)
+- Build e Deploy
+- Convenções e Estilos
+- Contribuição
+- Licença
   
 ---
 
@@ -179,4 +179,4 @@ Padrões sugeridos:
 - SUPTI — SJDH
 - Desenvolvedores:
   - **Erick Carrasco** E-mail: erick.carrasco@sjdh.gov.pe.br - [GitHub](https://github.com/kcarrasc0)
-  - **Raul França** E-mail: raul.franca@sjdh.gov.pe.br- [GitHub](https://github.com/raul-franca)
+  - **Raul França** E-mail: raul.franca@sjdh.gov.pe.br - [GitHub](https://github.com/raul-franca)
