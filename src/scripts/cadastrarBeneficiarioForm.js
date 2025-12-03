@@ -137,7 +137,7 @@
           printOut({ ok: false, erros });
           return;
         }
-
+// console log
         printOut('Enviando...');
         const resultado = await window.cadastrarBeneficiario(payload);
         printOut({ ok: true, resultado });

@@ -39,6 +39,9 @@ function buildPayloadExemplo() {
 // Disponibiliza como função global para reaproveitamento no formulário
 async function cadastrarBeneficiario(dados) {
     const url = `${BASE_URL}/beneficiarios`;
+    console.log('cadastrar beneficiario')
+    console.log(dados)
+    return 
     const resp = await fetch(url, {
         method: 'POST',
         headers: {

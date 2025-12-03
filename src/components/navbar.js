@@ -20,7 +20,7 @@ class CustomNavbar extends HTMLElement {
                       <div class="header-top">
                         <div class="header-logo">
                           <img
-                            src="/assets/images/logo-sjdh2.png"
+                            src="../../assets/images/logo-sjdh2.png"
                             alt="Logo Secretaria de Justiça, Direitos Humanos e Prevenção a Violência - Governo de Pernambuco"
                           />
                         </div>

@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PE Livre Acesso - Beneficiários</title>
-    <link rel="stylesheet" href="../../styles/gestao/style.css">
+    <link rel="stylesheet" href="../../styles/gestao/gestao.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https:0//cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
+    <script src=""></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50">
@@ -83,6 +84,133 @@
         </div>
     </div>
 </main>
+
+<div class="modal fade" id="viewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-blue-50">
+                <h5 class="modal-title text-blue-600 font-bold">Dados do Beneficiário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <div class="modal-body">
+                    <label class="fw-bold text-gray-500">ID:</label>
+                    <p id="view-id" class="fs-5 text-dark"></p>
+                </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="fw-bold text-gray-500">Nome:</label>
+                        <p id="view-nome" class="fs-5 text-dark"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold text-gray-500">CPF:</label>
+                        <p id="view-cpf" class="fs-5 text-dark"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold text-gray-500">Cidade:</label>
+                        <p id="view-cidade" class="fs-5 text-dark"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold text-gray-500">Deficiência:</label>
+                        <p id="view-deficiencia" class="fs-5 text-dark"></p>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="fw-bold text-gray-500">Status:</label>
+                        <p><span id="view-status" class="badge bg-secondary"></span></p>
+                    </div>
+                    <!-- div de hierarquia -->
+                  </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-warning text-white" id="btn-switch-to-edit">
+                    <i data-feather="edit" class="w-4 h-4 inline mr-1"></i> Editar Dados
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-amber-50">
+                <h5 class="modal-title text-amber-600 font-bold">Editar Beneficiário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-form" class="row g-3">
+                    <input type="hidden" id="edit-id"> <div class="col-md-6">
+                        <label for="edit-nome" class="form-label">Nome Completo</label>
+                        <input type="text" class="form-control" id="edit-nome" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edit-cpf" class="form-label">CPF</label>
+                        <input type="text" class="form-control" id="edit-cpf" readonly disabled> </div>
+                    <div class="col-md-6">
+                        <label for="edit-cidade" class="form-label">Cidade</label>
+                        <input type="text" class="form-control" id="edit-cidade" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edit-deficiencia" class="form-label">Tipo de Deficiência</label>
+                        <select class="form-select" id="edit-deficiencia">
+                            <option value="Física">Física</option>
+                            <option value="Auditiva">Auditiva</option>
+                            <option value="Visual">Visual</option>
+                            <option value="Intelectual">Intelectual</option>
+                            <option value="Múltipla">Múltipla</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+  <label for="edit-status" class="form-label">Status do Benefício</label>
+  <select class="form-select" id="edit-status">
+    <option value="1">Em análise</option>
+    <option value="2">Pendente</option>
+    <option value="3">Negado</option>
+    <option value="4">Aprovado</option>
+    <option value="5">Entregue</option>
+    <option value="6">Enviadas para Confecção</option>
+    <option value="7">Entregue aos Correios</option>
+    <option value="8">Entregue ao Município</option>
+    <option value="9">Disponível para Retirada</option>
+    <option value="10">Pendência Sancionada</option>
+  </select>
+</div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" onclick="saveEdit()">Salvar Alteração</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-red-50">
+                <h5 class="modal-title text-red-600 font-bold">Excluir Cadastro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <div class="mb-3 text-red-500 d-flex justify-content-center">
+                    <i data-feather="alert-triangle" style="width: 50px; height: 50px;"></i>
+                </div>
+                
+                <h4 class="h5">Tem certeza que deseja deletar o cadastro?</h4>
+                <input type="hidden" id="delete-id">
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="confirmDelete()">Sim, Deletar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <!-- footer -->
     <custom-footer></custom-footer>
     <script src="../../components/footer.js"></script>
@@ -96,6 +224,8 @@
         loadBeneficiarios();
     });
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
