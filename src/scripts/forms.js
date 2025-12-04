@@ -23,7 +23,7 @@ async function buscarEnderecoPorCep(cep) {
         const resposta = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
         const dados = await resposta.json();
         if (dados.erro) {
-            alert("CEP não encontrado.");
+            validarCampo(document.getElementById("cep"),"Erro ao buscar CEP.");
             return;
         }
         document.getElementById('logradouro').value = dados.logradouro || '';
@@ -46,11 +46,17 @@ async function buscarEnderecoPorCep(cep) {
         }
         document.getElementById('uf').value = dados.uf || '';
     } catch (erro) {
-        console.log(erro);
-        alert("Erro ao buscar CEP.");
-        console.error(erro);
+        validarCampo(document.getElementById("uf"),"Erro ao buscar CEP.");
     }
 }
+
+
+function getBoolFromRadio(name, yesValue = 'sim'){
+    const checked = document.querySelector(`input[name="${name}"]:checked`);
+    if (!checked) return null;
+    return (checked.value || '').toLowerCase() === yesValue;
+}
+
 
 function nextSection(currentSection) {
     if (validateSection(currentSection)) {
@@ -72,51 +78,213 @@ function prevSection(currentSection) {
 window.nextSection = nextSection;
 window.prevSection = prevSection;
 
+// Utilidades de normalização e validação
+const onlyDigits = (v) => (v || '').replace(/\D+/g, '');
+const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v || '');
+const isValidCEP = (v) => /^\d{5}-?\d{3}$/.test(v || '');
+const isValidUF = (v) => /^[A-Z]{2}$/.test((v || '').toUpperCase());
+const isValidDateISO = (v) => /^\d{4}-\d{2}-\d{2}$/.test(v || '');
+const isPastDate = (v) => {
+    // v em formato YYYY-MM-DD
+    const d = new Date(v + 'T00:00:00');
+    if (isNaN(d.getTime())) return false;
+    const today = new Date();
+    // Zera horário para comparar somente a data
+    today.setHours(0, 0, 0, 0);
+    return d < today;
+}
+
+
+let p = {};
+let endereco = {};
 function validateSection(sectionNumber) {
+
+    // Dados Pessoais
+    let erros = [];
+
+    console.log(p);
+    console.log(endereco);
+
     const section = document.getElementById(`section${sectionNumber}`);
-    const inputs = section.querySelectorAll('[required]');
-    let firstInvalidField = null;
-    let isValid = true;
     section.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-    for (const input of inputs) {
-        let isFieldValid = true;
-        if (input.type === 'radio') {
-            const radioGroup = section.querySelectorAll(`input[name="${input.name}"]`);
-            if (![...radioGroup].some(radio => radio.checked)) {
-                isFieldValid = false;
-                radioGroup.forEach(radio => radio.closest('.form-check').classList.add('is-invalid'));
-            }
-        } else if (input.type === 'file') {
-            if (input.id === 'photo' && !document.getElementById('croppedPhoto').value) {
-                 isFieldValid = false;
-                 input.closest('.upload-area').classList.add('is-invalid');
-            } else if (input.id !== 'photo' && input.files.length === 0) {
-                 isFieldValid = false;
-                 input.closest('.upload-area').classList.add('is-invalid');
-            }
-        } else {
-            if (!input.value.trim()) {
-                isFieldValid = false;
-                input.classList.add('is-invalid');
-            }
+    if(sectionNumber === 1) {
+
+
+        p.nome = document.getElementById('fullName').value.trim();
+        if (!p.nome || p.nome < 3){
+            erros.push('Nome é obrigatório.');
+            validarCampo(document.getElementById("fullName"), {valueMissing:erros[0].toString()});
+            document.getElementById("fullName").focus();
+            return false;
         }
-        if (input.id === 'confirmEmail' && input.value !== document.getElementById('email').value) {
-            alert('Os e-mails não coincidem.');
-            isFieldValid = false;
-            input.classList.add('is-invalid');
-            document.getElementById('email').classList.add('is-invalid');
+
+        const cpfRaw = document.getElementById('cpf').value.trim();
+        p.cpf = onlyDigits(cpfRaw);
+        if (!p.cpf || p.cpf.length !== 11){
+            erros.push('CPF é obrigatório.');
+            validarCampo(document.getElementById('cpf'),
+                {valueMissing: "Informe o CPF.",
+                                 patternMismatch: "CPF inválido."});
+
+            document.getElementById('cpf').focus();
+            return false;
         }
-        if (!isFieldValid) {
-            isValid = false;
-            if (!firstInvalidField) firstInvalidField = input;
+
+        p.dataNascimento = document.getElementById('birthDate').value; // já é YYYY-MM-DD
+        if (!p.dataNascimento || !isValidDateISO(p.dataNascimento)){
+            erros.push('Data de nascimento inválida.');
+            validarCampo(document.getElementById('birthDate'), {valueMissing:erros[0].toString()});
+            document.getElementById('birthDate').focus();
+
+            return false;
         }
+        else if (!isPastDate(p.dataNascimento)){
+            erros.push('Data de nascimento deve ser uma data passada.');
+            validarCampo(document.getElementById('birthDate'), {valueMissing:erros[0].toString()});
+            document.getElementById('birthDate').focus();
+            return false;
+        }
+
+        p.nomeMae = document.getElementById('nomeMae').value.trim();
+        if (!p.nomeMae || p.nomeMae.length < 3){
+            erros.push('Nome da mãe é obrigatório e deve ter ao menos 3 caracteres.');
+            validarCampo(document.getElementById('nomeMae'), {valueMissing:erros[0].toString()});
+            document.getElementById('nomeMae').focus();
+            return false;
+        }
+        p.rg = document.getElementById('rg').value.trim();
+        if (!p.rg || p.rg.length > 20) {
+            erros.push('RG é obrigatório e deve ter no máximo.');
+            validarCampo(document.getElementById('rg'), {valueMissing:erros[0].toString()});
+            document.getElementById('rg').focus();
+            return false;
+        }
+        // Selects (IDs numéricos)
+        p.tipoDeficienciaId = Number(document.getElementById('deficiencia').value);
+        if (!Number.isInteger(p.tipoDeficienciaId) || p.tipoDeficienciaId <= 0){
+            erros.push('Selecione um tipo de deficiência válido.');
+            validarCampo(document.getElementById('deficiencia'), {valueMissing:erros[0].toString()});
+            document.getElementById('deficiencia').focus();
+            return false;
+        }
+        p.sexoId = Number(document.getElementById('genero').value);
+        if (!Number.isInteger(p.sexoId) || p.sexoId <= 0){
+            erros.push('Selecione um gênero válido.');
+            validarCampo(document.getElementById('genero'), {valueMissing:erros[0].toString()});
+            document.getElementById('genero').focus();
+            return false;
+        }
+        p.etniaId = Number(document.getElementById('etnia').value);
+        if (!Number.isInteger(p.etniaId) || p.etniaId <= 0){
+            erros.push('Selecione uma etnia válida.');
+            validarCampo(document.getElementById('etnia'), {valueMissing:erros[0].toString()});
+            document.getElementById('etnia').focus();
+            return false;
+        }
+
+        p.vemLivreAcessoRmr = getBoolFromRadio('vemLivreRm');
+        if (p.vemLivreAcessoRmr === null){
+            erros.push('Informe se possui VEM Livre Acesso RMR.');
+            validarCampo(document.getElementById('vemLivreRm'), {valueMissing:erros[0].toString()});
+            document.getElementById('vemLivreRm').focus();
+            return false;
+        }
+
+        p.vemLivreAcessoRmr = getBoolFromRadio('vemLivreRm');
+
+        if (erros.length > 0) return false;
+
     }
-    if (!isValid && firstInvalidField) {
-        alert('Por favor, preencha todos os campos obrigatórios marcados em vermelho.');
-        firstInvalidField.focus();
-        firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+
+    // section 2
+    if (sectionNumber === 2){
+
+        p.email = document.getElementById('email').value.trim();
+        if (!p.email || !isValidEmail(p.email)){
+            erros.push('E-mail inválido.');
+            validarCampo(document.getElementById('email'), {valueMissing:erros[0].toString()});
+            document.getElementById('email').focus();
+            return false;
+        }
+
+
+        p.confirmEmail = document.getElementById('confirmEmail').value.trim();
+        if (p.confirmEmail && p.email && p.confirmEmail !== p.email){
+            erros.push('Confirmação de e-mail não confere.');
+            validarCampo(document.getElementById('confirmEmail'), {valueMissing:erros[0].toString()});
+            document.getElementById('confirmEmail').focus();
+            return false;
+        }
+
+        p.telefone = onlyDigits(document.getElementById('telefone').value);
+        if (!p.telefone || p.telefone.length < 8 || p.telefone.length > 15) {
+            erros.push('Telefone deve conter entre 8 e 15 dígitos.');
+            validarCampo(document.getElementById('telefone'), {valueMissing:erros[0].toString()});
+            document.getElementById('telefone').focus();
+            return false;
+        }
+        if (erros.length > 0) return false;
+
+        // Endereço
+        const cepInput = (document.getElementById('cep').value || '').trim();
+        endereco.cep = cepInput.replace(/(\d{5})(\d{3})/, '$1-$2');
+        if (!endereco.cep || !isValidCEP(endereco.cep)){
+            erros.push('CEP inválido.');
+            validarCampo(document.getElementById('cep'), {valueMissing:erros[0].toString()});
+            document.getElementById('cep').focus();
+            return false;
+        }
+
+         endereco.logradouro = document.getElementById('logradouro').value.trim();
+        if (!endereco.logradouro){
+            erros.push('Endereço (Rua, Av., Logradouro) é obrigatório.');
+            validarCampo(document.getElementById('logradouro'), {valueMissing:erros[0].toString()});
+            document.getElementById('logradouro').focus();
+            return false;
+        }
+
+        endereco.numero = document.getElementById('numero').value.trim();
+
+        endereco.bairro = document.getElementById('bairro').value.trim();
+        if (!endereco.bairro){
+            erros.push('Bairro é obrigatório.');
+            validarCampo(document.getElementById('bairro'), {valueMissing:erros[0].toString()});
+            document.getElementById('bairro').focus();
+            return false;
+        }
+
+        endereco.cidadeId = Number(document.getElementById('cidade').value || 0);
+        if (!Number.isInteger(endereco.cidadeId) || endereco.cidadeId <= 0){
+            erros.push('Selecione uma cidade válida.');
+            validarCampo(document.getElementById('cidade'), {valueMissing:erros[0].toString()});
+            document.getElementById('cidade').focus();
+            return false;
+        }
+        endereco.uf = (document.getElementById('uf')?.value || '').toUpperCase();
+        if (!endereco.uf || !isValidUF(endereco.uf)){
+            erros.push('UF inválida (2 letras).');
+            validarCampo(document.getElementById('uf'), {valueMissing:erros[0].toString()});
+            document.getElementById('uf').focus();
+            return false;
+        }
+
+
+        p.localRetiradaId = Number(document.getElementById('localRetirada')?.value || 0);
+        if (!Number.isInteger(p.localRetiradaId) || p.localRetiradaId <= 0){
+            erros.push('Selecione o local de retirada.');
+            validarCampo(document.getElementById('localRetirada'), {valueMissing:erros[0].toString()});
+            document.getElementById('localRetirada').focus();
+            return false;
+        }
+
+        p.statusBeneficioId = 1;
+
+
+        return false;
     }
-    return isValid;
+
+    return true;
 }
 
 function updateStepIndicator(current, next) {
@@ -139,7 +307,6 @@ function updateProgressBar(currentSection) {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-
     document.getElementById('btnBuscarCep').addEventListener('click', () => {
         const cep = document.getElementById('cep').value;
         if(cep) buscarEnderecoPorCep(cep);
@@ -154,18 +321,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+    document.getElementById('beneficiary-form')
+        .addEventListener('submit', async function (e) {
 
-    document.getElementById('beneficiary-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        if (validateSection(1) && validateSection(2) && validateSection(3)) {
-            alert('Cadastro enviado com sucesso!');
-            this.reset();
-            window.location.reload();
-        } else {
-            alert('Existem erros no formulário. Por favor, verifique todas as etapas.');
-        }
-    });
+            e.preventDefault();
+            e.stopPropagation();
 
+            const sec1 = validateSection(1);
+            const sec2 = validateSection(2);
+            //const sec3 = validateSection(3);
+
+            if (sec1 && sec2) {
+                await enviarDados();
+                console.log(idBeneficiario);
+            } else {
+                alert('Existem erros no formulário. Por favor, verifique todas as etapas.');
+            }
+        });
+
+
+
+    // Utilitários da pagína
     // Botões de acessibilidade
     const accessibilityMenu = document.querySelector('.accessibility-menu');
     const accessibilityToggle = document.getElementById('accessibility-toggle');
@@ -262,3 +438,55 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+function validarCampo(campo, mensagemsCustom = {}) {
+
+    // encontrar container que tenha invalid-feedback
+    const container = campo.closest('.mb-3')
+        || campo.parentElement
+        || document; // fallback seguro
+
+    const feedback = container.querySelector('.invalid-feedback');
+
+    // Se NÃO achar o feedback → não quebra o script
+    if (!feedback) {
+        console.warn(`⚠️ Nenhum .invalid-feedback encontrado para #${campo.id}`);
+    }
+
+    // limpa erros anteriores
+    campo.classList.remove("is-invalid");
+    if (feedback) feedback.textContent = "";
+
+
+    // se válido → nada a fazer
+    if (campo.checkValidity()) {
+        return true;
+    }
+
+    // pega o tipo de erro encontrado
+    const validity = campo.validity;
+
+    let mensagem = "Campo inválido."; // padrão
+
+    if (validity.valueMissing) {
+        mensagem = mensagemsCustom.valueMissing || "Este campo é obrigatório.";
+    }
+    else if (validity.patternMismatch) {
+        mensagem = mensagemsCustom.patternMismatch || "Formato inválido.";
+    }
+    else if (validity.tooShort) {
+        mensagem = mensagemsCustom.tooShort || `Mínimo de ${campo.minLength} caracteres.`;
+    }
+    else if (validity.tooLong) {
+        mensagem = mensagemsCustom.tooLong || `Máximo de ${campo.maxLength} caracteres.`;
+    }
+    else if (validity.typeMismatch) {
+        mensagem = mensagemsCustom.typeMismatch || "Valor inválido.";
+    }
+
+    // aplica erro
+    campo.classList.add("is-invalid");
+    feedback.textContent = mensagem;
+
+    return false;
+}

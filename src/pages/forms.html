@@ -54,19 +54,22 @@
                     </div>
 
                     <!-- Form Sections -->
-                    <form id="beneficiary-form">
+                    <form id="beneficiary-form" novalidate name="beneficiary-form" >
                         <!-- Section 1: Personal Data -->
                         <div class="form-section active" id="section1">
                             <h5 class="mb-4"><i class="bi bi-person-fill"></i> Dados Pessoais</h5>
 
                             <div class="mb-3">
                                 <label for="fullName" class="form-label required-field">Nome do Beneficiário</label>
-                                <input type="text" class="form-control" id="fullName" value="" required>
+                                <input type="text" class="form-control" id="fullName"  name="fullName" value="Nome completo" required>
+                                <div class="invalid-feedback">
+                                    <!-- Error message for invalid input -->
+                                </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="socialName" class="form-label">Nome Social</label>
-                                <input type="text" class="form-control" id="socialName">
+                                <input type="text" class="form-control" id="socialName" name="socialName" autocomplete="false">
                             </div>
 
 
@@ -74,38 +77,56 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="cpf" class="form-label required-field"><strong>CPF do Beneficiário</strong></label>
-                                        <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" required>
+                                        <input type="text" class="form-control" id="cpf" name="cpf" placeholder="000.000.000-00"
+                                               value="000.000.000-00"  required>
+                                        <div class="invalid-feedback">
+                                            <!-- Error message for invalid input -->
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="birthDate" class="form-label required-field"><strong>Data de Nascimento</strong></label>
-                                        <input type="date" class="form-control" id="birthDate" required>
+                                        <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+                                        <div class="invalid-feedback">
+                                            <!-- Error message for invalid input -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="mb-3">
-                                <label for="nomeMae" class="form-label required-field">Nome da Mãe</label>
-                                <input type="text" class="form-control" id="nomeMae" value="" required>
+                            <div class="row">
+                                <div class="mb-3">
+                                    <label for="nomeMae" class="form-label required-field">Nome da Mãe</label>
+                                    <input type="text" class="form-control" id="nomeMae" name="nomeMae" value="Mae Nome completo" required>
+                                    <div class="invalid-feedback">
+                                        <!-- Error message for invalid input -->
+                                    </div>
+                                </div>
                             </div>
-
+                            <div class="row">
                             <div class="mb-3">
                                 <label for="rg" class="form-label required-field">RG do Beneficiário</label>
-                                <input type="text" class="form-control" id="rg" value="" required>
+                                <input type="text" class="form-control" id="rg" name="rg" value="123456" required>
+                                <div class="invalid-feedback">
+                                    <!-- Error message for invalid input -->
+                                </div>
                             </div>
-
-
+                            </div>
+                            <div class="row">
                             <div class="mb-3">
                                 <label for="deficiencia" class="form-label required-field">Tipo de Deficiência</label>
-                                <select class="form-select" id="deficiencia" required>
+                                <select class="form-select" id="deficiencia" name="deficiencia" required>
                                     <option value="">Selecione</option>
-                                    <option value="1">Física<option>
-                                    <option value="2">Visual<option>
-                                    <option value="3">Auditiva<option>
-                                    <option value="4">Intelectual<option>
-                                    <option value="5">Múltipla<option>
+                                    <option value="1" selected >Física</option>
+                                    <option value="2">Visual</option>
+                                    <option value="3">Auditiva</option>
+                                    <option value="4">Intelectual</option>
+                                    <option value="5">Múltipla</option>
                                 </select>
+                                <div class="invalid-feedback">
+                                    <!-- Error message for invalid input -->
+                                </div>
+                            </div>
                             </div>
 
                             <div class="row">
@@ -116,12 +137,15 @@
                                             <option value="">Selecione</option>
                                             <option value="1">Mulher cisgênera</option>
                                             <option value="2">Mulher transsexual</option>
-                                            <option value="3">Homem cisgênero</option>
+                                            <option value="3" selected>Homem cisgênero</option>
                                             <option value="4">Homem transsexual</option>
                                             <option value="5">Travesti</option>
                                             <option value="5">Não binário</option>
                                             <option value="7">Prefiro não informar</option>
                                         </select>
+                                        <div class="invalid-feedback">
+                                            <!-- Error message for invalid input -->
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -129,7 +153,7 @@
                                         <label for="etnia" class="form-label required-field">Etnia</label>
                                         <select class="form-select" id="etnia" required>
                                             <option value="">Selecione</option>
-                                            <option value="1">Branca</option>
+                                            <option value="1" selected>Branca</option>
                                             <option value="2">Preta</option>
                                             <option value="3">Parda</option>
                                             <option value="4">Amarela</option>
@@ -137,6 +161,9 @@
                                             <option value="6">Não Declarada</option>
 
                                         </select>
+                                        <div class="invalid-feedback">
+                                            <!-- Error message for invalid input -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -144,11 +171,11 @@
                             <div class="mb-3">
                                 <label class="form-label required-field">Tem Cartão Vem Livre Acesso RMR?</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="vemLivreRm" id="vemLivreRmYes" value="sim" required>
+                                    <input class="form-check-input" type="radio" name="vemLivreRm" id="vemLivreRmYes" value="sim"  required>
                                     <label class="form-check-label" for="vemLivreRmYes">Sim</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="vemLivreRm" id="vemLivreRmNo" value="nao" required>
+                                    <input class="form-check-input" type="radio" name="vemLivreRm" id="vemLivreRmNo" value="nao" checked required>
                                     <label class="form-check-label" for="vemLivreRmNo">Não</label>
                                 </div>
                             </div>
@@ -164,43 +191,61 @@
                             <h5 class="mb-4"><i class="bi bi-house-fill"></i> Contato e Endereço</h5>
 
                             <div class="mb-3">
-                                <label for="email" class="form-label required-field">E-mail</label>
-                                <input type="email" class="form-control" id="email" required>
+                                <label for="email" class="form-label required-field" >E-mail</label>
+                                <input type="email" class="form-control" id="email" name="email" value="" required>
+                                <div class="invalid-feedback">
+                                    <!-- Error message for invalid input -->
+                                </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="confirmEmail" class="form-label required-field">Confirmação de E-mail</label>
-                                <input type="email" class="form-control" id="confirmEmail" required>
+                                <input type="email" class="form-control" id="confirmEmail" name="confirmEmail" value="" required>
+                                <div class="invalid-feedback">
+                                    <!-- Error message for invalid input -->
+                                </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="telefone" class="form-label required-field">Telefone</label>
-                                <input type="tel" class="form-control" id="telefone" placeholder="(00) 00000-0000" required>
+                                <input type="tel" class="form-control" id="telefone" name="telefone" value="" placeholder="(00) 00000-0000" required>
+                                <div class="invalid-feedback">
+                                    <!-- Error message for invalid input -->
+                                </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="cep" class="form-label required-field">CEP</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="cep" placeholder="00000-000" required>
+                                    <input type="text" class="form-control" id="cep" name="cep" placeholder="00000-000" value="" required>
                                     <button type="button" class="btn btn-primary" id="btnBuscarCep">
                                         <i class="bi bi-search"></i>
                                     </button>
+                                    <div class="invalid-feedback">
+                                        <!-- Error message for invalid input -->
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="logradouro" class="form-label required-field">Endereço (Rua, Av., Logradouro)</label>
-                                <input type="text" class="form-control" id="logradouro" required>
+                                <input type="text" class="form-control" id="logradouro" name="logradouro" required>
+                                <div class="invalid-feedback">
+                                    <!-- Error message for invalid input -->
+                                </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="numero" class="form-label ">número</label>
-                                <input type="text" class="form-control" id="numero">
+                                <input type="text" class="form-control" id="numero" name="numero" >
                             </div>
 
                             <div class="mb-3">
                                 <label for="bairro" class="form-label required-field">Bairro</label>
-                                <input type="text" class="form-control" id="bairro" required>
+                                <input type="text" class="form-control" id="bairro" name="bairro" required>
+                                <div class="invalid-feedback">
+                                    <!-- Error message for invalid input -->
+                                </div>
                             </div>
 
                             <div class="mb-3">
@@ -252,7 +297,7 @@
                                     <option value="5211">CARNAÍBA</option>
                                     <option value="5212">CARNAUBEIRA DA PENHA</option>
                                     <option value="5214">CARPINA</option>
-                                    <option value="5216">CARUARU</option>
+                                    <option value="5216" selected="selected" >CARUARU</option>
                                     <option value="5217">CASINHAS</option>
                                     <option value="5218">CATENDE</option>
                                     <option value="5222">CEDRO</option>
@@ -394,6 +439,9 @@
                                     <option value="5503">VITÓRIA DE SANTO ANTÃO</option>
                                     <option value="5505">XEXÉU</option>
                                 </select>
+                                <div class="invalid-feedback">
+                                    <!-- Error message for invalid input -->
+                                </div>
                             </div>
 
 
@@ -404,6 +452,9 @@
                                     <option value="PE">Pernambuco</option>
 
                                 </select>
+                                <div class="invalid-feedback">
+                                    <!-- Error message for invalid input -->
+                                </div>
                             </div>
 
 
@@ -412,19 +463,27 @@
                                 <select class="form-select" id="localRetirada" required>
                                     <option value="">Selecione</option>
                                     <option value="1">Recife</option>
-                                    <option value="2">Caruaru</option>
+                                    <option value="2" selected >Caruaru</option>
                                     <option value="3">Paulista</option>
                                     <option value="4">Jaboatão dos Guararapes</option>
                                     <option value="5">Olinda</option>
                                 </select>
+                                <div class="invalid-feedback">
+                                    <!-- Error message for invalid input -->
+                                </div>
                             </div>
+
 
                             <div class="d-flex justify-content-between">
                                 <button type="button" class="btn btn-secondary" onclick="prevSection(2)"><i class="bi bi-arrow-left"></i> Voltar</button>
-                                <button type="button" class="btn btn-primary" onclick="nextSection(2)">Continuar <i class="bi bi-arrow-right"></i></button>
+<!--                               btnCadastrar      -->
+
+<!--                                <button type="submit" id="btnCadastrar" class="btn btn-primary" onclick="nextSection(2)">Continuar <i class="bi bi-arrow-right"></i></button>-->
+                                <button type="submit" id="btnCadastrar" class="btn btn-primary">Continuar <i class="bi bi-arrow-right"></i></button>
                             </div>
                         </div>
-
+                    </form>
+                <form id="form-beneficiary-documents">
                         <!-- Section 3: Documents -->
                         <div class="form-section" id="section3">
                             <h5 class="mb-4"><i class="bi bi-file-earmark-fill"></i> Documentos Necessários</h5>
@@ -439,9 +498,12 @@
                                     <i class="bi bi-cloud-arrow-up fs-1"></i>
                                     <p class="mb-0">Clique para enviar o arquivo</p>
                                     <small class="text-muted">(Formatos: JPG, PNG ou PDF)</small>
-                                    <input type="file" id="rgFile" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
+                                    <input type="file" id="rgFile" name="rgFile" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
                                 </div>
                                 <div id="rgFileName" class="mt-2 text-muted"></div>
+                                <div class="invalid-feedback">
+                                    <!-- Error message for invalid input -->
+                                </div>
                             </div>
 
                             <div class="mb-3">
@@ -450,9 +512,12 @@
                                     <i class="bi bi-cloud-arrow-up fs-1"></i>
                                     <p class="mb-0">Clique para enviar o arquivo</p>
                                     <small class="text-muted">(Formatos: JPG, PNG ou PDF)</small>
-                                    <input type="file" id="cpfFile" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
+                                    <input type="file" id="cpfFile" name="cpfFile" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
                                 </div>
                                 <div id="cpfFileName" class="mt-2 text-muted"></div>
+                                <div class="invalid-feedback">
+                                    <!-- Error message for invalid input -->
+                                </div>
                             </div>
 
                             <div class="mb-3">
@@ -461,9 +526,12 @@
                                     <i class="bi bi-cloud-arrow-up fs-1"></i>
                                     <p class="mb-0">Clique para enviar o arquivo</p>
                                     <small class="text-muted">(Formatos: JPG, PNG ou PDF)</small>
-                                    <input type="file" id="laudoFile" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
+                                    <input type="file" id="laudoFile" name="laudoFile" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
                                 </div>
                                 <div id="laudoFileName" class="mt-2 text-muted"></div>
+                                <div class="invalid-feedback">
+                                    <!-- Error message for invalid input -->
+                                </div>
                             </div>
 
                             <div class="mb-3">
@@ -472,7 +540,7 @@
                                     <i class="bi bi-cloud-arrow-up fs-1"></i>
                                     <p class="mb-0">Clique para enviar o arquivo</p>
                                     <small class="text-muted">(Formatos: JPG, PNG ou PDF)</small>
-                                    <input type="file" id="residenceProof" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
+                                    <input type="file" id="residenceProof" name="residenceProof" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
                                 </div>
                                 <div id="residenceProofName" class="mt-2 text-muted"></div>
                             </div>
@@ -486,7 +554,7 @@
                                     <i class="bi bi-cloud-arrow-up fs-1"></i>
                                     <p class="mb-0">Clique para enviar ou alterar a foto</p>
                                     <small class="text-muted">(Formatos: JPG ou PNG)</small>
-                                    <input type="file" id="photo" class="d-none" required accept=".jpg,.jpeg,.png">
+                                    <input type="file" id="photo" name="photo" class="d-none" required accept=".jpg,.jpeg,.png">
                                 </div>
                                 <input type="hidden" name="croppedPhoto" id="croppedPhoto">
                             </div>
@@ -504,15 +572,16 @@
 </div>
 
 
+
 <!-- Área de saída para exibir mensagens de validação/resultado do envio -->
 <div class="container mt-3">
     <pre id="saida" class="bg-white border rounded p-3" style="min-height: 80px; white-space: pre-wrap;
     word-break: break-word;"></pre>
-    
+
     <!-- Dicas para o usuário -->
     <small class="text-muted">As mensagens de validação e o retorno da API serão exibidos aqui.</small>
-    
-    
+
+
 </div>
 
 
@@ -565,10 +634,12 @@
 
 </div>
 
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-<script src="../scripts/forms.js"></script>
+
 
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 <script>
@@ -578,12 +649,11 @@
     <!-- footer -->
     <custom-footer></custom-footer>
     <script src="../components/footer.js"></script>
+
+    <script src="../scripts/forms.js"></script>
     <!-- Tipos JSDoc (documentação e autocomplete) -->
     <script src="../scripts/types/beneficiario.js"></script>
     <script src="../scripts/cadastrarBeneficiario.js"></script>
-    <!-- Script que lê o formulário, valida e envia -->
-    <script src="../scripts/cadastrarBeneficiarioForm.js"></script>
-
 
 </body>
 </html>
