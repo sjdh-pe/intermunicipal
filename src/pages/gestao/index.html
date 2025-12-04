@@ -99,34 +99,52 @@
                 <h5 class="modal-title text-blue-600 font-bold">Dados do Beneficiário</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-                <div class="modal-body">
-                    <label class="fw-bold text-gray-500">ID:</label>
-                    <p id="view-id" class="fs-5 text-dark"></p>
-                </div>
+            
             <div class="modal-body">
+                <div class="mb-3 p-2 bg-gray-50 rounded flex justify-between">
+                    <div>
+                        <label class="fw-bold text-gray-500 text-xs uppercase">ID do Sistema:</label>
+                        <span id="view-id" class="text-sm font-mono text-gray-700"></span>
+                    </div>
+                    <div>
+                        <span id="view-status" class="badge bg-secondary"></span>
+                    </div>
+                </div>
+
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="fw-bold text-gray-500">Nome:</label>
-                        <p id="view-nome" class="fs-5 text-dark"></p>
+                        <p id="view-nome" class="fs-5 text-dark border-bottom pb-1"></p>
                     </div>
                     <div class="col-md-6">
+                        <label class="fw-bold text-gray-500">Nome da Mãe:</label>
+                        <p id="view-mae" class="fs-5 text-dark border-bottom pb-1"></p>
+                    </div>
+                    <div class="col-md-4">
                         <label class="fw-bold text-gray-500">CPF:</label>
-                        <p id="view-cpf" class="fs-5 text-dark"></p>
+                        <p id="view-cpf" class="text-dark border-bottom pb-1"></p>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label class="fw-bold text-gray-500">Cidade:</label>
-                        <p id="view-cidade" class="fs-5 text-dark"></p>
+                        <p id="view-cidade" class="text-dark border-bottom pb-1"></p>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label class="fw-bold text-gray-500">Deficiência:</label>
-                        <p id="view-deficiencia" class="fs-5 text-dark"></p>
+                        <p id="view-deficiencia" class="text-dark border-bottom pb-1"></p>
                     </div>
-                    <div class="col-md-12">
-                        <label class="fw-bold text-gray-500">Status:</label>
-                        <p><span id="view-status" class="badge bg-secondary"></span></p>
+
+                    <div class="col-12 mt-4">
+                        <label class="fw-bold text-blue-600 mb-1"><i data-feather="link" class="w-4 h-4 inline"></i> Links dos Documentos:</label>
+                        <div class="p-3 bg-gray-50 rounded border text-sm text-blue-800 break-all" id="view-links" style="white-space: pre-wrap;">
+                            </div>
                     </div>
-                    <!-- div de hierarquia -->
-                  </div>
+
+                    <div class="col-12">
+                        <label class="fw-bold text-amber-600 mb-1"><i data-feather="file-text" class="w-4 h-4 inline"></i> Observações (Admin):</label>
+                        <div class="p-3 bg-yellow-50 rounded border border-yellow-200 text-sm text-gray-700" id="view-obs" style="white-space: pre-wrap;">
+                            </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -147,13 +165,37 @@
             </div>
             <div class="modal-body">
                 <form id="edit-form" class="row g-3">
-                    <input type="hidden" id="edit-id"> <div class="col-md-6">
-                        <label for="edit-nome" class="form-label">Nome Completo</label>
+                    <input type="hidden" id="edit-id">
+                    
+                    <div class="col-md-6">
+                        <label for="edit-nome" class="form-label fw-bold">Nome Completo</label>
                         <input type="text" class="form-control" id="edit-nome" required>
                     </div>
                     <div class="col-md-6">
+                        <label for="edit-mae" class="form-label fw-bold">Nome da Mãe</label>
+                        <input type="text" class="form-control" id="edit-mae" required>
+                    </div>
+
+                    <div class="col-md-6">
                         <label for="edit-cpf" class="form-label">CPF</label>
-                        <input type="text" class="form-control" id="edit-cpf" readonly disabled> </div>
+                        <input type="text" class="form-control bg-gray-100" id="edit-cpf" readonly disabled> 
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edit-status" class="form-label fw-bold">Status do Benefício</label>
+                        <select class="form-select" id="edit-status">
+                            <option value="1">Em análise</option>
+                            <option value="2">Pendente</option>
+                            <option value="3">Negado</option>
+                            <option value="4">Aprovado</option>
+                            <option value="5">Entregue</option>
+                            <option value="6">Enviadas para Confecção</option>
+                            <option value="7">Entregue aos Correios</option>
+                            <option value="8">Entregue ao Município</option>
+                            <option value="9">Disponível para Retirada</option>
+                            <option value="10">Pendência Sancionada</option>
+                        </select>
+                    </div>
+
                     <div class="col-md-6">
                         <label for="edit-cidade" class="form-label">Cidade</label>
                         <input type="text" class="form-control" id="edit-cidade" required>
@@ -168,21 +210,16 @@
                             <option value="Múltipla">Múltipla</option>
                         </select>
                     </div>
-                    <div class="col-md-12">
-                     <label for="edit-status" class="form-label">Status do Benefício</label>
-                    <select class="form-select" id="edit-status">
-                        <option value="1">Em análise</option>
-                        <option value="2">Pendente</option>
-                        <option value="3">Negado</option>
-                        <option value="4">Aprovado</option>
-                        <option value="5">Entregue</option>
-                        <option value="6">Enviadas para Confecção</option>
-                        <option value="7">Entregue aos Correios</option>
-                        <option value="8">Entregue ao Município</option>
-                        <option value="9">Disponível para Retirada</option>
-                        <option value="10">Pendência Sancionada</option>
-                    </select>
-                 </div>
+
+                    <div class="col-12 mt-3">
+                        <label for="edit-links" class="form-label fw-bold text-blue-600">Links dos Documentos</label>
+                        <textarea class="form-control font-mono text-sm" id="edit-links" rows="3" placeholder="Cole aqui os links do Drive, Cloud, etc..."></textarea>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="edit-obs" class="form-label fw-bold text-amber-600">Observações (Uso Interno)</label>
+                        <textarea class="form-control" id="edit-obs" rows="3" placeholder="Anote aqui pendências ou informações importantes..."></textarea>
+                    </div>
 
                 </form>
             </div>
@@ -205,7 +242,6 @@
                 <div class="mb-3 text-red-500 d-flex justify-content-center">
                     <i data-feather="alert-triangle" style="width: 50px; height: 50px;"></i>
                 </div>
-                
                 <h4 class="h5">Tem certeza que deseja deletar o cadastro?</h4>
                 <input type="hidden" id="delete-id">
             </div>
