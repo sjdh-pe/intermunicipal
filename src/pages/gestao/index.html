@@ -37,6 +37,32 @@
                     <input type="text" id="search-cidade" placeholder="Cidade" class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <i data-feather="map-pin" class="absolute left-3 top-2.5 text-gray-400"></i>
                 </div>
+                <div class="relative">
+                    <input type="text" id="search-cidade" placeholder="Cidade" class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <i data-feather="map-pin" class="absolute left-3 top-2.5 text-gray-400"></i>
+               </div>
+
+               <div class="relative">
+                    <input 
+                    type="text" 
+                    onfocus="(this.type='date')" 
+                    onblur="(this.value ? this.type='date' : this.type='text')" 
+                    id="search-data-inicio" 
+                    placeholder="Data Início" 
+                    class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-40">
+                    <i data-feather="calendar" class="absolute left-3 top-2.5 text-gray-400"></i>
+               </div>
+
+               <div class="relative">
+                    <input 
+                    type="text" 
+                    onfocus="(this.type='date')" 
+                    onblur="(this.value ? this.type='date' : this.type='text')" 
+                    id="search-data-fim" 
+                    placeholder="Data Final" 
+                    class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-40">
+                    <i data-feather="calendar" class="absolute left-3 top-2.5 text-gray-400"></i>
+               </div>
                     <select id="search-status" class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="">Todos status</option>
                     <option value="1">Em análise</option>
@@ -134,15 +160,29 @@
                     </div>
 
                     <div class="col-12 mt-4">
-                        <label class="fw-bold text-blue-600 mb-1"><i data-feather="link" class="w-4 h-4 inline"></i> Links dos Documentos:</label>
-                        <div class="p-3 bg-gray-50 rounded border text-sm text-blue-800 break-all" id="view-links" style="white-space: pre-wrap;">
-                            </div>
+                        <label class="fw-bold text-blue-600 mb-2 block"><i data-feather="folder" class="w-4 h-4 inline mr-1"></i> Documentos Anexados:</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a id="btn-view-rg" target="_blank" class="btn btn-outline-primary flex-grow-1 disabled">
+                                <i data-feather="file-text" class="w-4 h-4 inline mb-1"></i> RG
+                            </a>
+                            <a id="btn-view-cpf" target="_blank" class="btn btn-outline-primary flex-grow-1 disabled">
+                                <i data-feather="credit-card" class="w-4 h-4 inline mb-1"></i> CPF
+                            </a>
+                            <a id="btn-view-laudo" target="_blank" class="btn btn-outline-primary flex-grow-1 disabled">
+                                <i data-feather="activity" class="w-4 h-4 inline mb-1"></i> Laudo Médico
+                            </a>
+                            <a id="btn-view-comp" target="_blank" class="btn btn-outline-primary flex-grow-1 disabled">
+                                <i data-feather="map-pin" class="w-4 h-4 inline mb-1"></i> Residência
+                            </a>
+                            <a id="btn-view-foto" target="_blank" class="btn btn-outline-primary flex-grow-1 disabled">
+                                <i data-feather="camera" class="w-4 h-4 inline mb-1"></i> Foto 3x4
+                            </a>
+                        </div>
                     </div>
 
-                    <div class="col-12">
-                        <label class="fw-bold text-amber-600 mb-1"><i data-feather="file-text" class="w-4 h-4 inline"></i> Observações (Admin):</label>
-                        <div class="p-3 bg-yellow-50 rounded border border-yellow-200 text-sm text-gray-700" id="view-obs" style="white-space: pre-wrap;">
-                            </div>
+                    <div class="col-12 mt-3">
+                        <label class="fw-bold text-amber-600 mb-1"><i data-feather="message-square" class="w-4 h-4 inline"></i> Observações (Admin):</label>
+                        <div class="p-3 bg-yellow-50 rounded border border-yellow-200 text-sm text-gray-700" id="view-obs" style="white-space: pre-wrap; min-height: 60px;"></div>
                     </div>
                 </div>
             </div>
@@ -212,11 +252,6 @@
                     </div>
 
                     <div class="col-12 mt-3">
-                        <label for="edit-links" class="form-label fw-bold text-blue-600">Links dos Documentos</label>
-                        <textarea class="form-control font-mono text-sm" id="edit-links" rows="3" placeholder="Cole aqui os links do Drive, Cloud, etc..."></textarea>
-                    </div>
-
-                    <div class="col-12">
                         <label for="edit-obs" class="form-label fw-bold text-amber-600">Observações (Uso Interno)</label>
                         <textarea class="form-control" id="edit-obs" rows="3" placeholder="Anote aqui pendências ou informações importantes..."></textarea>
                     </div>

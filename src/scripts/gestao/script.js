@@ -43,22 +43,50 @@ function filterBeneficiarios() {
     const cpfFilter = document.getElementById('search-cpf')?.value || '';
     const cidadeFilter = (document.getElementById('search-cidade')?.value || '').toLowerCase();
     const statusFilter = document.getElementById('search-status')?.value || '';
+    
+    // Novos filtros de data
+    const dataInicioVal = document.getElementById('search-data-inicio')?.value;
+    const dataFimVal = document.getElementById('search-data-fim')?.value;
 
     return beneficiariosData.content.filter(beneficiario => {
         const matchesNome = beneficiario.nome.toLowerCase().includes(nomeFilter);
         const matchesCpf = beneficiario.cpf.includes(cpfFilter);
         const matchesCidade = beneficiario.cidade.toLowerCase().includes(cidadeFilter);
 
-        if (statusFilter === '') return matchesNome && matchesCpf && matchesCidade;
-
-        const statusFilterNum = parseInt(statusFilter, 10);
-        if (!isNaN(statusFilterNum)) {
-            const resolved = resolveStatus(beneficiario);
-            const matchingId = Object.keys(statusMap).find(k => statusMap[k].nome === resolved.nome);
-            return matchesNome && matchesCpf && matchesCidade && (parseInt(matchingId,10) === statusFilterNum);
-        } else {
-            return matchesNome && matchesCpf && matchesCidade && beneficiario.statusBeneficio.toLowerCase() === statusFilter.toLowerCase();
+        // Lógica de Status (Mantida igual)
+        let matchesStatus = true;
+        if (statusFilter !== '') {
+            const statusFilterNum = parseInt(statusFilter, 10);
+            if (!isNaN(statusFilterNum)) {
+                const resolved = resolveStatus(beneficiario);
+                const matchingId = Object.keys(statusMap).find(k => statusMap[k].nome === resolved.nome);
+                matchesStatus = (parseInt(matchingId, 10) === statusFilterNum);
+            } else {
+                matchesStatus = beneficiario.statusBeneficio.toLowerCase() === statusFilter.toLowerCase();
+            }
         }
+
+        // Lógica de Data
+        let matchesData = true;
+        if (beneficiario.dataCadastro) {
+            const itemDate = new Date(beneficiario.dataCadastro);
+            
+            // Zera as horas para comparar apenas o dia
+            itemDate.setHours(0, 0, 0, 0);
+
+            if (dataInicioVal) {
+                const startDate = new Date(dataInicioVal);
+                startDate.setHours(0, 0, 0, 0);
+                if (itemDate < startDate) matchesData = false;
+            }
+            if (dataFimVal) {
+                const endDate = new Date(dataFimVal);
+                endDate.setHours(0, 0, 0, 0);
+                if (itemDate > endDate) matchesData = false;
+            }
+        }
+
+        return matchesNome && matchesCpf && matchesCidade && matchesStatus && matchesData;
     });
 }
 
@@ -73,10 +101,26 @@ function loadBeneficiarios() {
         const row = document.createElement('tr');
         const infoStatus = resolveStatus(beneficiario);
 
+        // --- LÓGICA DO ÍCONE DA CARTEIRA ---
+        // Verifica se o status é "Aprovado" (ID 4 ou nome "Aprovado")
+        // Você pode adicionar outros status aqui com || (OU), ex: infoStatus.nome === 'Entregue'
+        const isAprovado = infoStatus.nome === 'Aprovado' || beneficiario.statusId === 4;
+
+        // Define a classe CSS baseada na aprovação
+        const cardClass = isAprovado 
+            ? "text-green-600 hover:text-green-900 cursor-pointer" // Verde e clicável
+            : "text-gray-300 cursor-not-allowed"; // Cinza e bloqueado
+
+        // Define o título (tooltip) do botão
+        const cardTitle = isAprovado ? "Visualizar Carteira" : "Carteira Indisponível";
+        
+        // Define ação do clique (apenas se aprovado) - Por enquanto coloquei um alert
+        const cardAction = isAprovado ? `onclick="alert('Abrir carteira de: ${beneficiario.nome}')"` : "";
+
         row.innerHTML = `
             <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm font-medium text-gray-900">${beneficiario.nome}</div>
-                </td>
+            </td>
             <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">${formatCPF(beneficiario.cpf)}</div>
             </td>
@@ -93,9 +137,15 @@ function loadBeneficiarios() {
                 <button onclick="openViewModal('${beneficiario.id}')" class="text-blue-600 hover:text-blue-900 mr-3" title="Ver dados">
                     <i data-feather="eye"></i>
                 </button>
+                
                 <button onclick="openEditModal('${beneficiario.id}')" class="text-amber-600 hover:text-amber-900 mr-3" title="Editar">
                     <i data-feather="edit"></i>
                 </button>
+
+                <button ${cardAction} class="${cardClass} mr-3" title="${cardTitle}">
+                    <i data-feather="credit-card"></i>
+                </button>
+
                 <button onclick="openDeleteModal('${beneficiario.id}')" class="text-red-600 hover:text-red-900" title="Deletar">
                     <i data-feather="trash-2"></i>
                 </button>
