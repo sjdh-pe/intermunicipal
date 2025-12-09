@@ -1,9 +1,10 @@
-import { listarBeneficiarios } from '../../services/api.js';
+
+import { listarBeneficiarios } from "../../services/beneficiariosService.js";
 
 export async function carregarBeneficiarios(page = 0) {
     try {
         const result = await listarBeneficiarios(page);
-
+        console.log(result)
         renderTabela(result.content);
         atualizarPaginacao(result);
 
@@ -13,7 +14,7 @@ export async function carregarBeneficiarios(page = 0) {
     }
 }
 
-
+await carregarBeneficiarios();
 
 function renderTabela(lista) {
     const tbody = document.querySelector('#tabela-beneficiarios tbody');

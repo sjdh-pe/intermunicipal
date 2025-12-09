@@ -1,28 +1,73 @@
-// js/api.js
-import axios from "axios";
+// Import axios via ESM CDN for browser environments without a bundler/import map
+// If you later adopt a bundler or import maps, you can switch back to: import axios from "axios";
+import axios from "https://esm.sh/axios@1.7.7";
 
+/**
+ * Base URL para chamadas à API.
+ * - Em ambiente browser, primeiro tenta `window.__API_BASE__` (pode ser inserido em index.html)
+ * - depois usa a origem atual `window.location.origin` para chamadas same-origin
+ * - em fallback (ex.: durante SSR ou testes) usa localhost:3000
+ */
+const defaultBase = (typeof window !== "undefined")
+    ? (window.__API_BASE__ || window.location.origin)
+    : "http://localhost:3000";
+
+/**
+ * Cliente axios centralizado usado pela aplicação.
+ * Use `setAuthToken` para adicionar Authorization Bearer quando necessário.
+ */
 export const api = axios.create({
-    baseURL: "http://localhost:3000/",
+    baseURL: defaultBase,
     timeout: 10000, // 10s
     headers: {
         "Content-Type": "application/json"
     }
 });
 
+// Utilitários para manipular token de autenticação globalmente
+function setAuthToken(token) {
+    if (token) {
+        api.defaults.headers.common.Authorization = `Bearer ${token}`;
+    }
+}
+
+function clearAuthToken() {
+    delete api.defaults.headers.common.Authorization;
+}
+
 // Intercepta requisições (para logs, token etc)
 api.interceptors.request.use(
     config => {
-        console.log("➡️ Enviando:", config.method.toUpperCase(), config.url);
+        try {
+            const method = (config?.method || "get").toString().toUpperCase();
+            const url = (config?.url) ? config.url : (config?.baseURL || "<unknown>");
+            console.log("➡️ Enviando:", method, url);
+        } catch (e) {
+            console.log("➡️ Enviando: (metadata indisponível)", e);
+        }
         return config;
     },
     error => Promise.reject(error)
 );
 
-// Intercepta respostas (para tratamento unificado)
+// Intercepta respostas (para tratamento unificado) e normaliza erros lançados
 api.interceptors.response.use(
     response => response,
     error => {
-        console.error("❌ Erro da API:", error.response?.status, error.response?.data);
-        return Promise.reject(error);
+        const status = error?.response?.status;
+        const data = error?.response?.data;
+        const message = data?.message || error?.message || "Erro de rede";
+        console.error("❌ Erro da API:", status ?? "(sem resposta)", message, data);
+
+        // Normaliza o erro para facilitar tratamento nos callers
+        const normalized = new Error(message);
+        normalized.status = status;
+        normalized.data = data;
+        return Promise.reject(normalized);
     }
 );
+
+// Expor as helpers também no objeto `api` facilita uso em ambientes que importem apenas o cliente
+// e evita avisos de função exportada não utilizada em algumas ferramentas de análise estática.
+api.setAuthToken = setAuthToken;
+api.clearAuthToken = clearAuthToken;

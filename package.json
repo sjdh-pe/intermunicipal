@@ -2,10 +2,12 @@
   "name": "pe-livre-acesso-intermunicipal",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
+    "clean": "rm -rf public",
     "dev": "live-server src --port=4200 --open=pages/index.html",
-    "build": "rm -rf public && mkdir -p public && cp -a src/. public/ && mkdir -p public && cp -f src/pages/index.html public/index.html",
-    "serve": "live-server src --port=3000"
+    "build": "npm run clean && mkdir -p public && cp -a src/. public/ && cp src/pages/index.html public/index.html",
+    "serve": "live-server public --port=3000"
   },
   "devDependencies": {
     "live-server": "^1.2.2"
