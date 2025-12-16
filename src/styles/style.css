@@ -422,7 +422,7 @@ body.high-contrast .input-group-text {
 }
 
 /* Espaçamento do menu de acessibilidade em telas pequenas */
-@media (max-width: 576px) {
+@media (max-width: 900px) {
     .accessibility-menu { top: 30%; }
 }
 
@@ -457,11 +457,53 @@ body.bg-light {
 
 
 
-/*
-footer {
- background: #f3f3f3;
- color: #000;
- padding: 0px 6rem;
- font-family: "Source Sans Pro", sans-serif;
-}
+/* RESPONSIVIDADE (MOBILE)*/
 
+@media (max-width: 900px) {
+    
+    /* 1. Empilha os cards de Ação (Solicitar e Consultar) */
+    .actions {
+        display: flex;
+        flex-direction: column; /* Muda de linha para coluna */
+        gap: 20px; /* Espaço entre o card de cima e o de baixo */
+        padding: 0 10px; /* Margem lateral para não colar na borda */
+    }
+
+    /* 2. Garante que cada card ocupe a largura total */
+    .card {
+        width: 100%; 
+        box-sizing: border-box;
+        margin: 0; /* Remove margens extras se houver */
+    }
+
+    /* 3. Ajusta o tamanho dos botões grandes */
+    .action-btn {
+        width: 100%; /* Botão ocupa o card todo */
+        box-sizing: border-box;
+    }
+
+    /* 4. Ajusta o texto do logo para não quebrar */
+    .text-logo h1 {
+        font-size: 28px !important; /* Reduz o tamanho do título */
+    }
+    
+    .text-logo p {
+        font-size: 16px !important;
+        margin-top: -10px;
+    }
+
+    /* 5. Ajusta o espaçamento do conteúdo principal */
+    main {
+        padding: 15px;
+        margin: 10px auto;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* 6. Ajusta a seção de contatos e botões de PDF */
+    .contact-info .link-btn {
+        width: 100%; /* Botões de PDF ocupam largura total */
+        font-size: 0.9em; /* Fonte um pouco menor */
+        padding: 10px;
+    }
+}
