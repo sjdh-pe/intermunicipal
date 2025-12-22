@@ -2,15 +2,8 @@
 // If you later adopt a bundler or import maps, you can switch back to: import axios from "axios";
 import axios from "https://esm.sh/axios@1.7.7";
 
-/**
- * Base URL para chamadas à API.
- * - Em ambiente browser, primeiro tenta `window.__API_BASE__` (pode ser inserido em index.html)
- * - depois usa a origem atual `window.location.origin` para chamadas same-origin
- * - em fallback (ex.: durante SSR ou testes) usa localhost:3000
- */
-const defaultBase = (typeof window !== "undefined")
-    ? (window.__API_BASE__ || window.location.origin)
-    : "http://localhost:3000";
+
+const defaultBase = "http://localhost:3000";
 
 /**
  * Cliente axios centralizado usado pela aplicação.
@@ -59,6 +52,12 @@ api.interceptors.response.use(
         const message = data?.message || error?.message || "Erro de rede";
         console.error("❌ Erro da API:", status ?? "(sem resposta)", message, data);
 
+        if (data?.error) {
+            alert(data.error);
+        } else {
+            alert(message);
+        }
+
         // Normaliza o erro para facilitar tratamento nos callers
         const normalized = new Error(message);
         normalized.status = status;
@@ -69,5 +68,6 @@ api.interceptors.response.use(
 
 // Expor as helpers também no objeto `api` facilita uso em ambientes que importem apenas o cliente
 // e evita avisos de função exportada não utilizada em algumas ferramentas de análise estática.
+api.urlapi = defaultBase;
 api.setAuthToken = setAuthToken;
 api.clearAuthToken = clearAuthToken;

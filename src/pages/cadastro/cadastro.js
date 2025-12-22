@@ -1,8 +1,10 @@
-$(document).ready(function(){
-    $('#cpf').mask('000.000.000-00', {reverse: true});
-    $('#telefone').mask('(00) 00000-0000');
-    $('#cep').mask('00000-000');
-});
+
+import {cadastrarBeneficiario, validarArquivo, uploadArquivoBeneficiario} from "../../services/beneficiariosService.js";
+
+let beneficiario = {};
+let p = {};
+let endereco = {};
+let croppedFile = null;
 
 // Lógica do menu mobile (hambúrguer)
 const menuButton = document.getElementById('mobile-menu-button');
@@ -51,11 +53,6 @@ async function buscarEnderecoPorCep(cep) {
 }
 
 
-function getBoolFromRadio(name, yesValue = 'sim'){
-    const checked = document.querySelector(`input[name="${name}"]:checked`);
-    if (!checked) return null;
-    return (checked.value || '').toLowerCase() === yesValue;
-}
 
 
 function nextSection(currentSection) {
@@ -94,19 +91,20 @@ const isPastDate = (v) => {
     return d < today;
 }
 
+function getBoolFromRadio(name, yesValue = 'sim'){
+    const checked = document.querySelector(`input[name="${name}"]:checked`);
+    if (!checked) return null;
+    return (checked.value || '').toLowerCase() === yesValue;
+}
 
-let p = {};
-let endereco = {};
+
 function validateSection(sectionNumber) {
 
-    // Dados Pessoais
     let erros = [];
-
-    console.log(p);
-    console.log(endereco);
 
     const section = document.getElementById(`section${sectionNumber}`);
     section.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+    // section 1
     if(sectionNumber === 1) {
 
 
@@ -196,7 +194,6 @@ function validateSection(sectionNumber) {
 
     }
 
-
     // section 2
     if (sectionNumber === 2){
 
@@ -208,9 +205,8 @@ function validateSection(sectionNumber) {
             return false;
         }
 
-
-        p.confirmEmail = document.getElementById('confirmEmail').value.trim();
-        if (p.confirmEmail && p.email && p.confirmEmail !== p.email){
+        const confirmEmail = document.getElementById('confirmEmail').value.trim();
+        if (confirmEmail && p.email && confirmEmail !== p.email){
             erros.push('Confirmação de e-mail não confere.');
             validarCampo(document.getElementById('confirmEmail'), {valueMissing:erros[0].toString()});
             document.getElementById('confirmEmail').focus();
@@ -245,6 +241,7 @@ function validateSection(sectionNumber) {
         }
 
         endereco.numero = document.getElementById('numero').value.trim();
+        endereco.complemento = document.getElementById('complemento').value.trim();
 
         endereco.bairro = document.getElementById('bairro').value.trim();
         if (!endereco.bairro){
@@ -281,7 +278,59 @@ function validateSection(sectionNumber) {
         p.statusBeneficioId = 1;
 
 
-        return false;
+        return true;
+    }
+
+    // section 3
+    if (sectionNumber === 3) {
+
+
+        //     rgFile , cpfFile , comprovanteResidenciaFile , laudoDeficienciaFile , croppedPhoto
+        let message = validarArquivo(document.getElementById('rgFile').files[0],
+            5,
+            ['application/pdf', 'image/jpeg', 'image/png'],
+            ['pdf', 'jpg', 'jpeg', 'png']);
+        if (message) {
+            alert("RG: "+message);
+            return false;
+        }
+
+        const cpfFileMessage = validarArquivo(document.getElementById('cpfFile').files[0],
+            5,
+            ['application/pdf', 'image/jpeg', 'image/png'],
+            ['pdf', 'jpg', 'jpeg', 'png']);
+        if (cpfFileMessage) {
+            alert("CPF: "+cpfFileMessage);
+            return false;
+        }
+
+        const laudoMessage = validarArquivo(document.getElementById('laudoFile').files[0],
+            5,
+            ['application/pdf', 'image/jpeg', 'image/png'],
+            ['pdf', 'jpg', 'jpeg', 'png']);
+        if (laudoMessage) {
+            alert("Laudo Médico: "+laudoMessage);
+            return false;
+        }
+
+        const CRFmessage = validarArquivo(document.getElementById('residenceProof').files[0],
+            5,
+            ['application/pdf', 'image/jpeg', 'image/png'],
+            ['pdf', 'jpg', 'jpeg', 'png']);
+        if (CRFmessage) {
+            alert("Comprovante de Residência: "+CRFmessage);
+            return false;
+        }
+
+
+
+        const fotoMessage =validarFoto();
+        if (fotoMessage) {
+            alert("Foto 3x4: "+fotoMessage);
+            return false;
+        }
+
+        return true;
     }
 
     return true;
@@ -321,6 +370,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // form-beneficiary-documents
     document.getElementById('beneficiary-form')
         .addEventListener('submit', async function (e) {
 
@@ -328,20 +379,83 @@ document.addEventListener('DOMContentLoaded', () => {
             e.stopPropagation();
 
             const sec1 = validateSection(1);
-            const sec2 = validateSection(2);
-            //const sec3 = validateSection(3);
+             const sec2 = validateSection(2);
 
             if (sec1 && sec2) {
-                await enviarDados();
-                console.log(idBeneficiario);
+                const payload = {
+                    nome: p.nome,
+                    cpf: p.cpf,
+                    dataNascimento: p.dataNascimento,
+                    nomeMae: p.nomeMae,
+                    rg: p.rg,
+                    tipoDeficienciaId: p.tipoDeficienciaId,
+                    sexoId: p.sexoId,
+                    etniaId: p.etniaId,
+                    email: p.email,
+                    telefone: p.telefone,
+                    cidadeId: endereco.cidadeId,
+                    localRetiradaId: p.localRetiradaId,
+                    statusBeneficioId: p.statusBeneficioId,
+                    vemLivreAcessoRmr: p.vemLivreAcessoRmr,
+                    endereco: {
+                        cep: endereco.cep,
+                        endereco: endereco.logradouro,
+                        numero: endereco.numero,
+                        complemento: endereco.complemento,
+                        bairro: endereco.bairro,
+                        cidadeId: endereco.cidadeId,
+                        uf: endereco.uf
+                    }
+                };
+                beneficiario =  await cadastrarBeneficiario(payload);
+
+                if (beneficiario) {
+                    alert('Beneficiário cadastrado com sucesso! Agora, prossiga para o envio dos documentos.');
+                    nextSection(2);
+                }
             } else {
                 alert('Existem erros no formulário. Por favor, verifique todas as etapas.');
             }
         });
+    // form-beneficiary-documents
+    document.getElementById('form-beneficiary-documents')
+        .addEventListener('submit', async function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+            const ValidoBeneficiaryDocuments = validateSection(3);
+
+            if (beneficiario && ValidoBeneficiaryDocuments) {
+                try {
+                    // Upload dos arquivos
+                    const rgFile = document.getElementById('rgFile').files[0];
+                    await uploadArquivoBeneficiario(beneficiario.id, 1, rgFile);
+
+                    const cpfFile = document.getElementById('cpfFile').files[0];
+                    await uploadArquivoBeneficiario(beneficiario.id, 2, cpfFile);
+
+                    const comprovanteResidenciaFile = document.getElementById('residenceProof').files[0];
+                    await uploadArquivoBeneficiario(beneficiario.id, 5, comprovanteResidenciaFile);
+
+                    const laudoDeficienciaFile = document.getElementById('laudoFile').files[0];
+                    await uploadArquivoBeneficiario(beneficiario.id, 6, laudoDeficienciaFile);
 
 
+                    await uploadArquivoBeneficiario(beneficiario.id, 3, croppedFile);
 
-    // Utilitários da pagína
+                    alert('Documentos enviados com sucesso!');
+
+                    // Redirecionar ou atualizar a página conforme necessário
+                } catch (error) {
+                    alert('Erro ao enviar os documentos.'+ (error.message || ''));
+                }
+            } else {
+                alert('Beneficiário não encontrado. Por favor, complete a etapa anterior.');
+            }
+        });
+
+
+            // Utilitários da pagína
     // Botões de acessibilidade
     const accessibilityMenu = document.querySelector('.accessibility-menu');
     const accessibilityToggle = document.getElementById('accessibility-toggle');
@@ -427,17 +541,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         cropButton.addEventListener('click', () => {
-            if (cropper) {
-                const canvas = cropper.getCroppedCanvas({ width: 300, height: 400 });
-                const croppedImageDataURL = canvas.toDataURL('image/jpeg');
-                photoPreview.src = croppedImageDataURL;
+            if (!cropper) return;
+
+            const canvas = cropper.getCroppedCanvas({ width: 300, height: 400 });
+
+            canvas.toBlob((blob) => {
+                if (!blob) {
+                    alert("Erro ao gerar a imagem.");
+                    return;
+                }
+
+                croppedFile = new File([blob], "foto-3x4.jpg", { type: "image/jpeg" });
+
+                // preview opcional:
+                photoPreview.src = canvas.toDataURL("image/jpeg");
                 photoPreviewContainer.style.display = 'block';
-                hiddenInput.value = croppedImageDataURL;
+
                 cropModal.hide();
-            }
+            }, "image/jpeg", 0.9);
         });
     }
 });
+
+function validarFoto() {
+    if (!croppedFile) return "Nenhuma foto foi carregada.";
+
+    if (croppedFile.size > 2 * 1024 * 1024) {
+        return "Foto maior que 2MB.";
+    }
+
+    if (!["image/jpeg", "image/png"].includes(croppedFile.type)) {
+        return "Formato inválido.";
+    }
+
+    return null;
+}
+
 
 function validarCampo(campo, mensagemsCustom = {}) {
 
