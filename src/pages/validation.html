@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" conten            t="width=device-width, initial-scale=1.0">
+    <title>Validação - PE Livre Acesso</title>
+    
+    <link rel="stylesheet" href="../styles/style.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Roboto', sans-serif;
+        }
+        .digital-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 400px;
+            margin: 20px auto;
+            position: relative;
+        }
+        .card-header-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            height: 120px;
+            position: relative;
+        }
+        .profile-image-container {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid white;
+            background-color: #e5e7eb;
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        .status-valid {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        .status-invalid {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .info-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        .info-value {
+            color: #111827;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: right;
+        }
+        /* Animação de pulso para status válido */
+        /*ACESSO (?id=1)*/
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+        }
+        .pulse-animation {
+            animation: pulse-green 2s infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="bg-blue-900 py-4 text-center shadow-md">
+        <img src="../assets/images/logo-sjdh2.png" alt="Logo Governo" class="h-13 mx-auto brightness-0 invert">
+    </header>
+
+    <main class="p-4">
+        
+        <div id="loading-state" class="text-center mt-10">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900 mx-auto"></div>
+            <p class="mt-4 text-gray-600">Verificando autenticidade...</p>
+        </div>
+
+        <div id="error-state" class="hidden text-center mt-10 max-w-sm mx-auto bg-white p-8 rounded-xl shadow-lg">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+                <i data-feather="x-circle" class="text-red-600 w-8 h-8"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900">Carteira Não Encontrada</h3>
+            <p class="mt-2 text-gray-500 text-sm">O código informado não corresponde a nenhum beneficiário ativo em nossa base de dados.</p>
+        </div>
+
+        <div id="wallet-card" class="digital-card hidden">
+            
+            <div class="card-header-bg">
+                <div class="absolute top-4 left-0 w-full text-center">
+                    <p class="text-white/80 text-xs tracking-widest uppercase font-semibold">Carteira Digital</p>
+                    <h2 class="text-white font-bold text-lg">PE Livre Acesso Intermunicipal</h2>
+                </div>
+                
+                <div class="profile-image-container shadow-lg">
+                    <img id="user-photo" src="" alt="" class="profile-image hidden">
+                    <i id="user-icon" data-feather="user" class="w-12 h-12 text-gray-400"></i>
+                </div>
+            </div>
+
+            <div class="pt-16 pb-6 px-6 text-center">
+                <h1 id="user-name" class="text-xl font-bold text-gray-800 leading-tight mb-1"></h1>
+                <p class="text-sm text-gray-500 mb-4">Beneficiário</p>
+
+                <div id="status-container" class="mb-6">
+                    </div>
+
+                <div class="text-left space-y-1">
+                    <div class="info-row">
+                        <span class="info-label">CPF</span>
+                        <span id="user-cpf" class="info-value font-mono"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Cidade</span>
+                        <span id="user-cidade" class="info-value"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Deficiência</span>
+                        <span id="user-deficiencia" class="info-value"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Data Validade</span>
+                        <span id="user-validade" class="info-value"></span> </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-gray-100 flex flex-col items-center">
+                    <p class="text-xs text-gray-400 mb-2">Documento validado digitalmente</p>
+                    <p id="data-hora-consulta" class="text-xs text-gray-400 font-mono"></p>
+                    <p class="text-xs text-gray-400 mb-2">Válido apenas com apresentação de coumento de identidade</p>
+                    <p class="text-xs text-gray-400 mb-2"><a href="">EM ATENDIMENTO À LEI ESTADUAL 12.045/01</a></p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center py-6 text-gray-500 text-xs">
+        <p>Desenvolvido Por SUPTI - SJDHPV</p>
+    </footer>
+
+    <script src="../scripts/validation.js"></script>
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
