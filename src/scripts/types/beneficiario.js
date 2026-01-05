@@ -30,10 +30,12 @@
 /**
  * @typedef {Object} Beneficiario
  * @property {string} nome - Nome completo do beneficiário.
+ * @property {string} idade - Idade do beneficiário.
  * @property {string} [nomeMae] - Nome da mãe (opcional).
  * @property {string} cpf - Apenas dígitos.
  * @property {string} rg - Até 20 caracteres.
  * @property {string} dataNascimento - Data no formato YYYY-MM-DD.
+ * @property {number} reponsavelId - ID do responsável legal.
  * @property {number} sexoId - ID da tabela de sexo/gênero.
  * @property {number} etniaId - ID da tabela de etnia.
  * @property {number} tipoDeficienciaId - ID do tipo de deficiência.
@@ -43,6 +45,7 @@
  * @property {string} telefone - Apenas dígitos (8 a 15).
  * @property {string} email - E-mail válido.
  * @property {Endereco} endereco - Endereço completo do beneficiário.
+ * @property {String} enderecoCompleto - Endereço rua, numero, complemento.
  * @property {boolean} vemLivreAcessoRmr - Possui cartão VEM Livre Acesso RMR.
  */
 

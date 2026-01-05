@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,12 +67,6 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="socialName" class="form-label">Nome Social</label>
-                                <input type="text" class="form-control" id="socialName" name="socialName" autocomplete="false">
-                            </div>
-
-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -94,24 +88,68 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="nomeMae" class="form-label required-field">Nome da Mãe</label>
+                                        <input type="text" class="form-control" id="nomeMae" name="nomeMae" value="Mae Nome completo" required>
+                                        <div class="invalid-feedback">
+                                            <!-- Error message for invalid input -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="rg" class="form-label required-field">RG do Beneficiário</label>
+                                        <input type="text" class="form-control" id="rg" name="rg" value="123456" required>
+                                        <div class="invalid-feedback">
+                                            <!-- Error message for invalid input -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="mb-3">
-                                    <label for="nomeMae" class="form-label required-field">Nome da Mãe</label>
-                                    <input type="text" class="form-control" id="nomeMae" name="nomeMae" value="Mae Nome completo" required>
+                                    <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="responsavel" id="responsavel" value="1">
+                                        <label for="responsavel" class="form-check-label" ><strong>Possui Responsavél ou Tutor</strong></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="divResponsavel" style="display: none;" >
+                            <div class="row">
+                                <div class="mb-3">
+                                    <label for="nomeResponsavel" class="form-label required-field">Nome do Responsavél</label>
+                                    <input type="text" class="form-control" id="nomeResponsavel" name="nomeResponsavel" value="Responsavel Nome completo" required>
                                     <div class="invalid-feedback">
                                         <!-- Error message for invalid input -->
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                            <div class="mb-3">
-                                <label for="rg" class="form-label required-field">RG do Beneficiário</label>
-                                <input type="text" class="form-control" id="rg" name="rg" value="123456" required>
-                                <div class="invalid-feedback">
-                                    <!-- Error message for invalid input -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="cpfResponsavel" class="form-label required-field">CPF do Responsavél</label>
+                                        <input type="text" class="form-control" id="cpfResponsavel" name="cpfResponsavel" value="" required>
+                                        <div class="invalid-feedback">
+                                            <!-- Error message for invalid input -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="rgResponsavel" class="form-label required-field">RG do Responsavél</label>
+                                        <input type="text" class="form-control" id="rgResponsavel" name="rgResponsavel" value="123456" required>
+                                        <div class="invalid-feedback">
+                                            <!-- Error message for invalid input -->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             </div>
+
                             <div class="row">
                             <div class="mb-3">
                                 <label for="deficiencia" class="form-label required-field">Tipo de Deficiência</label>
@@ -486,7 +524,7 @@
                             </div>
                         </div>
                     </form>
-                <form id="form-beneficiary-documents">
+                    <form id="form-beneficiary-documents">
                         <!-- Section 3: Documents -->
                         <div class="form-section" id="section3">
                             <h5 class="mb-4"><i class="bi bi-file-earmark-fill"></i> Documentos Necessários</h5>
@@ -496,7 +534,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label required-field">RG Beneficiário</label>
+                                <label class="form-label required-field">RG ou Certidão de Nascimento Beneficiário</label>
                                 <div class="upload-area" onclick="document.getElementById('rgFile').click()">
                                     <i class="bi bi-cloud-arrow-up fs-1"></i>
                                     <p class="mb-0">Clique para enviar o arquivo</p>
@@ -561,11 +599,40 @@
                                 </div>
                                 <input type="hidden" name="croppedPhoto" id="croppedPhoto">
                             </div>
+                            <div id="divFilesResponsavel" style="display: none;">
+                                <div class="mb-3">
+                                    <label class="form-label required-field">RG do Responsavél</label>
+                                    <div class="upload-area" onclick="document.getElementById('rgFileResponsavel').click()">
+                                        <i class="bi bi-cloud-arrow-up fs-1"></i>
+                                        <p class="mb-0">Clique para enviar o arquivo</p>
+                                        <small class="text-muted">(Formatos: JPG, PNG ou PDF)</small>
+                                        <input type="file" id="rgFileResponsavel" name="rgFileResponsavel" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
+                                    </div>
+                                    <div id="rgFileResponsavelName" class="mt-2 text-muted"></div>
+                                    <div class="invalid-feedback">
+                                        <!-- Error message for invalid input -->
+                                    </div>
+                                </div>
 
-                            <div class="d-flex justify-content-between">
-                                <button type="button" class="btn btn-secondary" onclick="prevSection(3)"><i class="bi bi-arrow-left"></i> Voltar</button>
-                                <button type="submit" class="btn btn-success">Enviar Cadastro <i class="bi bi-check-circle-fill"></i></button>
+                                <div class="mb-3">
+                                    <label class="form-label required-field">CPF do Responsavél</label>
+                                    <div class="upload-area" onclick="document.getElementById('cpfFileResponsavel').click()">
+                                        <i class="bi bi-cloud-arrow-up fs-1"></i>
+                                        <p class="mb-0">Clique para enviar o arquivo</p>
+                                        <small class="text-muted">(Formatos: JPG, PNG ou PDF)</small>
+                                        <input type="file" id="cpfFileResponsavel" name="cpfFileResponsavel" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
+                                    </div>
+                                    <div id="cpfFileResponsavelName" class="mt-2 text-muted"></div>
+                                    <div class="invalid-feedback">
+                                        <!-- Error message for invalid input -->
+                                    </div>
+                                </div>
                             </div>
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-secondary" onclick="prevSection(3)"><i class="bi bi-arrow-left"></i> Voltar</button>
+                                    <button type="submit" class="btn btn-success">Enviar Cadastro <i class="bi bi-check-circle-fill"></i></button>
+                                </div>
+
                         </div>
                     </form>
                 </div>

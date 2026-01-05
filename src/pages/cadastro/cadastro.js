@@ -1,7 +1,12 @@
 
-import {cadastrarBeneficiario, validarArquivo, uploadArquivoBeneficiario} from "../../services/beneficiariosService.js";
+import {
+    cadastrarBeneficiario,
+    cadastrarResponsavelBeneficiario, validarArquivo, uploadArquivoBeneficiario, atualizarBeneficiario
+} from "../../services/beneficiariosService.js";
 
-let beneficiario = {};
+// Estado do beneficiário deve iniciar nulo para permitir a checagem correta
+let beneficiario = null;
+let responsavel = {};
 let p = {};
 let endereco = {};
 let croppedFile = null;
@@ -9,6 +14,21 @@ let croppedFile = null;
 // Lógica do menu mobile (hambúrguer)
 const menuButton = document.getElementById('mobile-menu-button');
 const navMenu = document.querySelector('.main-nav');
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('responsavel').addEventListener('change', (e) => {
+        if (e.target.checked) {
+            document.getElementById('divResponsavel').style.display = 'block';
+            document.getElementById('divFilesResponsavel').style.display = 'block';
+        } else {
+            document.getElementById('divResponsavel').style.display = 'none';
+            document.getElementById('divFilesResponsavel').style.display = 'none';
+        }
+    });
+})
+
 if (menuButton) {
   menuButton.addEventListener('click', () => {
       navMenu.classList.toggle('active');
@@ -109,7 +129,7 @@ function validateSection(sectionNumber) {
 
 
         p.nome = document.getElementById('fullName').value.trim();
-        if (!p.nome || p.nome < 3){
+        if (!p.nome || p.nome.length < 3){
             erros.push('Nome é obrigatório.');
             validarCampo(document.getElementById("fullName"), {valueMissing:erros[0].toString()});
             document.getElementById("fullName").focus();
@@ -152,11 +172,44 @@ function validateSection(sectionNumber) {
         }
         p.rg = document.getElementById('rg').value.trim();
         if (!p.rg || p.rg.length > 20) {
-            erros.push('RG é obrigatório e deve ter no máximo.');
+            erros.push('RG é obrigatório e deve ter no máximo 20 caracteres.');
             validarCampo(document.getElementById('rg'), {valueMissing:erros[0].toString()});
             document.getElementById('rg').focus();
             return false;
         }
+        responsavel.sim = document.getElementById('responsavel').checked;
+        if (responsavel.sim) {
+
+            responsavel.nomeResponsavel = document.getElementById('nomeResponsavel').value.trim();
+            if (!responsavel.nomeResponsavel || responsavel.nomeResponsavel.length < 3){
+                erros.push('Nome do Responsavél é obrigatório e deve ter ao menos 3 caracteres.');
+                validarCampo(document.getElementById('nomeResponsavel'), {valueMissing:erros[0].toString()});
+                document.getElementById('nomeResponsavel').focus();
+                return false;
+            }
+            const cpfRawRes = document.getElementById('cpfResponsavel').value.trim();
+            responsavel.cpf = onlyDigits(cpfRawRes);
+            if(!responsavel.cpf || responsavel.cpf.length !== 11){
+                erros.push('CPF é obrigatório.');
+                validarCampo(document.getElementById('cpfResponsavel'),
+                    {valueMissing: "Informe o CPF do Responsavél.",
+                        patternMismatch: "CPF inválido do Responsavél."});
+
+                document.getElementById('cpfResponsavel').focus();
+                return false;
+            }
+            responsavel.rg = document.getElementById('rgResponsavel').value.trim();
+            if (!responsavel.rg || responsavel.rg.length > 20) {
+                erros.push('RG é obrigatório  do Responsavél.');
+                validarCampo(document.getElementById('rgResponsavel'), {valueMissing:erros[0].toString()});
+                document.getElementById('rgResponsavel').focus();
+                return false;
+            }
+
+
+        }
+
+
         // Selects (IDs numéricos)
         p.tipoDeficienciaId = Number(document.getElementById('deficiencia').value);
         if (!Number.isInteger(p.tipoDeficienciaId) || p.tipoDeficienciaId <= 0){
@@ -324,11 +377,33 @@ function validateSection(sectionNumber) {
 
 
 
-        const fotoMessage =validarFoto();
+        const fotoMessage = validarFoto();
         if (fotoMessage) {
             alert("Foto 3x4: "+fotoMessage);
             return false;
         }
+
+        if(document.getElementById('responsavel').checked) {
+            const rgFileResponsavelMessage = validarArquivo(document.getElementById('rgFileResponsavel').files[0],
+                5,
+                ['application/pdf', 'image/jpeg', 'image/png'],
+                ['pdf', 'jpg', 'jpeg', 'png']);
+            if (rgFileResponsavelMessage) {
+                alert("RG do Responsável: " + rgFileResponsavelMessage);
+                return false;
+            }
+
+            const cpfFileResponsavelMessage = validarArquivo(document.getElementById('cpfFileResponsavel').files[0],
+                5,
+                ['application/pdf', 'image/jpeg', 'image/png'],
+                ['pdf', 'jpg', 'jpeg', 'png']);
+            if (cpfFileResponsavelMessage) {
+                alert("CPF do Responsável: " + cpfFileResponsavelMessage);
+                return false;
+            }
+        }
+
+
 
         return true;
     }
@@ -388,6 +463,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     dataNascimento: p.dataNascimento,
                     nomeMae: p.nomeMae,
                     rg: p.rg,
+                    responsavelId: null,
                     tipoDeficienciaId: p.tipoDeficienciaId,
                     sexoId: p.sexoId,
                     etniaId: p.etniaId,
@@ -407,12 +483,31 @@ document.addEventListener('DOMContentLoaded', () => {
                         uf: endereco.uf
                     }
                 };
-                beneficiario =  await cadastrarBeneficiario(payload);
 
-                if (beneficiario) {
+                if(document.getElementById('responsavel').checked) {
+                    if(!payload.responsavelId){
+                        const payloadResponsavel = {
+                            nome: responsavel.nomeResponsavel,
+                            rg:responsavel.rg,
+                            cpf:responsavel.cpf
+                        }
+                        const idResponsavel = await cadastrarResponsavelBeneficiario(payloadResponsavel);
+                        payload.responsavelId = idResponsavel.id;
+
+                        if(beneficiario){
+                            beneficiario.responsavelId = idResponsavel.id;
+                            nextSection(2);
+                        }
+                    }
+                }
+
+                // Cadastra apenas se ainda não existir um beneficiário salvo neste fluxo
+                if(!beneficiario){
+                    beneficiario = await cadastrarBeneficiario(payload);
                     alert('Beneficiário cadastrado com sucesso! Agora, prossiga para o envio dos documentos.');
                     nextSection(2);
                 }
+
             } else {
                 alert('Existem erros no formulário. Por favor, verifique todas as etapas.');
             }
@@ -425,7 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.stopPropagation();
             const ValidoBeneficiaryDocuments = validateSection(3);
 
-            if (beneficiario && ValidoBeneficiaryDocuments) {
+            if (beneficiario && beneficiario.id && ValidoBeneficiaryDocuments) {
                 try {
                     // Upload dos arquivos
                     const rgFile = document.getElementById('rgFile').files[0];
