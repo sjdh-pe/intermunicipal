@@ -13,9 +13,18 @@
 </head>
 <body class="bg-light">
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
     <!-- header-top -->
     <custom-navbar></custom-navbar>
     <script src="../../components/navbar.js"></script>
+
+
+    <global-loader></global-loader>
+    <script type="module" src="../../scripts/utils/utils.js"></script>
+    <script type="module" src="../../scripts/utils/loader.js"></script>
 
     <div class="text-center mb-4" style="margin-top: 50px;">
         <h1 class="h4 fw-bold mb-0" style="color:#21409A; font-size: 40px">PE LIVRE ACESSO</h1>
@@ -23,7 +32,7 @@
     </div>
 
 
-    <div class="container pt-0 pb-5">
+<div class="container pt-0 pb-5">
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="card shadow">
@@ -101,8 +110,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="rg" class="form-label required-field">RG do Beneficiário</label>
-                                        <input type="text" class="form-control" id="rg" name="rg" value="123456" required>
+                                        <label for="rg" class="form-label ">RG do Beneficiário</label>
+                                        <input type="text" class="form-control" id="rg" name="rg" value="">
                                         <div class="invalid-feedback">
                                             <!-- Error message for invalid input -->
                                         </div>
@@ -114,6 +123,9 @@
                                     <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="responsavel" id="responsavel" value="1">
                                         <label for="responsavel" class="form-check-label" ><strong>Possui Responsavél ou Tutor</strong></label>
+                                        <div class="invalid-feedback">
+                                            <!-- Error message for invalid input -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +190,8 @@
                                             <option value="3" selected>Homem cisgênero</option>
                                             <option value="4">Homem transsexual</option>
                                             <option value="5">Travesti</option>
-                                            <option value="5">Não binário</option>
+                                            <option value="6">Não binário</option>
+                                            <option value="8">Não sei informar</option>
                                             <option value="7">Prefiro não informar</option>
                                         </select>
                                         <div class="invalid-feedback">
@@ -205,19 +218,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="mb-3">
-                                <label class="form-label required-field">Tem Cartão Vem Livre Acesso RMR?</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="vemLivreRm" id="vemLivreRmYes" value="sim"  required>
-                                    <label class="form-check-label" for="vemLivreRmYes">Sim</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="vemLivreRm" id="vemLivreRmNo" value="nao" checked required>
-                                    <label class="form-check-label" for="vemLivreRmNo">Não</label>
-                                </div>
-                            </div>
-
 
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary" onclick="nextSection(1)">Continuar <i class="bi bi-arrow-right"></i></button>
@@ -274,11 +274,11 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="numero" class="form-label ">número</label>
+                                <label for="numero" class="form-label ">Número</label>
                                 <input type="text" class="form-control" id="numero" name="numero" >
                             </div>
                             <div class="mb-3">
-                                <label for="complemento" class="form-label ">número</label>
+                                <label for="complemento" class="form-label ">Complemento</label>
                                 <input type="text" class="form-control" id="complemento" name="complemento" >
                             </div>
                             <div class="mb-3">
@@ -692,11 +692,6 @@
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-
-
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
@@ -706,7 +701,6 @@
     <custom-footer></custom-footer>
     <script src="../../components/footer.js"></script>
 
-    <script src="../../scripts/utils.js"></script>
     <script type="module" src="cadastro.js"></script>
     <!-- Tipos JSDoc (documentação e autocomplete) -->
     <script src="../../scripts/types/beneficiario.js"></script>

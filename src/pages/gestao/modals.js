@@ -1,9 +1,11 @@
-import { resolveStatus } from './utils.js';
+import {formatCPF, resolveStatus} from './utils.js';
 import { api } from '../../services/api.js'
 import { motivoBeneficiario, listarArquivosBeneficiario } from "../../services/beneficiariosService.js";
 
 export function createModalHandlers(state) {
     function findById(id) {
+        console.log("modals.js findById")
+        console.log(state.beneficiariosPage?.content || [])
         return (state.beneficiariosPage?.content || []).find(u => u.id === id);
     }
     function openCarteiraModal(id) {
@@ -46,7 +48,7 @@ export function createModalHandlers(state) {
          set('view-mae', user.nomeMae);
          set("view-cpf", user.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4"));
          set("view-rg", user.rg);
-         set("view-vem", user.vemLivreAcessoRmr ? "Sim" : "Não");
+         set("view-espera", user.dias_des_creacao);
          set('view-cidade', user.cidade);
          set('view-deficiencia', user.tipoDeficiencia);
          set('view-endereco', user.enderecoCompleto );
@@ -105,15 +107,31 @@ export function createModalHandlers(state) {
             const el = document.getElementById(elId);
             if (el) el.value = val || '';
         };
+
         setValue('edit-id', user.id);
         setValue('edit-nome', user.nome);
         setValue('edit-mae', user.nomeMae);
-        setValue('edit-cpf', user.cpf);
-        setValue('edit-cidade', user.cidade);
-        setValue('edit-deficiencia', user.tipoDeficiencia);
+        setValue('edit-cpf', formatCPF(user.cpf));
+        setValue('edit-rg', user.rg);
+        setValue("edit-birthDate", user.dataNascimento);
+        setValue("edit-genero", user.sexoId);
+        setValue('edit-deficiencia', user.tipoDeficienciaId);
+
+        setValue('edit-email', user.email);
+        setValue('edit-telefone', user.telefone);
+        setValue('edit-cep', user.cep);
+        setValue('edit-bairro', user.bairro);
+        setValue('edit-endereco', user.endereco);
+        setValue('edit-numero', user.numero);
+        setValue('edit-complemento', user.complemento);
+        setValue('edit-id-responsavel',user.responsavelId)
+        setValue('edit-responsavel-nome' , user.responsavelNome);
+        setValue('edit-responsavel-cpf' , user.responsavelCpf);
+        setValue('edit-responsavel-rg' , user.responsavelRg);
         setValue('edit-obs', user.motivo);
-        const tipoDeficiencia = document.getElementById('edit-deficiencia');
-        if (tipoDeficiencia) tipoDeficiencia.value = user.tipoDeficiencia || '';
+        setValue('edit-cidade', user.cidadeId);
+        setValue('edit-acompanhante', user.acompanhante);
+
         const select = document.getElementById('edit-status');
         if (select) {
             let idToSelect = user.statusId !== undefined ? String(user.statusId) : '';
@@ -125,26 +143,6 @@ export function createModalHandlers(state) {
             select.value = idToSelect || '';
         }
         if (state.editModalInstance) state.editModalInstance.show();
-    }
-
-    function saveEdit() {
-        const id = document.getElementById('edit-id')?.value;
-        if (!id) return;
-        const arr = state.beneficiariosPage?.content || [];
-        const idx = arr.findIndex(u => u.id === id);
-        if (idx === -1) return;
-        const nome = document.getElementById('edit-nome')?.value;
-        const nomeMae = document.getElementById('edit-mae')?.value;
-        const cidade = document.getElementById('edit-cidade')?.value;
-        const def = document.getElementById('edit-deficiencia')?.value;
-        const select = document.getElementById('edit-status');
-
-        const selectedId = select ? parseInt(select.value, 10) : null;
-        arr[idx].nome = nome; arr[idx].nomeDaMae = nomeMae; arr[idx].cidade = cidade; arr[idx].tipoDeficiencia = def;
-        if (!isNaN(selectedId)) { arr[idx].statusId = selectedId; arr[idx].statusBeneficio = state.statusMap[selectedId]?.nome || arr[idx].statusBeneficio; }
-        state.beneficiariosPage.totalElements = arr.length;
-        if (state.editModalInstance) state.editModalInstance.hide();
-        if (state.onChange) state.onChange();
     }
 
     function openDeleteModal(id) {
@@ -161,6 +159,6 @@ export function createModalHandlers(state) {
         if (state.onChange) state.onChange();
     }
 
-    return { openCarteiraModal, openViewModal, openEditModal, saveEdit, openDeleteModal, confirmDelete };
+    return { openCarteiraModal, openViewModal, openEditModal, openDeleteModal, confirmDelete };
 }
 

@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "clean": "rm -rf public",
-    "dev": "live-server src --port=4200 --open=pages/index.html",
-    "build": "npm run clean && mkdir -p public && cp -a src/. public/ && cp src/pages/index.html public/index.html",
+    "dev": "live-server src --port=4200 --open=pages/home/index.html",
+    "build": "npm run clean && mkdir -p public && cp -a src/. public/ && cp src/pages/home/index.html public/index.html",
     "serve": "live-server public --port=3000"
   },
   "devDependencies": {
@@ -14,5 +14,18 @@
   },
   "dependencies": {
     "axios": "^1.13.2"
-  }
+  },
+  "description": "![Status](https://img.shields.io/badge/status-em%20desenvolvimento-green)",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjdh-pe/intermunicipal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sjdh-pe/intermunicipal/issues"
+  },
+  "homepage": "https://github.com/sjdh-pe/intermunicipal#readme"
 }

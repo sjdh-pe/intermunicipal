@@ -2,7 +2,7 @@ class CustomFooter extends HTMLElement {
     connectedCallback() {
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
-            <link rel="stylesheet" href="../styles/style.css">
+<!--            <link rel="stylesheet" href="../styles/style.css">-->
             <link rel="stylesheet" href="../../styles/style.css">
             
             <style>

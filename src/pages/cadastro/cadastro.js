@@ -111,11 +111,25 @@ const isPastDate = (v) => {
     return d < today;
 }
 
-function getBoolFromRadio(name, yesValue = 'sim'){
-    const checked = document.querySelector(`input[name="${name}"]:checked`);
-    if (!checked) return null;
-    return (checked.value || '').toLowerCase() === yesValue;
-}
+const isMinor = (birthDate) => {
+    // birthDate em formato YYYY-MM-DD
+    const d = new Date(birthDate + 'T00:00:00');
+    if (isNaN(d.getTime())) return false;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    let age = today.getFullYear() - d.getFullYear();
+    const monthDiff = today.getMonth() - d.getMonth();
+    const dayDiff = today.getDate() - d.getDate();
+
+    // Ajusta a idade se ainda não fez aniversário no ano atual
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--;
+    }
+
+    return age < 18;
+};
 
 
 function validateSection(sectionNumber) {
@@ -162,6 +176,18 @@ function validateSection(sectionNumber) {
             document.getElementById('birthDate').focus();
             return false;
         }
+        else if (isMinor(p.dataNascimento)){
+            console.log(isMinor(p.dataNascimento))
+            if(!document.getElementById('responsavel').checked){
+                erros.push('Beneficiário menor de idade. É obrigatório o preenchimento dos dados do responsável.');
+                validarCampo(document.getElementById('responsavel'), {valueMissing:erros[0].toString()});
+                document.getElementById('responsavel').checked = true;
+                document.getElementById('divResponsavel').style.display = 'block';
+                document.getElementById('divFilesResponsavel').style.display = 'block';
+                return false;
+            }
+
+        }
 
         p.nomeMae = document.getElementById('nomeMae').value.trim();
         if (!p.nomeMae || p.nomeMae.length < 3){
@@ -171,12 +197,7 @@ function validateSection(sectionNumber) {
             return false;
         }
         p.rg = document.getElementById('rg').value.trim();
-        if (!p.rg || p.rg.length > 20) {
-            erros.push('RG é obrigatório e deve ter no máximo 20 caracteres.');
-            validarCampo(document.getElementById('rg'), {valueMissing:erros[0].toString()});
-            document.getElementById('rg').focus();
-            return false;
-        }
+
         responsavel.sim = document.getElementById('responsavel').checked;
         if (responsavel.sim) {
 
@@ -232,16 +253,6 @@ function validateSection(sectionNumber) {
             document.getElementById('etnia').focus();
             return false;
         }
-
-        p.vemLivreAcessoRmr = getBoolFromRadio('vemLivreRm');
-        if (p.vemLivreAcessoRmr === null){
-            erros.push('Informe se possui VEM Livre Acesso RMR.');
-            validarCampo(document.getElementById('vemLivreRm'), {valueMissing:erros[0].toString()});
-            document.getElementById('vemLivreRm').focus();
-            return false;
-        }
-
-        p.vemLivreAcessoRmr = getBoolFromRadio('vemLivreRm');
 
         if (erros.length > 0) return false;
 
@@ -472,7 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     cidadeId: endereco.cidadeId,
                     localRetiradaId: p.localRetiradaId,
                     statusBeneficioId: p.statusBeneficioId,
-                    vemLivreAcessoRmr: p.vemLivreAcessoRmr,
+                    vemLivreAcessoRmr: false,
                     endereco: {
                         cep: endereco.cep,
                         endereco: endereco.logradouro,
@@ -504,7 +515,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Cadastra apenas se ainda não existir um beneficiário salvo neste fluxo
                 if(!beneficiario){
                     beneficiario = await cadastrarBeneficiario(payload);
-                    alert('Beneficiário cadastrado com sucesso! Agora, prossiga para o envio dos documentos.');
                     nextSection(2);
                 }
 

@@ -31,12 +31,7 @@ export async function listarArquivosBeneficiario(id) {
  */
 export async function cadastrarBeneficiario(payload) {
 
-    // verifica se cpf já foi cadastrado
-
     const resp = await api.post(`/beneficiarios`, payload);
-    console.log("cadastrou beneficiario")
-    console.log(resp.data)
-    console.log("----------------------------")
     return resp.data;
 
 }
@@ -46,12 +41,7 @@ export async function cadastrarBeneficiario(payload) {
  */
 export async function cadastrarResponsavelBeneficiario(payload) {
 
-    let resp = await api.get(`/responsaveis/cpf/${payload.cpf}`);
-    if (resp.status === 200){
-        return resp.data;
-    }
-
-    resp = await api.post(`/responsaveis`, payload);
+    const resp = await api.post(`/responsaveis`, payload);
     return resp.data;
 }
 

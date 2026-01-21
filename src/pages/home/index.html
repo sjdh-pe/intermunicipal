@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Informações sobre o Cartão PE Livre Acesso Intermunicipal: quem tem direito, documentos necessários e como solicitar a primeira ou segunda via em Pernambuco." />
     <title>PE LIVRE ACESSO INTERMUNICIPAL</title>
-    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="../../styles/style.css" />
     <link rel="icon" href="/assets/images/iconPELIVRE.png" type="image/png" />
 
   </head>
@@ -13,7 +13,7 @@
 
     <!-- header-top -->
     <custom-navbar></custom-navbar>
-    <script src="../components/navbar.js"></script>
+    <script src="../../components/navbar.js"></script>
 
 
     <main>
@@ -136,14 +136,14 @@
 
         <button
           class="link-btn"
-          data-pdf-src="/assets/docs/DECRETO-No-52.060-DE-27-DE-DEZEMBRO-DE-2021-1-1.pdf"
+          onclick="window.open('/assets/docs/DECRETO-No-52.060-DE-27-DE-DEZEMBRO-DE-2021-1-1.pdf')"
         >
           DECRETO 52.060 DE 27 DE DEZEMBRO DE 2021 - <strong>PDF</strong>
         </button>
 
         <button
           class="link-btn"
-          data-pdf-src="/assets/docs/Laudo_medico_padrao_intermunicipal.pdf"
+          onclick="window.open('/assets/docs/Laudo_medico_padrao_intermunicipal.pdf')"
         >
           LAUDO MÉDICO PADRÃO INTERMUNICIPAL - <strong>PDF</strong>
         </button>
@@ -154,10 +154,10 @@
           <h3>SOLICITAR CARTEIRA</h3>
           <br />
           <br />
-          <button class="action-btn" data-forms-src="./pages/forms.html">
+          <button class="action-btn" onclick="window.location.href='../cadastro/index.html'">
             Solicitar Primeira Via
           </button>
-          <button class="action-btn" data-forms-src="./pages/login.html">Solicitar Segunda Via</button>
+          <button class="action-btn" onclick="window.location.href='../login/index.html'">Solicitar Segunda Via</button>
         </div>
         <div class="card consultar">
           <h3>CONSULTE SUA SOLICITAÇÃO</h3>
@@ -208,11 +208,11 @@
 
     </div>
 
-    <script src="../scripts/script.js"></script>
+    <script src="../../scripts/script.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-    <script src="../scripts/utils.js"></script>
+    <script src="../../scripts/utils/utils.js"></script>
 
 
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
@@ -222,7 +222,7 @@
 
     <!-- footer -->
     <custom-footer></custom-footer>
-    <script src="../components/footer.js"></script>
+    <script src="../../components/footer.js"></script>
 
   </body>
 </html>

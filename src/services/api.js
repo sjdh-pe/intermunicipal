@@ -2,7 +2,11 @@
 // If you later adopt a bundler or import maps, you can switch back to: import axios from "axios";
 import axios from "https://esm.sh/axios@1.7.7";
 
+import { showLoading, hideLoading } from "../scripts/utils/loader.js";
 
+
+
+// const defaultBase = "https://api.sjdh.pe.gov.br";
 const defaultBase = "http://localhost:3000";
 
 /**
@@ -65,6 +69,30 @@ api.interceptors.response.use(
         return Promise.reject(normalized);
     }
 );
+
+
+api.interceptors.request.use(
+    config => {
+        showLoading();
+        return config;
+    },
+    error => {
+        hideLoading();
+        return Promise.reject(error);
+    }
+);
+
+api.interceptors.response.use(
+    response => {
+        hideLoading();
+        return response;
+    },
+    error => {
+        hideLoading();
+        return Promise.reject(error);
+    }
+);
+
 
 // Expor as helpers também no objeto `api` facilita uso em ambientes que importem apenas o cliente
 // e evita avisos de função exportada não utilizada em algumas ferramentas de análise estática.

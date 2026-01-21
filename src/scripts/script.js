@@ -1,25 +1,3 @@
-// Link para os PDFs
-const botoesPdf = document.querySelectorAll('.link-btn');
-
-botoesPdf.forEach(function(botao) {
-  botao.addEventListener('click', function() {
-    const caminhoPdf = this.dataset.pdfSrc;
-
-    window.open(caminhoPdf, '_blank');
-  });
-});
-
-// Link para os PDFs
-const botoesForms = document.querySelectorAll('.action-btn');
-
-botoesForms.forEach(function(botao) {
-  botao.addEventListener('click', function() {
-    const caminhoForms = this.dataset.formsSrc;
-
-    window.open(caminhoForms, '_blank');
-  });
-});
-
 //Seleciona o botão e o menu de navegação
 const menuButton = document.getElementById('mobile-menu-button');
 const navMenu = document.querySelector('.main-nav');

@@ -86,7 +86,6 @@ function renderWallet(user, cardElement) {
     document.getElementById('user-name').textContent = user.nome;
     document.getElementById('user-cpf').textContent = formatCPF(user.cpf);
     document.getElementById('user-cidade').textContent = user.cidade;
-    document.getElementById('user-deficiencia').textContent = user.tipoDeficiencia;
     document.getElementById('user-validade').textContent = user.dataValidade || "Indeterminado";
 
     // Foto
@@ -137,5 +136,5 @@ function formatCPF(cpf) {
     // Mascara o CPF para segurança na exibição pública (XXX.XXX.XXX-00)
     // Mostra apenas os 3 primeiros e 2 últimos
     if (!cpf) return '';
-    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.***.***-$4');
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '***.$2.$3-**');
 }

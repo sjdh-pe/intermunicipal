@@ -18,18 +18,39 @@ import {
 
 import { carregarBeneficiarios } from "./listarBeneficiarios.js";
 
+const onlyDigits = (v) => (v || '').replace(/\D+/g, '');
+
 /** Estado/controladores locais (mantido mínimo para este módulo) */
 const ui = {
   // Seletores padrões do formulário no modal de edição
     fields: {
         id: 'edit-id',
         nome: 'edit-nome',
-        nomeMae: 'edit-mae',
         cpf: 'edit-cpf',
-        cidade: 'edit-cidade',
+        rg: 'edit-rg',
+        dataNascimento: 'edit-birthDate',
+        nomeMae: 'edit-mae',
         tipoDeficiencia: 'edit-deficiencia',
+        sexoId: 'edit-genero',
+        etinia: 'edit-etnia',
+        etiniaId: 'edit-etnia',
+        email: 'edit-email',
+        telefone: 'edit-telefone',
+        cep: 'edit-cep',
+        cidade: 'edit-cidade',
+        cidadeId: 'edit-cidade',
+        bairro: 'edit-bairro',
+        endereco: 'edit-endereco',
+        numero: 'edit-numero',
+        complemento: 'edit-complemento',
         status: 'edit-status',
-        motivo:'edit-obs'
+        acompanhante: 'edit-acompanhante',
+        statusBeneficioId: 'edit-status',
+        motivo:'edit-obs',
+        responsavelId : 'edit-responsavel',
+        responsavelNome: 'edit-responsavel-nome',
+        responsavelCpf: 'edit-responsavel-cpf',
+        responsavelRg: 'edit-responsavel-rg'
     }
 };
 
@@ -39,8 +60,8 @@ const ui = {
  * @returns {string} Valor do campo ou string vazia
  */
 function getValue(id) {
-  const el = document.getElementById(id);
-  return (el && typeof el.value !== 'undefined') ? el.value : '';
+    const el = document.getElementById(id);
+    return (el && typeof el.value !== 'undefined') ? el.value : '';
 }
 
 /**
@@ -49,7 +70,7 @@ function getValue(id) {
  * @returns {number|null}
  */
 function toNumberOrNull(val) {
-  const n = parseInt(val, 10);
+    const n = parseInt(val, 10);
   return Number.isNaN(n) ? null : n;
 }
 
@@ -73,19 +94,48 @@ export async function atualizarBeneficiarioUI() {
       alert('Não foi possível identificar o beneficiário. Tente novamente.');
       return;
     }
+      const payload = {
+          id: getValue(ui.fields.id),
 
-    const payload = {
-        id: getValue(ui.fields.id),
-      // nome: getValue(ui.fields.nome) || undefined,
-      // nomeMae: getValue(ui.fields.nomeMae) || undefined,
-      // cpf: getValue(ui.fields.cpf) || undefined,
-      // cidade: getValue(ui.fields.cidade) || undefined,
-      //   tipoDeficienciaId: toNumberOrNull(getValue(ui.fields.tipoDeficiencia)),
-        statusBeneficioId: toNumberOrNull(getValue(ui.fields.status))
-    };
+          nome: getValue(ui.fields.nome) || null,
+          nomeMae: getValue(ui.fields.nomeMae) || null,
+          cpf: onlyDigits(getValue(ui.fields.cpf)) || null,
+          rg: getValue(ui.fields.rg) || null,
+
+          dataNascimento: getValue(ui.fields.dataNascimento) || null,
+          tipoDeficiencia: getValue(ui.fields.tipoDeficiencia) || null,
+          sexoId: toNumberOrNull(getValue(ui.fields.sexoId)),
+          responsavelId: toNumberOrNull(getValue(ui.fields.responsavelId)),
+          responsavelNome: getValue(ui.fields.responsavelNome) || null,
+          responsavelCpf: getValue(ui.fields.responsavelCpf) || null,
+          responsavelRg: getValue(ui.fields.responsavelRg) || null,
+          etniaId: toNumberOrNull(getValue(ui.fields.etniaId)),
+
+          tipoDeficienciaId: toNumberOrNull(getValue(ui.fields.tipoDeficienciaId)),
+          statusBeneficioId: toNumberOrNull(getValue(ui.fields.statusBeneficioId)),
+          localRetiradaId: toNumberOrNull(getValue(ui.fields.localRetiradaId)),
+
+          cidadeId: toNumberOrNull(getValue(ui.fields.cidadeId)),
+
+          telefone: getValue(ui.fields.telefone) || null,
+          email: getValue(ui.fields.email) || null,
+
+          endereco: {
+              endereco: getValue(ui.fields.endereco) || null,
+              bairro: getValue(ui.fields.bairro) || null,
+              cep: getValue(ui.fields.cep) || null,
+              numero: getValue(ui.fields.numero) || null,
+              complemento: getValue(ui.fields.complemento) || null,
+              uf: getValue(ui.fields.uf) || "PE",
+          },
+
+      };
+
+    console.log("payload:",payload);
+
       const payloadStatus = {
           id: getValue(ui.fields.id),
-          statusBeneficioId: toNumberOrNull(getValue(ui.fields.status)),
+          statusBeneficioId: toNumberOrNull(getValue(ui.fields.statusBeneficioId)),
           motivo: getValue(ui.fields.motivo) || undefined
       };
 
