@@ -151,51 +151,24 @@
 
       <section class="actions">
         <div class="card solicitar">
-          <h3>SOLICITAR CARTEIRA</h3>
-          <br />
-          <br />
+          <h3>Solicitar Carteira</h3>
+          <p>Solicite sua Carteira para ter acesso a transporte coletivo gratuito, entre municípios.</p>
           <button class="action-btn" onclick="window.location.href='../cadastro/index.html'">
             Solicitar Primeira Via
           </button>
           <button class="action-btn" onclick="window.location.href='../login/index.html'">Solicitar Segunda Via</button>
         </div>
-        <div class="card consultar">
-          <h3>CONSULTE SUA SOLICITAÇÃO</h3>
+        <div class="card login">
+          <h3>Entrar na sua Conta</h3>
           <p>
-            Caso você já tenha criado uma solicitação da carteira, consulte-a
-            informando seu CPF e Data de Nascimento.
+            Caso você já tenha criado uma solicitação da carteira, consulte suas informações aqui.
           </p>
-          <form>
-            <label for="cpf">CPF:</label>
-            <input type="text" id="cpf" placeholder="DIGITE SEU CPF" />
-            <label for="birthDate">Data de Nascimento:</label>
-            <input type="text" id="birthDate" placeholder="DIGITE SUA DATA DE NASCIMENTO" />
-
-            <button type="submit" class="search-btn">Pesquisar</button>
-          </form>
-
+          <button class="action-btn" onclick="window.location.href='../login/index.html'">Entrar</button>
         </div>
       </section>
     </main>
 
     <div class="floating-tools-container">
-
-        <div class="accessibility-menu">
-            <div class="accessibility-options">
-                <button id="contrast-toggle" class="btn-access" title="Ativar Alto Contraste">
-                    <img src="/assets/images/iconaltocontraste.png" alt="Ícone de contraste">
-                    <span>Alto Contraste</span>
-                </button>
-                <button id="font-decrease" class="btn-access" title="Diminuir Fonte">
-                    A- Diminuir Fonte
-                </button>
-                <button id="font-increase" class="btn-access" title="Aumentar Fonte">
-                    A+ Aumentar Fonte
-                </button>
-            </div>
-            <button id="accessibility-toggle" class="btn-access-main" title="Abrir menu de acessibilidade">
-                <img src="/assets/images/iconacessibilidade.png" alt="Ícone de Acessibilidade">
-            </button>
 
         </div>
 
@@ -219,6 +192,9 @@
     <script>
       new window.VLibras.Widget("https://vlibras.gov.br/app");
     </script>
+
+    <custom-accessibility></custom-accessibility>
+    <script src="../../components/accessibility.js"></script>
 
     <!-- footer -->
     <custom-footer></custom-footer>

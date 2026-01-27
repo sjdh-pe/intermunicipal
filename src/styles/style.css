@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap');
 
 body {
     font-family: 'Roboto', sans-serif;
@@ -26,148 +26,6 @@ header {
     height: 50px;
 }
 
-
-/*ACESSIBILIDADE*/
-
-.accessibility-menu {
-    position: fixed;
-    top: 22%;
-    right: 3px;
-    z-index: 1050;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 15px;
-}
-
-/* Container das opções que aparecem/desaparecem */
-.accessibility-options {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    transition: all 0.3s ease-in-out;
-
-    /* Começa escondido */
-    opacity: 0;
-    transform: translateY(20px);
-    visibility: hidden;
-}
-
-/* Classe que o JavaScript irá adicionar para mostrar as opções */
-.accessibility-menu.active .accessibility-options {
-    opacity: 1;
-    transform: translateY(0);
-    visibility: visible;
-}
-
-/* Botão principal, sempre visível */
-.btn-access-main {
-    background: transparent;
-    border: transparent;
-}
-
-.btn-access-main:hover {
-    transform: scale(1.1);
-}
-
-.btn-access-main img {
-    width: 40px; /* Ajuste o tamanho do ícone principal */
-    height: auto;
-}
-
-/* Estilo dos botões de opção (Contraste, A+, A-) */
-.btn-access {
-    background-color: #3185EF;
-    color: white;
-    border: none;
-    border-radius: 9px;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s ease-in-out;
-    display: flex;
-    align-items: baseline;
-    justify-content: baseline;
-    padding: 10px 15px;
-    gap: 8px;
-    font-size: 1rem;
-    white-space: nowrap;
-}
-
-.btn-access:hover {
-    background-color: #0b5ed7;
-}
-
-.btn-access img {
-    width: 20px;
-    height: auto;
-}
-
-/*Contraste*/
-
-body.high-contrast {
-    background-color: #000 !important;
-    color: #fff !important;
-}
-
-body.high-contrast header {
-    background-color: #000;
-    border-bottom: 2px solid #fff;
-}
-
-body.high-contrast {
-    color: #fff;
-}
-
-body.high-contrast .card {
-    background-color: #1a1a1a;
-    color: #fff;
-    border: 1px solid #fff;
-}
-
-body.high-contrast .card-header {
-    background-color: #333 !important;
-}
-
-body.high-contrast .form-control,
-body.high-contrast .form-select {
-    background-color: #333;
-    color: #fff;
-    border-color: #fff;
-}
-
-body.high-contrast .form-control::placeholder {
-    color: #ccc;
-}
-
-body.high-contrast .btn-primary {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-    color: #fff;
-}
-
-body.high-contrast .btn-secondary {
-    background-color: #555;
-    border-color: #555;
-    color: #fff;
-}
-
-body.high-contrast a {
-    color: #58a6ff;
-}
-
-body.high-contrast .step-number {
-    background-color: #444;
-}
-
-body.high-contrast .step.active .step-number {
-    background-color: #0d6efd;
-}
-
-body.high-contrast .step.completed .step-number {
-    background-color: #198754;
-}
-
 .main-nav a {
     text-decoration: none;
     color: #fff;
@@ -188,22 +46,6 @@ body.high-contrast .step.completed .step-number {
     color: #0d6efd;
     font-weight: normal;
     line-height: 1.2;
-}
-
-body.high-contrast p,
-body.high-contrast li,
-body.high-contrast h2,
-body.high-contrast h3,
-body.high-contrast h4,
-body.high-contrast label,
-body.high-contrast strong {
-    color: #fff !important;
-}
-
-/* Garante que a borda do título também fique visível */
-body.high-contrast .intro h2 {
-    border-top-color: #555;
-    border-bottom-color: #555;
 }
 
 /* Main Content */
@@ -269,7 +111,7 @@ main {
     width: 50%;
     margin: 20px auto;
     padding: 15px;
-    border-radius: 25px;
+    border-radius: 10px;
     border: none;
     font-size: 1.1em;
     cursor: pointer;
@@ -290,19 +132,20 @@ main {
 }
 
 .card {
-    border-radius: 25px;
+    border-radius: 15px;
     padding: 30px;
-    color: #fff;
+    color: #000;
     flex: 1;
     text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .solicitar {
-    background-color: #21409A;
+    background-color: #fff;
 }
 
-.consultar {
-    background-color: #21409A;
+.login {
+    background-color: #fff;
 }
 
 .card h3 {
@@ -321,12 +164,12 @@ main {
     width: 80%;
     margin: 20px auto;
     padding: 15px;
-    border-radius: 25px;
+    border-radius: 8px;
     border: none;
     font-size: 1.1em;
     cursor: pointer;
-    background-color: #fff;
-    color: #0d6efd;
+    background-color: #21409A;
+    color: #fff;
     font-weight: bold;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -334,44 +177,6 @@ main {
 .action-btn:hover {
     background-color: #e0e0e0;
 }
-
-.consultar form {
-    display: flex;
-    flex-direction: column;
-}
-
-.consultar label {
-    text-align: left;
-    margin-bottom: 5px;
-    font-size: 0.9em;
-    font-weight: bold;
-
-}
-
-.consultar input {
-    padding: 12px;
-    border-radius: 50px;
-    border: none;
-    margin-bottom: 20px;
-    font-size: 1em;
-}
-
-.search-btn {
-    padding: 15px;
-    border-radius: 50px;
-    border: none;
-    background-color: #00da62;
-    color: white;
-    font-size: 1.2em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.search-btn:hover {
-    background-color: #008c40;
-}
-
 
 
 .mobile-menu-button {
@@ -393,32 +198,6 @@ main {
     height: 3px;
     background-color: #fff;
     border-radius: 3px;
-}
-
-
-/* Ajustes de alto contraste para o card e inputs */
-body.high-contrast .card {
-    background-color: #000 !important;
-    color: #fff !important;
-    border-color: #fff !important;
-}
-
-body.high-contrast .form-control,
-body.high-contrast .input-group-text {
-    background-color: #000 !important;
-    color: #fff !important;
-    border-color: #fff !important;
-}
-
-/* Botão principal acessível */
-.btn-primary {
-    background-color: var(--brand-primary);
-    border-color: var(--brand-primary);
-}
-
-.btn-primary:hover,
-.btn-primary:focus {
-    filter: brightness(0.95);
 }
 
 /* Espaçamento do menu de acessibilidade em telas pequenas */
