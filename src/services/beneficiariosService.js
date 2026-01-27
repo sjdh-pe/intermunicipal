@@ -137,7 +137,22 @@ export async function atualizarBeneficiarioStatus(id, data) {
 
 }
 
+/**
+ *  Valida Beneficiário
+ *
+ *  @param {string} idBeneficiario - ID do beneficiário
+ *  @returns {Promise<object>} Objeto do beneficiário atualizado (conforme retorno da API)
+ */
+export async function validarBeneficiario(idBeneficiario) {
+    const apiBase =
+        `${window.location.protocol}//${window.location.hostname}:3000`;
 
+    const resp = await api.get(
+        `${apiBase}/beneficiarios/${encodeURIComponent(idBeneficiario)}/validar`
+    );
+
+    return resp.data;
+}
 /**
  * Valida um único arquivo
  *

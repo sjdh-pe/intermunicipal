@@ -1,77 +1,53 @@
 // Simulação de Banco de Dados (Mesmos dados da gestão)
-const database = [
-    { 
-        id: "1", 
-        nome: "Dolores Purdy", 
-        cpf: "00000000005", 
-        cidade: "CARUARU", 
-        tipoDeficiencia: "Física", 
-        statusBeneficio: "Aprovado", // Aprovado = Válido
-        docFoto: "../../assets/docs/foto_dolores.jpg",
-        dataValidade: "2026-12-31" // Simulando uma data de validade
-    },
-    { 
-        id: "2", 
-        nome: "Bradley Deckow", 
-        cpf: "00000000003", 
-        cidade: "CARUARU", 
-        tipoDeficiencia: "Física", 
-        statusBeneficio: "Em análise", // Em análise = Não válido para transporte ainda
-        dataValidade: "-"
-    },
-    { 
-        id: "3", 
-        nome: "Debbie Deckow", 
-        cpf: "00000000002", 
-        cidade: "CARUARU", 
-        tipoDeficiencia: "Física", 
-        statusBeneficio: "Negado", // Negado = Inválido
-        dataValidade: "-"
-    },
-    { 
-        id: "7", 
-        nome: "Carlos Eduardo Silva", 
-        cpf: "55566677788", 
-        cidade: "OLINDA", 
-        tipoDeficiencia: "Auditiva", 
-        statusBeneficio: "Aprovado", 
-        dataValidade: "2025-07-20"
-    }
-];
+import {validarBeneficiario} from "../../services/beneficiariosService.js";
+
+function getDataUrlFromBase64(base64) {
+    if (!base64) return null;
+
+    // Se já vier como "data:image/..;base64,..."
+    if (base64.startsWith("data:")) return base64;
+
+    // Heurística simples: jpeg geralmente começa com "/9j/"
+    const mime = base64.startsWith("/9j/") ? "image/jpeg" : "image/png";
+    return `data:${mime};base64,${base64}`;
+}
 
 // Função principal que roda ao carregar a página
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Pega os parâmetros da URL (ex: carteira.html?id=1)
+document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('id');
 
-    // Elementos da tela
     const loadingState = document.getElementById('loading-state');
     const errorState = document.getElementById('error-state');
     const walletCard = document.getElementById('wallet-card');
 
-    // Simula um pequeno delay de carregamento (para parecer real)
-    setTimeout(() => {
-        loadingState.classList.add('hidden');
+    // Data/hora
+    const now = new Date();
+    document.getElementById('data-hora-consulta').textContent =
+        `Consulta: ${now.toLocaleDateString()} às ${now.toLocaleTimeString()}`;
 
-        if (!userId) {
-            showError();
-            return;
-        }
+    // Delay “realista”
+    await new Promise(resolve => setTimeout(resolve, 800));
+    loadingState.classList.add('hidden');
 
-        // 2. Busca o usuário no "Banco de Dados"
-        const user = database.find(u => u.id === userId);
+    if (!userId) {
+        showError();
+        return;
+    }
+
+    try {
+        const user = await validarBeneficiario(userId); // ✅ espera a resposta
+        console.log(user);
 
         if (user) {
             renderWallet(user, walletCard);
         } else {
             showError();
         }
-    }, 800); // 800ms de delay
-
-    // Mostra data e hora da consulta no rodapé do card
-    const now = new Date();
-    document.getElementById('data-hora-consulta').textContent = `Consulta: ${now.toLocaleDateString()} às ${now.toLocaleTimeString()}`;
+    } catch (err) {
+        console.error('Erro ao validar beneficiário:', err);
+        showError();
+    }
 });
 
 function showError() {
@@ -91,10 +67,11 @@ function renderWallet(user, cardElement) {
     // Foto
     const imgEl = document.getElementById('user-photo');
     const iconEl = document.getElementById('user-icon');
-    
-    // Lógica simples: Se tiver link de foto e não for vazio, tenta mostrar
-    if (user.docFoto && user.docFoto.includes('.')) { 
-        imgEl.src = user.docFoto;
+
+    const dataUrl = getDataUrlFromBase64(user.fotoBase64);
+
+    if (dataUrl) {
+        imgEl.src = dataUrl;
         imgEl.classList.remove('hidden');
         iconEl.classList.add('hidden');
     } else {
