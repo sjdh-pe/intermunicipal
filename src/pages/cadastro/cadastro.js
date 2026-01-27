@@ -1,7 +1,7 @@
 
 import {
     cadastrarBeneficiario,
-    cadastrarResponsavelBeneficiario, validarArquivo, uploadArquivoBeneficiario, atualizarBeneficiario
+    cadastrarResponsavelBeneficiario, validarArquivo, uploadArquivoBeneficiario
 } from "../../services/beneficiariosService.js";
 
 // Estado do beneficiário deve iniciar nulo para permitir a checagem correta
@@ -74,7 +74,6 @@ async function buscarEnderecoPorCep(cep) {
 
 
 
-
 function nextSection(currentSection) {
     if (validateSection(currentSection)) {
         document.getElementById(`section${currentSection}`).classList.remove('active');
@@ -140,7 +139,7 @@ function validateSection(sectionNumber) {
     section.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
     // section 1
     if(sectionNumber === 1) {
-
+        console.log('Validando seção 1');
 
         p.nome = document.getElementById('fullName').value.trim();
         if (!p.nome || p.nome.length < 3){
@@ -153,6 +152,7 @@ function validateSection(sectionNumber) {
         const cpfRaw = document.getElementById('cpf').value.trim();
         p.cpf = onlyDigits(cpfRaw);
         if (!p.cpf || p.cpf.length !== 11){
+            console.log('CPF inválido:', p.cpf);
             erros.push('CPF é obrigatório.');
             validarCampo(document.getElementById('cpf'),
                 {valueMissing: "Informe o CPF.",
@@ -176,8 +176,7 @@ function validateSection(sectionNumber) {
             document.getElementById('birthDate').focus();
             return false;
         }
-        else if (isMinor(p.dataNascimento)){
-            console.log(isMinor(p.dataNascimento))
+        if (isMinor(p.dataNascimento)){
             if(!document.getElementById('responsavel').checked){
                 erros.push('Beneficiário menor de idade. É obrigatório o preenchimento dos dados do responsável.');
                 validarCampo(document.getElementById('responsavel'), {valueMissing:erros[0].toString()});
@@ -215,6 +214,14 @@ function validateSection(sectionNumber) {
                 validarCampo(document.getElementById('cpfResponsavel'),
                     {valueMissing: "Informe o CPF do Responsavél.",
                         patternMismatch: "CPF inválido do Responsavél."});
+
+                document.getElementById('cpfResponsavel').focus();
+                return false;
+            }
+            if(responsavel.cpf === p.cpf){
+                erros.push('CPF do Responsavél não pode ser igual ao do Beneficiário.');
+                validarCampo(document.getElementById('cpfResponsavel'),
+                    {valueMissing: erros[0].toString()});
 
                 document.getElementById('cpfResponsavel').focus();
                 return false;
@@ -548,9 +555,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     await uploadArquivoBeneficiario(beneficiario.id, 3, croppedFile);
 
-                    alert('Documentos enviados com sucesso!');
-
                     // Redirecionar ou atualizar a página conforme necessário
+                    alert('Documentos enviados, Cadastro concluidoq com sucesso!');
+
+
                 } catch (error) {
                     alert('Erro ao enviar os documentos.'+ (error.message || ''));
                 }
@@ -684,7 +692,6 @@ function validarFoto() {
 
 
 function validarCampo(campo, mensagemsCustom = {}) {
-
     // encontrar container que tenha invalid-feedback
     const container = campo.closest('.mb-3')
         || campo.parentElement
@@ -701,33 +708,29 @@ function validarCampo(campo, mensagemsCustom = {}) {
     campo.classList.remove("is-invalid");
     if (feedback) feedback.textContent = "";
 
-
-    // se válido → nada a fazer
-    if (campo.checkValidity()) {
-        return true;
-    }
-
-    // pega o tipo de erro encontrado
+    // console.log(campo.checkValidity())
+    // // se válido → nada a fazer
+    // if (campo.checkValidity()) {
+    //     return true;
+    // }
+    // // pega o tipo de erro encontrado
     const validity = campo.validity;
-
     let mensagem = "Campo inválido."; // padrão
-
-    if (validity.valueMissing) {
+    if (!validity.valueMissing) {
         mensagem = mensagemsCustom.valueMissing || "Este campo é obrigatório.";
     }
-    else if (validity.patternMismatch) {
+    else if (!validity.patternMismatch) {
         mensagem = mensagemsCustom.patternMismatch || "Formato inválido.";
     }
-    else if (validity.tooShort) {
+    else if (!validity.tooShort) {
         mensagem = mensagemsCustom.tooShort || `Mínimo de ${campo.minLength} caracteres.`;
     }
-    else if (validity.tooLong) {
+    else if (!validity.tooLong) {
         mensagem = mensagemsCustom.tooLong || `Máximo de ${campo.maxLength} caracteres.`;
     }
-    else if (validity.typeMismatch) {
+    else if (!validity.typeMismatch) {
         mensagem = mensagemsCustom.typeMismatch || "Valor inválido.";
     }
-
     // aplica erro
     campo.classList.add("is-invalid");
     feedback.textContent = mensagem;

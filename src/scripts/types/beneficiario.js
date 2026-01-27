@@ -36,7 +36,7 @@
  * @property {string} rg - Até 20 caracteres.
  * @property {string} dataNascimento - Data no formato YYYY-MM-DD.
  * @property {number} reponsavelId - ID do responsável legal.
- * @property {number} dias_desce_criacao - Quantos dias desde do cadastro.
+ * @property {number} diasDesdeCriacao - Quantos dias desde do cadastro.
  * @property {number} sexoId - ID da tabela de sexo/gênero.
  * @property {number} etniaId - ID da tabela de etnia.
  * @property {number} tipoDeficienciaId - ID do tipo de deficiência.

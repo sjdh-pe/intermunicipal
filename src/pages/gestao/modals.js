@@ -48,15 +48,16 @@ export function createModalHandlers(state) {
          set('view-mae', user.nomeMae);
          set("view-cpf", user.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4"));
          set("view-rg", user.rg);
-         set("view-espera", user.dias_des_creacao);
-         set('view-cidade', user.cidade);
+         set("view-espera", user.diasDesdeCriacao);
+         document.getElementById("view-espera").innerHTML = user.diasDesdeCriacao ;
+         set("view-cidade", user.cidade);
          set('view-deficiencia', user.tipoDeficiencia);
          set('view-endereco', user.enderecoCompleto );
          set('view-obs', user.motivo);
          set("view-bairro", user.bairro);
          set("view-cep", user.cep);
          set("view-email", user.email);
-         set("view-telefone", user.telefone);
+         set("view-telefone", formatPhone(user.telefone));
 
          const applyLinkState = (btnId, url) => {
              const el = document.getElementById(btnId);
@@ -118,7 +119,7 @@ export function createModalHandlers(state) {
         setValue('edit-deficiencia', user.tipoDeficienciaId);
 
         setValue('edit-email', user.email);
-        setValue('edit-telefone', user.telefone);
+        setValue('edit-telefone', formatPhone(user.telefone));
         setValue('edit-cep', user.cep);
         setValue('edit-bairro', user.bairro);
         setValue('edit-endereco', user.endereco);
@@ -126,7 +127,7 @@ export function createModalHandlers(state) {
         setValue('edit-complemento', user.complemento);
         setValue('edit-id-responsavel',user.responsavelId)
         setValue('edit-responsavel-nome' , user.responsavelNome);
-        setValue('edit-responsavel-cpf' , user.responsavelCpf);
+        setValue('edit-responsavel-cpf' , formatCPF(user.responsavelCpf));
         setValue('edit-responsavel-rg' , user.responsavelRg);
         setValue('edit-obs', user.motivo);
         setValue('edit-cidade', user.cidadeId);
