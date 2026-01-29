@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function showError() {
     document.getElementById('error-state').classList.remove('hidden');
+    document.getElementById('wallet-card').classList.add('hidden');
 }
 
 function renderWallet(user, cardElement) {

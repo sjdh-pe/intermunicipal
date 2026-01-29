@@ -1,4 +1,4 @@
-import {formatCPF, resolveStatus} from './utils.js';
+import { resolveStatus } from './utils.js';
 import { api } from '../../services/api.js'
 import { motivoBeneficiario, listarArquivosBeneficiario } from "../../services/beneficiariosService.js";
 
@@ -112,7 +112,7 @@ export function createModalHandlers(state) {
         setValue('edit-id', user.id);
         setValue('edit-nome', user.nome);
         setValue('edit-mae', user.nomeMae);
-        setValue('edit-cpf', formatCPF(user.cpf));
+        setValue('edit-cpf', formatCpf(user.cpf));
         setValue('edit-rg', user.rg);
         setValue("edit-birthDate", user.dataNascimento);
         setValue("edit-genero", user.sexoId);
@@ -127,7 +127,7 @@ export function createModalHandlers(state) {
         setValue('edit-complemento', user.complemento);
         setValue('edit-id-responsavel',user.responsavelId)
         setValue('edit-responsavel-nome' , user.responsavelNome);
-        setValue('edit-responsavel-cpf' , formatCPF(user.responsavelCpf));
+        setValue('edit-responsavel-cpf' , formatCpf(user.responsavelCpf));
         setValue('edit-responsavel-rg' , user.responsavelRg);
         setValue('edit-obs', user.motivo);
         setValue('edit-cidade', user.cidadeId);

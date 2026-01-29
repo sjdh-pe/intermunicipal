@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('divFilesResponsavel').style.display = 'none';
         }
     });
-})
+});
 
 if (menuButton) {
   menuButton.addEventListener('click', () => {
@@ -139,7 +139,7 @@ function validateSection(sectionNumber) {
     section.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
     // section 1
     if(sectionNumber === 1) {
-        console.log('Validando seção 1');
+
 
         p.nome = document.getElementById('fullName').value.trim();
         if (!p.nome || p.nome.length < 3){
@@ -152,7 +152,6 @@ function validateSection(sectionNumber) {
         const cpfRaw = document.getElementById('cpf').value.trim();
         p.cpf = onlyDigits(cpfRaw);
         if (!p.cpf || p.cpf.length !== 11){
-            console.log('CPF inválido:', p.cpf);
             erros.push('CPF é obrigatório.');
             validarCampo(document.getElementById('cpf'),
                 {valueMissing: "Informe o CPF.",
@@ -234,9 +233,7 @@ function validateSection(sectionNumber) {
                 return false;
             }
 
-
         }
-
 
         // Selects (IDs numéricos)
         p.tipoDeficienciaId = Number(document.getElementById('deficiencia').value);
@@ -556,14 +553,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     await uploadArquivoBeneficiario(beneficiario.id, 3, croppedFile);
 
                     // Redirecionar ou atualizar a página conforme necessário
-                    alert('Documentos enviados, Cadastro concluidoq com sucesso!');
+                    alert('Cadastro concluido com sucesso!');
 
 
                 } catch (error) {
                     alert('Erro ao enviar os documentos.'+ (error.message || ''));
                 }
-            } else {
-                alert('Beneficiário não encontrado. Por favor, complete a etapa anterior.');
             }
         });
 
@@ -691,7 +686,7 @@ function validarFoto() {
 }
 
 
-function validarCampo(campo, mensagemsCustom = {}) {
+function validarCampo(campo, mensagensCustom = {}) {
     // encontrar container que tenha invalid-feedback
     const container = campo.closest('.mb-3')
         || campo.parentElement
@@ -717,19 +712,19 @@ function validarCampo(campo, mensagemsCustom = {}) {
     const validity = campo.validity;
     let mensagem = "Campo inválido."; // padrão
     if (!validity.valueMissing) {
-        mensagem = mensagemsCustom.valueMissing || "Este campo é obrigatório.";
+        mensagem = mensagensCustom.valueMissing || "Este campo é obrigatório.";
     }
     else if (!validity.patternMismatch) {
-        mensagem = mensagemsCustom.patternMismatch || "Formato inválido.";
+        mensagem = mensagensCustom.patternMismatch || "Formato inválido.";
     }
     else if (!validity.tooShort) {
-        mensagem = mensagemsCustom.tooShort || `Mínimo de ${campo.minLength} caracteres.`;
+        mensagem = mensagensCustom.tooShort || `Mínimo de ${campo.minLength} caracteres.`;
     }
     else if (!validity.tooLong) {
-        mensagem = mensagemsCustom.tooLong || `Máximo de ${campo.maxLength} caracteres.`;
+        mensagem = mensagensCustom.tooLong || `Máximo de ${campo.maxLength} caracteres.`;
     }
     else if (!validity.typeMismatch) {
-        mensagem = mensagemsCustom.typeMismatch || "Valor inválido.";
+        mensagem = mensagensCustom.typeMismatch || "Valor inválido.";
     }
     // aplica erro
     campo.classList.add("is-invalid");
