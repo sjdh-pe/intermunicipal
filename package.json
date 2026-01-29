@@ -7,12 +7,15 @@
     "clean": "rm -rf public",
     "dev": "live-server src --port=4200 --open=pages/home/index.html",
     "build": "npm run clean && mkdir -p public && cp -a src/. public/ && cp src/pages/home/index.html public/index.html",
-    "serve": "live-server public --port=3000"
+    "server": "json-server --watch db.json --port 3000"
   },
   "devDependencies": {
-    "live-server": "^1.2.2"
+    "json-server": "^0.17.4",
+    "live-server": "^1.2.2",
+    "vite": "^7.3.1"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.1.0",
     "axios": "^1.13.2"
   },
   "description": "![Status](https://img.shields.io/badge/status-em%20desenvolvimento-green)",

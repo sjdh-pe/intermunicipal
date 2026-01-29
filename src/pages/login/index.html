@@ -37,8 +37,7 @@
                             </div>
 
                             <p class="text-center text-secondary mb-4">
-                                Olá, seja bem-vindo! Você foi redirecionado para a página de login para ter acesso ao sistema de gestão
-                                do PE Livre Acesso Intermunicipal.
+                                Olá, seja bem-vindo! Você foi redirecionado para a página de login para solicitar a sua segunda via do PE LIVRE ACESSO INTERMUNICIPAL.
                             </p>
 
                             <form id="login-form" class="needs-validation" novalidate>
@@ -77,27 +76,6 @@
             </div>
         </div>
     </main>
-
-    <!-- Acessibilidade: menu flutuante -->
-    <div class="floating-tools-container">
-        <div class="accessibility-menu">
-            <div class="accessibility-options">
-                <button id="contrast-toggle" class="btn-access" title="Ativar Alto Contraste">
-                    <img src="/assets/images/iconaltocontraste.png" alt="Ícone de contraste">
-                    <span>Alto Contraste</span>
-                </button>
-                <button id="font-decrease" class="btn-access" title="Diminuir Fonte">
-                    A- Diminuir Fonte
-                </button>
-                <button id="font-increase" class="btn-access" title="Aumentar Fonte">
-                    A+ Aumentar Fonte
-                </button>
-            </div>
-
-            <button id="accessibility-toggle" class="btn-access-main" title="Abrir menu de acessibilidade" aria-label="Abrir menu de acessibilidade">
-                <img src="/assets/images/iconacessibilidade.png" alt="Ícone de Acessibilidade">
-            </button>
-        </div>
 
         <!-- VLibras -->
         <div vw class="enabled">
@@ -148,6 +126,12 @@
         if (decBtn) decBtn.addEventListener('click', () => { baseSize = Math.max(baseSize - 1, 12); html.style.fontSize = baseSize + 'px'; });
       })();
     </script>
+
+    <custom-accessibility></custom-accessibility>
+    <script src="../../components/accessibility.js"></script>
+
+    <custom-footer></custom-footer>
+    <script src="../../components/footer.js"></script>
 
 </body>
 </html>

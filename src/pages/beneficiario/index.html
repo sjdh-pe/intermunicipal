@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PE Livre Acesso - Meu Cadastro</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap');
+        :root {
+            --primary-color: #005A9C; /* Azul Governo PE */
+            --secondary-color: #28a745; /* Verde Sucesso */
+            --background: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-muted: #6c757d;
+            --border-color: #e0e0e0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Open Sans', sans-serif;}
+
+        body { background-color: var(--background); color: var(--text-main); }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .user-name h1{
+            padding-top: 30px;
+            padding-left: 40px;
+        }
+
+        .user-name p{
+            padding-left: 40px;
+        }
+
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .card h3 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .full-width { grid-column: span 2; }
+
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 0.95rem;
+            transition: border 0.3s;
+        }
+
+        input:disabled { background-color: #e9ecef; cursor: not-allowed; }
+        input:not(:disabled):focus { border-color: var(--primary-color); outline: none; }
+
+        /* Estilo dos Documentos */
+        .doc-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background: #fafafa;
+        }
+
+        .doc-item span { font-weight: 500; font-size: 0.9rem; }
+        .btn-upload {
+            background-color: var(--text-muted);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            border: none;
+            transition: 0.3s;
+        }
+        .btn-upload:hover { background-color: #5a6268; }
+
+        /* Barra de Ação Fixa Inferior */
+        .action-bar {
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary { background-color: #ffc107; color: #333; }
+        .btn-secondary:hover { background-color: #e0a800; }
+
+        .btn-primary { background-color: var(--secondary-color); color: white; }
+        .btn-primary:hover { background-color: #218838; }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            .action-bar { flex-direction: column; padding: 15px; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- header-top -->
+    <custom-navbar></custom-navbar>
+    <script src="../../components/navbar.js"></script>
+
+    <div class="user-name">
+        <h1><i class="fa-solid fa-id-card"></i> PE Livre Acesso Intermunicipal</h1>
+        <p>Bem-vindo, João da Silva (ID: 123456)</p>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-grid">
+            
+            <div class="card">
+                <h3><i class="fa-solid fa-user"></i> Dados Pessoais e Benefício</h3>
+                <div class="form-grid">
+                    <div class="input-group full-width">
+                        <label>Nome Completo</label>
+                        <input type="text" value="João da Silva Pereira" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>CPF</label>
+                        <input type="text" value="000.000.000-00" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>RG</label>
+                        <input type="text" value="1.234.567" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Data de Nascimento</label>
+                        <input type="date" value="1980-05-15" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Sexo</label>
+                        <input type="text" value="Masculino" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Etnia</label>
+                        <input type="text" value="Parda" disabled>
+                    </div>
+                    <div class="input-group full-width">
+                        <label>Nome da Mãe</label>
+                        <input type="text" value="Maria da Silva Pereira" disabled>
+                    </div>
+                    <div class="input-group full-width">
+                        <label>Tipo de Deficiência</label>
+                        <input type="text" value="Deficiência Física" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Possui Acompanhante?</label>
+                        <input type="text" value="Sim" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Status do Benefício</label>
+                        <input type="text" value="Ativo" disabled style="background-color: #d4edda; color: #155724; font-weight: bold;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fa-solid fa-map-location-dot"></i> Contato e Endereço</h3>
+                <div class="form-grid">
+                    <div class="input-group full-width">
+                        <label>E-mail</label>
+                        <input type="email" value="joao.silva@email.com" id="edit-email">
+                    </div>
+                    <div class="input-group full-width">
+                        <label>Telefone</label>
+                        <input type="tel" value="(81) 99999-9999" id="edit-telefone">
+                    </div>
+                    <div class="input-group">
+                        <label>CEP</label>
+                        <input type="text" value="50000-000" id="edit-cep">
+                    </div>
+                    <div class="input-group">
+                        <label>Cidade</label>
+                        <input type="text" value="Recife" id="edit-cidade">
+                    </div>
+                    <div class="input-group full-width">
+                        <label>Bairro</label>
+                        <input type="text" value="Boa Vista" id="edit-bairro">
+                    </div>
+                    <div class="input-group full-width">
+                        <label>Endereço</label>
+                        <input type="text" value="Rua da Aurora" id="edit-endereco">
+                    </div>
+                    <div class="input-group">
+                        <label>Número</label>
+                        <input type="text" value="123" id="edit-numero">
+                    </div>
+                    <div class="input-group">
+                        <label>Complemento</label>
+                        <input type="text" value="Apt 101" id="edit-complemento">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fa-solid fa-users"></i> Dados do Responsável</h3>
+                <div class="form-grid">
+                    <div class="input-group full-width">
+                        <label>Nome do Responsável</label>
+                        <input type="text" value="Carlos da Silva Pereira" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>CPF Responsável</label>
+                        <input type="text" value="111.111.111-11" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>RG Responsável</label>
+                        <input type="text" value="7.654.321" disabled>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;"><i class="fa-solid fa-folder-open"></i> Meus Documentos</h3>
+                <div class="docs-list">
+                    <input type="file" id="file-input" style="display: none;" accept="image/*,.pdf">
+
+                    <div class="doc-item">
+                        <span><i class="fa-regular fa-file-pdf text-danger"></i> RG ou Certidão</span>
+                        <button class="btn-upload" onclick="triggerUpload('RG')"><i class="fa-solid fa-upload"></i> Novo</button>
+                    </div>
+                    <div class="doc-item">
+                        <span><i class="fa-regular fa-file-pdf"></i> CPF</span>
+                        <button class="btn-upload" onclick="triggerUpload('CPF')"><i class="fa-solid fa-upload"></i> Novo</button>
+                    </div>
+                    <div class="doc-item">
+                        <span><i class="fa-regular fa-file-pdf"></i> Laudo Médico</span>
+                        <button class="btn-upload" onclick="triggerUpload('LAUDO')"><i class="fa-solid fa-upload"></i> Novo</button>
+                    </div>
+                    <div class="doc-item">
+                        <span><i class="fa-regular fa-file-pdf"></i> Comprovante de Residência</span>
+                        <button class="btn-upload" onclick="triggerUpload('RESIDENCIA')"><i class="fa-solid fa-upload"></i> Novo</button>
+                    </div>
+                    <div class="doc-item">
+                        <span><i class="fa-solid fa-image"></i> Foto 3x4</span>
+                        <button class="btn-upload" onclick="triggerUpload('FOTO')"><i class="fa-solid fa-upload"></i> Novo</button>
+                    </div>
+                    <div class="doc-item">
+                        <span><i class="fa-regular fa-file-pdf"></i> CPF do Responsável</span>
+                        <button class="btn-upload" onclick="triggerUpload('CPF_RESP')"><i class="fa-solid fa-upload"></i> Novo</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn btn-secondary" onclick="emitirSegundaVia()">
+            <i class="fa-solid fa-print"></i> Emitir 2ª Via
+        </button>
+        <button class="btn btn-primary" onclick="atualizarInformacoes()">
+            <i class="fa-solid fa-floppy-disk"></i> Atualizar Informações
+        </button>
+    </div>
+
+    <!-- VLibras -->
+        <div vw class="enabled">
+            <div vw-access-button class="active"></div>
+            <div vw-plugin-wrapper>
+                <div class="vw-plugin-top-wrapper"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Lógica de upload de arquivos
+        const fileInput = document.getElementById('file-input');
+        let currentDocType = '';
+
+        function triggerUpload(docType) {
+            currentDocType = docType;
+            fileInput.click();
+        }
+
+        fileInput.addEventListener('change', function(e) {
+            if(this.files && this.files.length > 0) {
+                const fileName = this.files[0].name;
+                alert(`Arquivo "${fileName}" selecionado para o documento: ${currentDocType}.\n(Aqui entraria a requisição para o servidor)`);
+                // Limpar o input para permitir selecionar o mesmo arquivo novamente
+                this.value = ''; 
+            }
+        });
+
+        // Ações dos botões inferiores
+        function emitirSegundaVia() {
+            // Pode abrir um Modal para confirmar dados ou motivo da perda/roubo
+            alert("Iniciando processo de emissão da 2ª via...");
+        }
+
+        function atualizarInformacoes() {
+            // Coletar dados dos campos editáveis
+            const dadosAtualizados = {
+                cep: document.getElementById('edit-cep').value,
+                cidade: document.getElementById('edit-cidade').value,
+                bairro: document.getElementById('edit-bairro').value,
+                endereco: document.getElementById('edit-endereco').value,
+                numero: document.getElementById('edit-numero').value,
+                complemento: document.getElementById('edit-complemento').value,
+                email: document.getElementById('edit-email').value,
+                telefone: document.getElementById('edit-telefone').value
+            };
+            
+            console.log("Dados prontos para envio:", dadosAtualizados);
+            alert("Informações de contato e endereço atualizadas com sucesso!");
+        }
+    </script>
+
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+      new window.VLibras.Widget("https://vlibras.gov.br/app");
+    </script>
+    <custom-accessibility></custom-accessibility>
+    <script src="../../components/accessibility.js"></script>
+       <custom-footer></custom-footer>
+    <script src="../../components/footer.js"></script>
+</body>
+</html>
