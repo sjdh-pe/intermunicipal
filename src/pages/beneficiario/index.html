@@ -156,54 +156,54 @@
         <p>Bem-vindo, João da Silva (ID: 123456)</p>
     </div>
 
-    <div class="container">
-        <div class="dashboard-grid">
-            
-            <div class="card">
-                <h3><i class="fa-solid fa-user"></i> Dados Pessoais e Benefício</h3>
-                <div class="form-grid">
-                    <div class="input-group full-width">
-                        <label>Nome Completo</label>
-                        <input type="text" value="João da Silva Pereira" disabled>
-                    </div>
-                    <div class="input-group">
-                        <label>CPF</label>
-                        <input type="text" value="000.000.000-00" disabled>
-                    </div>
-                    <div class="input-group">
-                        <label>RG</label>
-                        <input type="text" value="1.234.567" disabled>
-                    </div>
-                    <div class="input-group">
-                        <label>Data de Nascimento</label>
-                        <input type="date" value="1980-05-15" disabled>
-                    </div>
-                    <div class="input-group">
-                        <label>Sexo</label>
-                        <input type="text" value="Masculino" disabled>
-                    </div>
-                    <div class="input-group">
-                        <label>Etnia</label>
-                        <input type="text" value="Parda" disabled>
-                    </div>
-                    <div class="input-group full-width">
-                        <label>Nome da Mãe</label>
-                        <input type="text" value="Maria da Silva Pereira" disabled>
-                    </div>
-                    <div class="input-group full-width">
-                        <label>Tipo de Deficiência</label>
-                        <input type="text" value="Deficiência Física" disabled>
-                    </div>
-                    <div class="input-group">
-                        <label>Possui Acompanhante?</label>
-                        <input type="text" value="Sim" disabled>
-                    </div>
-                    <div class="input-group">
-                        <label>Status do Benefício</label>
-                        <input type="text" value="Ativo" disabled style="background-color: #d4edda; color: #155724; font-weight: bold;">
-                    </div>
-                </div>
+<div class="container">
+<div class="dashboard-grid">
+
+    <div class="card">
+        <h3><i class="fa-solid fa-user"></i> Dados Pessoais e Benefício</h3>
+        <div class="form-grid">
+            <div class="input-group full-width">
+                <label>Nome Completo</label>
+                <input id="nome" type="text" disabled>
             </div>
+            <div class="input-group">
+                <label>CPF</label>
+                <input id="cpf" type="text" disabled>
+            </div>
+            <div class="input-group">
+                <label>RG</label>
+                <input id="rg" type="text" disabled>
+            </div>
+            <div class="input-group">
+                <label>Data de Nascimento</label>
+                <input id="datanasc" type="date" disabled>
+            </div>
+            <div class="input-group">
+                <label>Gênero</label>
+                <input id="genero" type="text" disabled>
+            </div>
+            <div class="input-group">
+                <label>Etnia</label>
+                <input id="etnia" type="text" disabled>
+            </div>
+            <div class="input-group full-width">
+                <label>Nome da Mãe</label>
+                <input id="nomemae" type="text" disabled>
+            </div>
+            <div class="input-group full-width">
+                <label>Tipo de Deficiência</label>
+                <input id="tipodeficiencia" type="text" disabled>
+            </div>
+            <div class="input-group">
+                <label>Possui Acompanhante?</label>
+                <input id="acompanhante" type="text" disabled>
+            </div>
+            <div class="input-group">
+                <label>Status do Benefício</label>
+                <input id="status" type="text" disabled style="font-weight: bold;">
+            </div>
+        </div>
+    </div>
 
             <div class="card">
                 <h3><i class="fa-solid fa-map-location-dot"></i> Contato e Endereço</h3>
@@ -364,5 +364,8 @@
     <script src="../../components/accessibility.js"></script>
        <custom-footer></custom-footer>
     <script src="../../components/footer.js"></script>
+    <script type="module" src="./beneficiario.js"></script>
+    <script>
+    </script>
 </body>
 </html>

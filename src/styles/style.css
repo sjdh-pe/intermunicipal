@@ -33,20 +33,7 @@ header {
     font-weight: bold;
 }
 
-.header-main {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 20px;
-}
 
-.header-text h2 {
-    margin: 0;
-    font-size: 1.5em;
-    color: #0d6efd;
-    font-weight: normal;
-    line-height: 1.2;
-}
 
 /* Main Content */
 main {
@@ -200,7 +187,7 @@ main {
     border-radius: 3px;
 }
 
-/* Espaçamento do menu de acessibilidade em telas pequenas */
+/* Espaçamento do menu de acessibilidade  */
 @media (max-width: 900px) {
     .accessibility-menu { top: 30%; }
 }

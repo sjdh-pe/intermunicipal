@@ -203,7 +203,7 @@ class CustomFooter extends HTMLElement {
                 </div>
 
                 <div class="copyright-bar">
-                    <a href="#">copyright© 2025 – SJDHPV Desenvolvido por SUPTI</a>
+                    <a href="#">copyright© 2025 – SJDH Desenvolvido por SUPTI</a>
                 </div>
             </footer>
         `;

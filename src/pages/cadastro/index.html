@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns="http://www.w3.org/1999/html">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -662,25 +662,6 @@
     </div>
 </div>
 
-<div class="floating-tools-container">
-    <div class="accessibility-menu">
-        <div class="accessibility-options">
-            <button id="contrast-toggle" class="btn-access" title="Ativar Alto Contraste">
-                <img src="../../assets/images/iconaltocontraste.png" alt="Ícone de contraste">
-                <span>Alto Contraste</span>
-            </button>
-            <button id="font-decrease" class="btn-access" title="Diminuir Fonte">
-                A- Diminuir Fonte
-            </button>
-            <button id="font-increase" class="btn-access" title="Aumentar Fonte">
-                A+ Aumentar Fonte
-            </button>
-        </div>
-        <button id="accessibility-toggle" class="btn-access-main" title="Abrir menu de acessibilidade">
-            <img src="../../assets/images/iconacessibilidade.png" alt="Ícone de Acessibilidade">
-        </button>
-    </div>
-
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
         <div vw-plugin-wrapper>
@@ -688,14 +669,15 @@
         </div>
     </div>
 
-</div>
-
 
 
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
 </script>
+
+    <custom-accesibility></custom-accesibility>
+    <script src="../../components/accessibility.js"></script>
 
     <!-- footer -->
     <custom-footer></custom-footer>

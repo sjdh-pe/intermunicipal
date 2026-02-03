@@ -28,122 +28,136 @@
     <script type="module" src="../../scripts/utils/loader.js"></script>
 
 <main class="container mx-auto px-4 py-8">
-    <div class="flex justify-between items-center mb-8">
-        <h1 class="text-3xl font-bold text-blue-600" style="text-align: center; color: #21409A">Beneficiários PE Livre Acesso Intermunicipal</h1>
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-blue-600" style="text-align: center; color: #21409A">
+            Beneficiários PE Livre Acesso Intermunicipal
+        </h1>
     </div>
-    <div class="flex justify-between items-center mb-8">
 
-            <div class="flex space-x-2">
-                <div class="relative">
-                    <input type="text" id="search-nome" placeholder="Nome" class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <i data-feather="user" class="absolute left-3 top-2.5 text-gray-400"></i>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+        
+        <div class="lg:col-span-4 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <h2 class="text-sm font-bold text-gray-500 uppercase mb-3 flex items-center">
+                <i data-feather="calendar" class="w-4 h-4 mr-2"></i> Período de Solicitação
+            </h2>
+            <div class="flex flex-col gap-3">
+                <div class="w-full">
+                    <label class="text-xs text-gray-400 mb-1 block">Data Início</label>
+                    <input 
+                        type="date" 
+                        id="search-data-inicio" 
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-600">
                 </div>
-                <div class="relative">
-                    <input type="text" id="search-cpf" placeholder="CPF" class=" pl-10 pr-4 py-2 cpf-masck border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <i data-feather="credit-card" class="absolute left-3 top-2.5 text-gray-400"></i>
+                <div class="w-full">
+                    <label class="text-xs text-gray-400 mb-1 block">Data Final</label>
+                    <input 
+                        type="date" 
+                        id="search-data-fim" 
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-600">
                 </div>
+                <button id="btn-buscar-periodo" class="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center transition-colors">
+                    <i data-feather="search" class="w-4 h-4 mr-2"></i> Buscar
+                </button>
+            </div>
+        </div>
+
+        <div class="lg:col-span-8 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <h2 class="text-sm font-bold text-gray-500 uppercase mb-3 flex items-center">
+                <i data-feather="filter" class="w-4 h-4 mr-2"></i> Filtros de Dados
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="relative">
-                    <input type="text" id="search-cidade" placeholder="Cidade" class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <i data-feather="map-pin" class="absolute left-3 top-2.5 text-gray-400"></i>
+                    <input type="text" id="search-nome" placeholder="Nome do Beneficiário" class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <i data-feather="user" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4"></i>
+                </div>
+
+                <div class="relative">
+                    <input type="text" id="search-cpf" placeholder="CPF" class="w-full pl-10 pr-4 py-2 cpf-masck border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <i data-feather="credit-card" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4"></i>
+                </div>
+
+                <div class="relative">
+                    <input type="text" id="search-cidade" placeholder="Cidade" class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <i data-feather="map-pin" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4"></i>
+                </div>
+
+                <div class="relative">
+                    <select id="search-status" class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-600">
+                        <option value="">Todos os status</option>
+                        <option value="1">Em análise</option>
+                        <option value="2">Pendente</option>
+                        <option value="3">Indeferido</option>
+                        <option value="4">Aprovado</option>
+                        <option value="5">Entregue</option>
+                        <option value="6">Enviadas para Confecção</option>
+                        <option value="7">Entregue aos Correios</option>
+                        <option value="8">Entregue ao Município</option>
+                        <option value="9">Disponível para Retirada</option>
+                        <option value="10">Em Processamento</option>
+                        <option value="11">Vencido</option>
+                    </select>
+                    <i data-feather="activity" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4"></i>
                 </div>
             </div>
-    </div>
-    <div class="flex justify-between items-center mb-8">
-        <div class="flex space-x-4">
-            <div class="flex space-x-2">
-               <div class="relative">
-                    <input 
-                    type="text" 
-                    onfocus="(this.type='date')" 
-                    onblur="(this.value ? this.type='date' : this.type='text')" 
-                    id="search-data-inicio" 
-                    placeholder="Data Início" 
-                    class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-40">
-                    <i data-feather="calendar" class="absolute left-3 top-2.5 text-gray-400"></i>
-               </div>
 
-               <div class="relative">
-                    <input 
-                    type="text" 
-                    onfocus="(this.type='date')" 
-                    onblur="(this.value ? this.type='date' : this.type='text')" 
-                    id="search-data-fim" 
-                    placeholder="Data Final"
-                    class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-40">
-                    <i data-feather="calendar" class="absolute left-3 top-2.5 text-gray-400"></i>
-               </div>
-
-                <select id="search-status" class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">Todos status</option>
-                    <option value="1">Em análise</option>
-                    <option value="2">Pendente</option>
-                    <option value="3">Indeferido</option>
-                    <option value="4">Aprovado</option>
-                    <option value="5">Entregue</option>
-                    <option value="6">Enviadas para Confecção</option>
-                    <option value="7">Entregue aos Correios</option>
-                    <option value="8">Entregue ao Município</option>
-                    <option value="9">Disponível para Retirada</option>
-                    <option value="10">Em Processamento</option>
-                    <option value="11">Vencido</option>
-                </select>
-                <button id="btn-filtrar" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
-                    <i data-feather="filter" class="mr-2"></i> Filtrar
+            <div class="mt-4 flex justify-end">
+                <button id="btn-filtrar" class="bg-blue-800 hover:bg-blue-900 text-white px-6 py-2 rounded-lg flex items-center transition-colors">
+                    <i data-feather="filter" class="w-4 h-4 mr-2"></i> Filtrar Resultados
                 </button>
             </div>
         </div>
     </div>
 
-    <div class="bg-white rounded-xl min-h-[600px] shadow-md overflow-hidden">
+    <div class="bg-white rounded-xl min-h-[500px] shadow-md overflow-hidden border border-gray-100">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-blue-50">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Nome</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">CPF</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Cidade</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Deficiência</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Status</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Ações</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">Nome</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">CPF</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">Cidade</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">Deficiência</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">DATA DA SOLICITAÇÃO</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">Ações</th>
                 </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200" id="beneficiarios-table">
-                <!-- Data will be loaded here via JavaScript -->
                 </tbody>
             </table>
         </div>
-
     </div>
 
-    <div class="flex flex-col md:flex-row md:justify-between md:items-center mt-4 gap-3">
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center mt-4 gap-3 bg-white p-3 rounded-lg shadow-sm">
         <div class="text-sm text-gray-600">
-            Mostrando <span id="range-start">0</span> a <span id="range-end">0</span> de <span id="total-count">0</span> beneficiários
+            Mostrando <span id="range-start" class="font-bold">0</span> a <span id="range-end" class="font-bold">0</span> de <span id="total-count" class="font-bold">0</span> beneficiários
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 flex-wrap justify-center">
             <div class="text-sm text-gray-600">
                 <span id="page-info">Página 1 de 1</span>
             </div>
             <div class="flex items-center gap-2">
-                <label for="page-size" class="text-sm text-gray-600">por página</label>
-                <select id="page-size" class="px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <label for="page-size" class="text-sm text-gray-600">exibir:</label>
+                <select id="page-size" class="px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="50">50</option>
                 </select>
             </div>
-            <div class="flex space-x-2">
-                <button id="btn-first" class="px-3 py-1 border rounded-md text-blue-600 hover:bg-blue-50 disabled:opacity-50" disabled aria-label="Primeira página">
-                    <i data-feather="chevrons-left"></i>
+            <div class="flex space-x-1">
+                <button id="btn-first" class="p-2 border rounded-md text-blue-600 hover:bg-blue-50 disabled:opacity-50 transition-colors" disabled aria-label="Primeira página">
+                    <i data-feather="chevrons-left" class="w-4 h-4"></i>
                 </button>
-                <button id="btn-prev" class="px-3 py-1 border rounded-md text-blue-600 hover:bg-blue-50 disabled:opacity-50" disabled aria-label="Página anterior">
-                    <i data-feather="chevron-left"></i>
+                <button id="btn-prev" class="p-2 border rounded-md text-blue-600 hover:bg-blue-50 disabled:opacity-50 transition-colors" disabled aria-label="Página anterior">
+                    <i data-feather="chevron-left" class="w-4 h-4"></i>
                 </button>
-                <button id="btn-next" class="px-3 py-1 border rounded-md text-blue-600 hover:bg-blue-50 disabled:opacity-50" disabled aria-label="Próxima página">
-                    <i data-feather="chevron-right"></i>
+                <button id="btn-next" class="p-2 border rounded-md text-blue-600 hover:bg-blue-50 disabled:opacity-50 transition-colors" disabled aria-label="Próxima página">
+                    <i data-feather="chevron-right" class="w-4 h-4"></i>
                 </button>
-                <button id="btn-last" class="px-3 py-1 border rounded-md text-blue-600 hover:bg-blue-50 disabled:opacity-50" disabled aria-label="Última página">
-                    <i data-feather="chevrons-right"></i>
+                <button id="btn-last" class="p-2 border rounded-md text-blue-600 hover:bg-blue-50 disabled:opacity-50 transition-colors" disabled aria-label="Última página">
+                    <i data-feather="chevrons-right" class="w-4 h-4"></i>
                 </button>
             </div>
         </div>
@@ -205,11 +219,7 @@
                     <div class="col-md-2">
                         <label class="fw-bold text-gray-500">RG:</label>
                         <p id="view-rg" class="text-dark border-bottom pb-1"></p>
-                    </div>
-
-
-
-
+                    </div>5
 
                 </div>
 
@@ -580,7 +590,7 @@
                     <div class="col-md-3">
                         <label for="edit-responsavel-rg" class="form-label">RG do Responsavél</label>
                         <input type="text" class="form-control" id="edit-responsavel-rg">
-                    </div>
+                    </div> 
 
 
                     <div class="col-md-6">

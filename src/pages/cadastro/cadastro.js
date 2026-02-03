@@ -529,6 +529,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Existem erros no formulário. Por favor, verifique todas as etapas.');
             }
         });
+        
     // form-beneficiary-documents
     document.getElementById('form-beneficiary-documents')
         .addEventListener('submit', async function (e) {
@@ -566,50 +567,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Beneficiário não encontrado. Por favor, complete a etapa anterior.');
             }
         });
-
-
-            // Utilitários da pagína
-    // Botões de acessibilidade
-    const accessibilityMenu = document.querySelector('.accessibility-menu');
-    const accessibilityToggle = document.getElementById('accessibility-toggle');
-    accessibilityToggle.addEventListener('click', () => {
-        accessibilityMenu.classList.toggle('active');
-    });
-
-    const contrastToggle = document.getElementById('contrast-toggle');
-    const body = document.body;
-    const applyContrast = () => {
-        if (localStorage.getItem('highContrast') === 'enabled') {
-            body.classList.add('high-contrast');
-        } else {
-            body.classList.remove('high-contrast');
-        }
-    };
-    contrastToggle.addEventListener('click', () => {
-        body.classList.toggle('high-contrast');
-        localStorage.setItem('highContrast', body.classList.contains('high-contrast') ? 'enabled' : 'disabled');
-    });
-    applyContrast();
-
-    const fontIncrease = document.getElementById('font-increase');
-    const fontDecrease = document.getElementById('font-decrease');
-    const root = document.documentElement;
-    let currentFontSize = 16;
-    const minFontSize = 12, maxFontSize = 22, step = 2;
-    const applyFontSize = (size) => {
-        root.style.fontSize = `${size}px`;
-        currentFontSize = size;
-        localStorage.setItem('fontSize', size);
-    };
-    fontIncrease.addEventListener('click', () => {
-        if (currentFontSize < maxFontSize) applyFontSize(currentFontSize + step);
-    });
-    fontDecrease.addEventListener('click', () => {
-        if (currentFontSize > minFontSize) applyFontSize(currentFontSize - step);
-    });
-    const savedFontSize = localStorage.getItem('fontSize');
-    if (savedFontSize) applyFontSize(parseInt(savedFontSize));
-
 
     // Aqui segue a função para o corte das foto 3x4
     const cropModalElement = document.getElementById('cropModal');
