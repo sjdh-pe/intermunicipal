@@ -245,8 +245,8 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="telefone" class="form-label required-field telefone-masck">Telefone</label>
-                                <input type="tel" class="form-control" id="telefone" name="telefone" value="" placeholder="(00) 00000-0000" required>
+                                <label for="telefone" class="form-label required-field ">Telefone</label>
+                                <input type="tel" class="form-control telefone-masck" id="telefone" name="telefone" value="" placeholder="(00) 00000-0000" required>
                                 <div class="invalid-feedback">
                                     <!-- Error message for invalid input -->
                                 </div>
@@ -497,14 +497,16 @@
                                     <!-- Error message for invalid input -->
                                 </div>
                             </div>
+                            <div class="mb-3 ">
 
+                            </div>
 
-                            <div class="mb-3">
+                            <div class="mb-3 " style="display: none">
                                 <label for="localRetirada" class="form-label required-field">Local da Retirada da Carteira</label>
                                 <select class="form-select" id="localRetirada" required>
                                     <option value="">Selecione</option>
-                                    <option value="1">Recife</option>
-                                    <option value="2" selected >Caruaru</option>
+                                    <option value="1" selected >Recife</option>
+                                    <option value="2"  >Caruaru</option>
                                     <option value="3">Paulista</option>
                                     <option value="4">Jaboatão dos Guararapes</option>
                                     <option value="5">Olinda</option>

@@ -6,12 +6,10 @@ import { showLoading, hideLoading } from "../scripts/utils/loader.js";
 
 const defaultBase = "http://192.168.1.111:3000";
 
-// const defaultBase = "https://api.sjdh.pe.gov.br";
-/*const defaultBase = "http://localhost:3000";
-
 /**
  * Cliente axios centralizado usado pela aplicação.
  * Use `setAuthToken` para adicionar Authorization Bearer quando necessário.
+ * @type {import("axios").AxiosInstance}
  */
 export const api = axios.create({
     baseURL: defaultBase,

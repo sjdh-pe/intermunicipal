@@ -25,7 +25,7 @@ const __EMPTY_PAGE__ = { content: [], totalElements: 0, number: 0, size: 0, tota
 const state = {
     beneficiariosPage: (typeof window !== 'undefined' && window.beneficiariosData) ? window.beneficiariosData : __EMPTY_PAGE__,
     page: 0,
-    size: 5,
+    size: 10,
     viewModalInstance: null,
     editModalInstance: null,
     deleteModalInstance: null,
