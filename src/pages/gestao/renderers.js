@@ -1,5 +1,11 @@
 import { formatCPF, resolveStatus } from './utils.js';
 import { filterBeneficiarios } from './filters.js';
+import {loadTokenOnStart, requireAuth} from '../../services/auth.js';
+
+// loadTokenOnStart();
+requireAuth(); // redireciona ao login se necessário
+
+
 
 export function loadBeneficiarios(beneficiariosPage) {
     const tableBody = document.getElementById('beneficiarios-table');
