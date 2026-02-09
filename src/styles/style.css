@@ -5,9 +5,15 @@ body {
     margin: 0;
     padding: 0;
     background-color: #fff;
-    color: #000;
+    color: #212529;
 }
 
+h3 {
+    color: #0d2856;
+}
+h4 {
+    color: #0d2856;
+}
 
 header {
     background-color: #21409A;

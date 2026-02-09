@@ -27,7 +27,7 @@ export function loadBeneficiarios(beneficiariosPage) {
             <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-900">${formatCPF(b.cpf || '')}</div></td>
             <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-900">${b.cidade || ''}</div></td>
             <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-900">${b.tipoDeficiencia || ''}</div></td>
-            <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-900">${b.dataSolicitacao || ''}</div></td>
+            <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-900">${b.diasDesdeCriacao || 1}</div></td>
             <td class="px-6 py-4 whitespace-nowrap"><span class="${infoStatus.estilo} px-2 py-1 rounded-full text-xs font-semibold">${infoStatus.nome}</span></td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <button onclick="openViewModal('${b.id}')" class="text-blue-600 hover:text-blue-900 mr-3" title="Ver dados"><i data-feather="eye"></i></button>

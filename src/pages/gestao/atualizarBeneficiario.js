@@ -117,7 +117,7 @@ export async function atualizarBeneficiarioUI() {
 
           cidadeId: toNumberOrNull(getValue(ui.fields.cidadeId)),
 
-          telefone: getValue(ui.fields.telefone) || null,
+          telefone: onlyDigits(getValue(ui.fields.telefone)) || null,
           email: getValue(ui.fields.email) || null,
 
           endereco: {
@@ -169,7 +169,7 @@ export async function atualizarBeneficiarioUI() {
 
     // 4) Recarrega a listagem do backend e re-renderiza
     try {
-      await carregarBeneficiarios(0); // recarrega página 0 por padrão
+      await carregarBeneficiarios(null, null, 0); // recarrega página 0 por padrão
       if (typeof window !== 'undefined' && typeof window.loadBeneficiarios === 'function') {
         window.loadBeneficiarios(); // re-renderiza com o state atual
       }
