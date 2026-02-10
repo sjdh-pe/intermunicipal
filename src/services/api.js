@@ -4,7 +4,7 @@ import axios from "https://esm.sh/axios@1.7.7";
 
 import { showLoading, hideLoading } from "../scripts/utils/loader.js";
 
-const defaultBase = "http://http://192.168.1.109/:3000";
+const defaultBase = "http://192.168.1.109:3000";
 
 
 
