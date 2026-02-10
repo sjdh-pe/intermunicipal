@@ -6,6 +6,25 @@ import { showLoading, hideLoading } from "../scripts/utils/loader.js";
 
 const defaultBase = "http://localhost:3000";
 
+
+
+const TOKEN_KEY = "app_auth_token";
+
+function readTokenValue() {
+    try {
+        const raw = localStorage.getItem(TOKEN_KEY);
+        if (!raw) return null;
+        const t = JSON.parse(raw);
+        if (!t?.accessToken || !t?.expiresAt || t.expiresAt <= Date.now()) return null;
+        return `${t.tokenType || "Bearer"} ${t.accessToken}`;
+    } catch {
+        return null;
+    }
+}
+
+
+
+
 /**
  * Cliente axios centralizado usado pela aplicação.
  * Use `setAuthToken` para adicionar Authorization Bearer quando necessário.
@@ -32,17 +51,12 @@ function clearAuthToken() {
 
 // Intercepta requisições (para logs, token etc)
 api.interceptors.request.use(
-    config => {
-        try {
-            const method = (config?.method || "get").toString().toUpperCase();
-            const url = (config?.url) ? config.url : (config?.baseURL || "<unknown>");
-            console.log("➡️ Enviando:", method, url);
-        } catch (e) {
-            console.log("➡️ Enviando: (metadata indisponível)", e);
-        }
+    (config) => {
+        const token = readTokenValue();
+        if (token) config.headers.Authorization = token;
         return config;
     },
-    error => Promise.reject(error)
+    (error) => Promise.reject(error)
 );
 
 // Intercepta respostas (para tratamento unificado) e normaliza erros lançados

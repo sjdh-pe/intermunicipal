@@ -105,6 +105,7 @@ export async function atualizarBeneficiarioUI() {
           dataNascimento: getValue(ui.fields.dataNascimento) || null,
           tipoDeficiencia: getValue(ui.fields.tipoDeficiencia) || null,
           sexoId: toNumberOrNull(getValue(ui.fields.sexoId)),
+          acompanhante: getValue(ui.fields.acompanhante) || null,
           responsavelId: toNumberOrNull(getValue(ui.fields.responsavelId)),
           responsavelNome: getValue(ui.fields.responsavelNome) || null,
           responsavelCpf: getValue(ui.fields.responsavelCpf) || null,

@@ -14,7 +14,7 @@
  *   tabela, a função de inicialização aguarda o carregamento antes de renderizar.
  */
 
-import { listarBeneficiarios, listarArquivosBeneficiario } from "../../services/beneficiariosService.js";
+import { listarBeneficiarios } from "../../services/beneficiariosService.js";
 import { loadBeneficiarios } from "./renderers.js";
 import { createModalHandlers } from "./modals.js";
 import { statusMap } from "./utils.js";

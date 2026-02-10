@@ -26,6 +26,22 @@
     <script src="../../scripts/utils/utils.js"></script>
     <script type="module" src="../../scripts/utils/loader.js"></script>
 
+
+<!--  Usuario logado  -->
+    <script type="module" src="../../services/auth.js"></script>
+    <script type="module">
+        import {getProfile} from "../../services/auth.js";
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = getProfile();
+            console.log(user);
+        });
+
+
+    </script>
+
+
+
 <main class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-blue-600" style="text-align: center; color: #21409A">
@@ -101,7 +117,7 @@
             </div>
 
             <div class="mt-4 flex justify-end">
-                <button id="btn-filtrar" class="bg-blue-800 hover:bg-blue-900 text-white px-6 py-2 rounded-lg flex items-center transition-colors">
+                <button id="btn-filtrar" class=" bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center transition-colors">
                     <i data-feather="filter" class="w-4 h-4 mr-2"></i> Filtrar Resultados
                 </button>
             </div>
@@ -612,8 +628,8 @@
                         <label for="edit-acompanhante" class="form-label ">Tem Direito a Acompanhante:</label>
                         <select class="form-select" id="edit-acompanhante">
                             <option value="">Selecione</option>
-                            <option value="1">SIM</option>
-                            <option value="0">NÃO</option>
+                            <option value="true">SIM</option>
+                            <option value="false">NÃO</option>
                         </select>
                     </div>
 
@@ -675,7 +691,7 @@
     <custom-footer></custom-footer>
     <script src="../../components/footer.js"></script>
 
-<!--    <script src="script.js"></script>-->
+
     <script type="module" src="./listarBeneficiarios.js"></script>
     <!-- Módulo focado na atualização de beneficiário (expondo window.atualizarBeneficiarioUI) -->
     <script type="module" src="./atualizarBeneficiario.js"></script>
