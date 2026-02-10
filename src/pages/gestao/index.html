@@ -24,19 +24,26 @@
 
     <global-loader></global-loader>
     <script src="../../scripts/utils/utils.js"></script>
-    <script type="module" src="../../scripts/utils/loader.js"></script>
-
-
-<!--  Usuario logado  -->
-    <script type="module" src="../../services/auth.js"></script>
     <script type="module">
-        import {getProfile} from "../../services/auth.js";
+        import { getProfile, loadTokenOnStart, logout } from "../../services/auth.js";
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const user = getProfile();
-            console.log(user);
+        document.addEventListener("DOMContentLoaded", async () => {
+        // garante que o token do localStorage foi carregado no api (se você usa isso)
+        loadTokenOnStart();
+
+        try {
+        const user = await getProfile(); // ✅ precisa await
+        console.log("Usuário:", user);
+
+        // exemplo: preencher no HTML
+        // document.querySelector("#userEmail").textContent = user.email;
+
+        } catch (err) {
+        console.error("Falha ao buscar profile:", err);
+        // opcional: se deu 401, desloga e manda pra login
+        if (err?.status === 401) logout();
+        }
         });
-
 
     </script>
 

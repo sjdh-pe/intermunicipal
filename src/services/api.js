@@ -24,8 +24,6 @@ function readTokenValue() {
 
 
 
->>>>>>> 97639bfb502800ec0388c3a7e995cd60685fa8a2
-
 /**
  * Cliente axios centralizado usado pela aplicação.
  * Use `setAuthToken` para adicionar Authorization Bearer quando necessário.
