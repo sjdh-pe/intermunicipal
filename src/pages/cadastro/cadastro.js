@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
 if (menuButton) {
   menuButton.addEventListener('click', () => {
       navMenu.classList.toggle('active');
@@ -457,6 +458,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const fileNameDisplay = document.getElementById(`${this.id}Name`);
             if (fileNameDisplay) {
                 fileNameDisplay.textContent = this.files.length > 0 ? this.files[0].name : '';
+            }
+        });
+    });
+
+    // ATUALIZAÇÃO: ÍCONE VERDE AO ANEXAR
+    document.querySelectorAll('input[type="file"]:not(#photo)').forEach(input => {
+        input.addEventListener('change', function() {
+            const fileNameDisplay = document.getElementById(`${this.id}Name`);
+            if (fileNameDisplay) {
+                if (this.files.length > 0) {
+                    // Adiciona o ícone de Check Verde + Nome do Arquivo
+                    fileNameDisplay.innerHTML = `
+                        <div class="d-flex align-items-center text-success border border-success bg-light p-2 rounded">
+                            <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+                            <span>${this.files[0].name}</span>
+                        </div>
+                    `;
+                } else {
+                    fileNameDisplay.innerHTML = '';
+                }
             }
         });
     });

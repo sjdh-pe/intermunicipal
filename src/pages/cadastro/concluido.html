@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PE Livre Acesso Intermunicipal - Cadastro Concluído</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="icon" href="/assets/images/iconPELIVRE.png">
+
+    <style>
+        :root {
+            --primary-color: #21409A;
+            --success-color: #198754;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .success-card {
+            border: none;
+            border-top: 6px solid var(--success-color);
+            border-radius: 12px;
+        }
+
+        .icon-container {
+            width: 120px;
+            height: 120px;
+            background-color: #d1e7dd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem auto;
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .icon-container i {
+            font-size: 4rem;
+            color: var(--success-color);
+        }
+
+        .step-box {
+            background-color: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+        }
+
+        /* Animação simples de entrada */
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+
+</head>
+<body>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <custom-navbar></custom-navbar>
+    <script src="../../components/navbar.js"></script>
+
+    <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    
+                    <div class="card shadow success-card p-4 text-center">
+                        <div class="card-body">
+                            
+                            <div class="icon-container">
+                                <i class="bi bi-check-lg"></i>
+                            </div>
+                            
+                            <h2 class="fw-bold text-success mb-3">Cadastro Enviado com Sucesso!</h2>
+                            
+                            <p class="text-muted lead mb-4">
+                                Recebemos suas informações e documentos. <br>
+                                Agora é só aguardar a análise.
+                            </p>
+
+                            <div class="step-box text-start p-3 mb-4 shadow-sm">
+                                <h6 class="fw-bold text-primary mb-2">
+                                    <i class="bi bi-info-circle-fill me-2"></i>O que acontece agora?
+                                </h6>
+                                <ol class="text-secondary small mb-0 ps-3">
+                                    <li class="mb-1">Nossa equipe técnica analisará a documentação enviada.</li>
+                                    <li class="mb-1">O prazo médio de análise é de <strong>30 a 90 dias úteis</strong>.</li>
+                                    <li>Você pode acompanhar o status (Aprovado, Pendente ou Indeferido) acessando sua conta.</li>
+                                </ol>
+                            </div>
+
+                            <div class="d-grid gap-3 col-sm-10 mx-auto">
+                                <a href="../login/index.html" class="btn btn-primary btn-lg fw-bold">
+                                    Acompanhar Solicitação
+                                </a>
+                                <a href="../home/index.html" class="btn btn-outline-secondary">
+                                    Voltar para a Página Inicial
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <p class="text-center text-muted mt-4 small">
+                        Dúvidas? Entre em contato com a ouvidoria da SJDH.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    
+
+    <div  vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app')
+    </script>
+
+    <custom-accessibility></custom-accessibility>
+    <script src="../../components/accessibility.js"></script>
+
+    <custom-footer></custom-footer>
+    <script src="../../components/footer.js"></script>
+
+    <script src="../cadastro/cadastro.js"></script>
+
+</body>
+</html>
