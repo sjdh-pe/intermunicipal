@@ -4,7 +4,7 @@ import axios from "https://esm.sh/axios@1.7.7";
 
 import { showLoading, hideLoading } from "../scripts/utils/loader.js";
 
-const defaultBase = "http://localhost:3000";
+const defaultBase = "http://http://192.168.1.109/:3000";
 
 
 
@@ -24,8 +24,6 @@ function readTokenValue() {
 
 
 
->>>>>>> 97639bfb502800ec0388c3a7e995cd60685fa8a2
-
 /**
  * Cliente axios centralizado usado pela aplicação.
  * Use `setAuthToken` para adicionar Authorization Bearer quando necessário.
@@ -42,7 +40,7 @@ export const api = axios.create({
 // Utilitários para manipular token de autenticação globalmente
 function setAuthToken(token) {
     if (token) {
-        api.defaults.headers.common.Authorization = `Bearer ${token}`;
+        api.defaults.headers.common.Authorization = token; // sem Bearer aqui
     }
 }
 
