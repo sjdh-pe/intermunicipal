@@ -14,7 +14,7 @@
  *   tabela, a função de inicialização aguarda o carregamento antes de renderizar.
  */
 
-import { listarBeneficiarios, listarArquivosBeneficiario } from "../../services/beneficiariosService.js";
+import { listarBeneficiarios } from "../../services/beneficiariosService.js";
 import { loadBeneficiarios } from "./renderers.js";
 import { createModalHandlers } from "./modals.js";
 import { statusMap } from "./utils.js";
@@ -40,14 +40,45 @@ state.onChange = () => {
     updatePaginationUI();
 };
 
+document.getElementById("btn-buscar-periodo")?.addEventListener('click', async () => {
+    const inicio = document.getElementById('search-data-inicio')?.value;
+    const fim = document.getElementById('search-data-fim')?.value;
+    try {
+        await carregarBeneficiarios(inicio, fim, 0);
+        state.onChange();
+    } catch (e) {
+        console.error('Erro ao filtrar por período:', e);
+        alert('Erro ao filtrar por período. Verifique o console para detalhes.');
+    }
+});
+
+
 /**
  * Carrega beneficiários do backend e atualiza o state.
  */
-export async function carregarBeneficiarios(page = state.page) {
+export async function carregarBeneficiarios( inicio, fim, page = state.page) {
     try {
+
+        if ( !inicio && !fim ) {
+            const hoje = new Date();
+
+            // data 30 dias antes
+            const antes30 = new Date();
+            antes30.setDate(hoje.getDate() - 30);
+
+            // função para formatar yyyy-mm-dd
+            const formatar = (data) => {
+                return data.toISOString().split('T')[0];
+            };
+
+            inicio = formatar(antes30);
+            fim = formatar(hoje);
+        }
+
+
         // atualiza o estado local de página antes da chamada
         state.page = typeof page === 'number' ? page : 0;
-        const result = await listarBeneficiarios(state.page, state.size);
+        const result = await listarBeneficiarios( inicio, fim, state.page, state.size);
         state.beneficiariosPage = result || __EMPTY_PAGE__;
         if (typeof window !== 'undefined') window.beneficiariosData = state.beneficiariosPage;
         return result;
@@ -138,7 +169,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // tenta carregar dados e renderizar
     try {
-        await carregarBeneficiarios(0);
+        await carregarBeneficiarios(null,null,0);
     } catch (e) {
         // carregarBeneficiarios já loga/lança; continuamos com estado vazio
     }

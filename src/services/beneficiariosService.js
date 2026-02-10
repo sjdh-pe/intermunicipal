@@ -4,17 +4,21 @@ import { api } from "./api.js";
 
 /**
  * Lista beneficiários com paginação
+ * @param inicio - data inicial (formato YYYY-MM-DD)
+ * @param fim - data final (formato YYYY-MM-DD)
  * @param {number} page - página (0-based)
  * @param {number} size - tamanho da página
  */
-export async function listarBeneficiarios(page = 0, size = 10) {
+export async function listarBeneficiarios(inicio, fim, page = 0, size = 10) {
 
-    const resp = await api.get(`/beneficiarios`, {
+
+    const resp = await api.get(`/beneficiarios/periodo?inicio=${inicio}&fim=${fim}`, {
         params: { page, size }
     });
 
     return resp.data;
 }
+
 /** Lista links de arquivos de um beneficiário
 * @param {string} id - Identificador do beneficiário
 */

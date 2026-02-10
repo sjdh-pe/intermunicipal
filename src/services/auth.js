@@ -5,10 +5,14 @@ import { api } from './api.js';
 const TOKEN_KEY = 'app_auth_token';
 const REDIRECT_KEY = 'redirect_after_login';
 
+export async function getProfile() {
+    const res = await api.get('/auth/profile'); // ou '/auth/me'
+    return res.data;
+}
+
 function saveToken({ tokenType, accessToken, expiresIn }) {
     const expiresAt = Date.now() + (typeof expiresIn === 'number' ? expiresIn : 0);
     const payload = { tokenType, accessToken, expiresAt };
-    console.log(payload);
     localStorage.setItem(TOKEN_KEY, JSON.stringify(payload));
     api.setAuthToken(`${tokenType} ${accessToken}`);
 }
