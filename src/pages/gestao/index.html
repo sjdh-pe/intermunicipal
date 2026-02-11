@@ -50,15 +50,24 @@
 
 
 <main class="container mx-auto px-4 py-8">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-blue-600" style="text-align: center; color: #21409A">
-            Beneficiários PE Livre Acesso Intermunicipal
-        </h1>
-    </div>
+        
+        <div class="flex flex-col lg:flex-row justify-between items-center mb-8 gap-4">
+            
+            <h1 class="text-3xl font-bold text-blue-600 text-center lg:text-left" style="color: #21409A">
+                Beneficiários PE Livre Acesso Intermunicipal
+            </h1>
 
-    <div class="userAdm">
-        <h3>User Admin</h3>
-    </div>
+            <div class="bg-blue-600 text-white px-5 py-2 rounded-lg flex items-center shadow-md min-w-[260px] transition-transform hover:scale-105">
+                <div class="bg-white/20 p-2 rounded-full mr-3 flex items-center justify-center">
+                    <i data-feather="user" class="w-5 h-5 text-white"></i>
+                </div>
+                <div class="flex flex-col">
+                    <h3 id="user-name" class="text-sm font-bold m-0 leading-tight">Carregando...</h3>
+                    <span id="user-email" class="text-xs text-blue-100 font-light">...</span>
+                </div>
+            </div>
+
+        </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
         
