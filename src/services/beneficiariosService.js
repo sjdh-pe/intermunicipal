@@ -3,17 +3,46 @@
 import { api } from "./api.js";
 
 /**
- * Lista beneficiários com paginação
- * @param inicio - data inicial (formato YYYY-MM-DD)
- * @param fim - data final (formato YYYY-MM-DD)
+ * Lista beneficiários com paginação e filtros avançados
+ * @param {string} inicio - data inicial (formato YYYY-MM-DD)
+ * @param {string} fim - data final (formato YYYY-MM-DD)
+ * @param {string} nome - filtro por nome
+ * @param {string} cpf - filtro por cpf
+ * @param {string} cidade - filtro por cidade
+ * @param {string} status - filtro por status do benefício
  * @param {number} page - página (0-based)
  * @param {number} size - tamanho da página
  */
-export async function listarBeneficiarios(inicio, fim, page = 0, size = 10) {
+export async function listarBeneficiarios(inicio, fim, nome = '', cpf = '', cidade = '', status = '', page = 0, size = 10) {
+    
+    // Objeto com os parâmetros que serão adicionados na URL
+    const queryParams = { 
+        page, 
+        size 
+    };
 
+    // Só adiciona os parâmetros extras na URL se o usuário tiver digitado algo
+    if (nome) queryParams.nome = nome;
+    
+    // Remove pontos e traços do CPF para a API receber apenas os números (Opcional, mas recomendado)
+    if (cpf) queryParams.cpf = cpf.replace(/\D/g, ''); 
+    
+    if (cidade) queryParams.cidade = cidade;
+    
+    // ATENÇÃO: Verifique qual é o nome exato que seu backend espera para o status. 
+    // Pode ser 'status', 'statusId', 'statusBeneficioId', etc.
+    if (status) queryParams.statusBeneficioId = status; 
 
-    const resp = await api.get(`/beneficiarios/periodo?inicio=${inicio}&fim=${fim}`, {
-        params: { page, size }
+    // A requisição vai juntar a rota base (com inicio e fim) e os novos queryParams
+    
+    // Select cidadeId - index.html -> cadastro linha 296
+    const resp = await api.get(`/beneficiarios?inicio=${inicio}
+        &fim=${fim}
+        &nome=${nome}
+        &cpf=${cpf}
+        &cidadeId=${cidadeId}&selected=${selected}
+        &statusNemeficio=${statusBeneficio}`, {
+        params: queryParams
     });
 
     return resp.data;

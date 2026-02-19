@@ -26,11 +26,18 @@ const state = {
     beneficiariosPage: (typeof window !== 'undefined' && window.beneficiariosData) ? window.beneficiariosData : __EMPTY_PAGE__,
     page: 0,
     size: 10,
+    // Agora guardamos TODOS os parâmetros da pesquisa no estado para a paginação funcionar
+    currentInicio: null, 
+    currentFim: null,
+    currentNome: '',
+    currentCpf: '',
+    currentCidade: '',
+    currentStatus: '',
     viewModalInstance: null,
     editModalInstance: null,
     deleteModalInstance: null,
     statusMap,
-    onChange: null // preenchido abaixo
+    onChange: null
 };
 
 if (typeof window !== 'undefined' && !window.beneficiariosData) window.beneficiariosData = state.beneficiariosPage;
@@ -40,61 +47,79 @@ state.onChange = () => {
     updatePaginationUI();
 };
 
+//buscar api
 document.getElementById("btn-buscar-periodo")?.addEventListener('click', async () => {
-    // 1. Pega os valores do NOVO bloco de Pesquisa (lado esquerdo)
+    // 1. Pega os valores do bloco de Pesquisa Direta
     const inicio = document.getElementById('pesquisa-data-inicio')?.value;
     const fim = document.getElementById('pesquisa-data-fim')?.value;
-    
     const nome = document.getElementById('pesquisa-nome')?.value || '';
     const cpf = document.getElementById('pesquisa-cpf')?.value || '';
     const cidade = document.getElementById('pesquisa-cidade')?.value || '';
     const status = document.getElementById('pesquisa-status')?.value || '';
 
     try {
-        // 2. Traz do backend os beneficiários no período selecionado
-        await carregarBeneficiarios(inicio, fim, 0);
+        // 2. Envia TODOS os parâmetros para o Backend (Página volta para o 0)
+        await carregarBeneficiarios(inicio, fim, nome, cpf, cidade, status, 0);
 
-        // 3. Sincroniza os filtros rápidos da tela com o que foi pesquisado
-        if (document.getElementById('search-nome')) document.getElementById('search-nome').value = nome;
-        if (document.getElementById('search-cpf')) document.getElementById('search-cpf').value = cpf;
-        if (document.getElementById('search-cidade')) document.getElementById('search-cidade').value = cidade;
-        if (document.getElementById('search-status')) document.getElementById('search-status').value = status;
+        // 3. Limpa os filtros rápidos (da direita) para que eles não escondam o resultado da API
+        if (document.getElementById('search-nome')) document.getElementById('search-nome').value = '';
+        if (document.getElementById('search-cpf')) document.getElementById('search-cpf').value = '';
+        if (document.getElementById('search-cidade')) document.getElementById('search-cidade').value = '';
+        if (document.getElementById('search-status')) document.getElementById('search-status').value = '';
 
-        // 4. Dispara a renderização (que aplica a filtragem visual instantaneamente)
+        // 4. Renderiza a tabela com os dados que vieram do servidor
         state.onChange();
     } catch (e) {
-        console.error('Erro ao pesquisar:', e);
-        alert('Erro ao realizar a pesquisa. Verifique o console para detalhes.');
+        console.error('Erro ao pesquisar na API:', e);
+        alert('Erro ao realizar a pesquisa. Verifique a conexão.');
     }
 });
 
 
 /**
- * Carrega beneficiários do backend e atualiza o state.
+ * Carrega beneficiários do backend enviando todos os filtros e atualiza o state.
  */
-export async function carregarBeneficiarios( inicio, fim, page = state.page) {
+export async function carregarBeneficiarios(inicio, fim, nome = '', cpf = '', cidade = '', status = '', page = state.page) {
     try {
-
-        if ( !inicio && !fim ) {
-            const hoje = new Date();
-
-            // data 30 dias antes
-            const antes30 = new Date();
-            antes30.setDate(hoje.getDate() - 30);
-
-            // função para formatar yyyy-mm-dd
-            const formatar = (data) => {
-                return data.toISOString().split('T')[0];
-            };
-
-            inicio = formatar(antes30);
-            fim = formatar(hoje);
+        // Se as datas não foram passadas, usa as salvas ou pega os últimos 30 dias
+        if (!inicio && !fim) {
+            if (state.currentInicio && state.currentFim) {
+                inicio = state.currentInicio;
+                fim = state.currentFim;
+            } else {
+                const hoje = new Date();
+                const antes30 = new Date();
+                antes30.setDate(hoje.getDate() - 30);
+                
+                const formatar = (data) => data.toISOString().split('T')[0];
+                inicio = formatar(antes30);
+                fim = formatar(hoje);
+            }
         }
 
-
-        // atualiza o estado local de página antes da chamada
+        // Atualiza o estado local para garantir que a paginação mantenha a mesma pesquisa
+        state.currentInicio = inicio;
+        state.currentFim = fim;
+        state.currentNome = nome;
+        state.currentCpf = cpf;
+        state.currentCidade = cidade;
+        state.currentStatus = status;
         state.page = typeof page === 'number' ? page : 0;
-        const result = await listarBeneficiarios( inicio, fim, state.page, state.size);
+
+        // IMPORTANTE: Sua função listarBeneficiarios precisa aceitar esses novos parâmetros!
+        const result = await listarBeneficiarios(
+            state.currentInicio, 
+            state.currentFim, 
+            state.currentNome, 
+            state.currentCpf, 
+            state.currentCidade, 
+            state.currentStatus, 
+            state.page, 
+            state.size
+        );
+
+        console.log ("log", result)
+        
         state.beneficiariosPage = result || __EMPTY_PAGE__;
         if (typeof window !== 'undefined') window.beneficiariosData = state.beneficiariosPage;
         return result;
@@ -106,7 +131,7 @@ export async function carregarBeneficiarios( inicio, fim, page = state.page) {
     }
 }
 
-// Atualiza os elementos da UI de paginação (texto, ranges, botões)
+// Atualiza a Paginação
 function updatePaginationUI() {
     const pageData = state.beneficiariosPage || __EMPTY_PAGE__;
     const page = Number(pageData.number || 0);
@@ -142,20 +167,52 @@ function updatePaginationUI() {
     if (btnLast) btnLast.disabled = disableNextLast;
 }
 
+// Lógica dos botões de período rápido
 
+const botoesPeriodo = document.querySelectorAll('.btn-periodo');
+const inputDataInicio = document.getElementById('pesquisa-data-inicio');
+const inputDataFim = document.getElementById('pesquisa-data-fim');
 
-// Cria handlers dos modais com o state (será inicializado após DOM ready)
+botoesPeriodo.forEach(botao => {
+    botao.addEventListener('click', (e) => {
+        // 1. Remove o estado "ativo" (fundo verde) de todos os botões
+        botoesPeriodo.forEach(b => {
+            b.classList.remove('bg-green-600', 'text-white');
+            b.classList.add('text-green-600');
+        });
+
+        // 2. Coloca o estado "ativo" no botão que foi clicado
+        const botaoClicado = e.currentTarget;
+        botaoClicado.classList.remove('text-green-600');
+        botaoClicado.classList.add('bg-green-600', 'text-white');
+
+        // 3. Calcula as datas baseadas na quantidade de dias do botão
+        const dias = parseInt(botaoClicado.getAttribute('data-dias'), 10);
+        
+        const dataHoje = new Date();
+        const dataAnterior = new Date();
+        dataAnterior.setDate(dataHoje.getDate() - dias);
+
+        // Formata a data para YYYY-MM-DD (Padrão do Input)
+        const formatarData = (data) => data.toISOString().split('T')[0];
+
+        // 4. Preenche os campos de input automaticamente
+        if (inputDataInicio && inputDataFim) {
+            inputDataInicio.value = formatarData(dataAnterior);
+            inputDataFim.value = formatarData(dataHoje);
+        }
+    });
+});
+
+// Setup de Modais e Inicialização
 let handlers = null;
 
-// Wrapper para a função de render usada pelos listeners inline
 function renderWrapper() {
     loadBeneficiarios(state.beneficiariosPage);
     updatePaginationUI();
 }
 
-// Inicialização quando DOM estiver disponível
 document.addEventListener('DOMContentLoaded', async () => {
-    // Inicializa as instâncias de modal do Bootstrap (se presente)
     try {
         if (typeof bootstrap !== 'undefined') {
             const viewEl = document.getElementById('viewModal');
@@ -166,13 +223,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (delEl) state.deleteModalInstance = new bootstrap.Modal(delEl);
         }
     } catch (e) {
-        console.error('Erro ao inicializar modais bootstrap', e);
+        console.error('Erro ao inicializar modais', e);
     }
 
-    // cria handlers com referência ao state
     handlers = createModalHandlers(state);
 
-    // expõe handlers globalmente para compatibilidade com handlers inline no HTML
     if (typeof window !== 'undefined') {
         window.openCarteiraModal = handlers.openCarteiraModal;
         window.openViewModal = handlers.openViewModal;
@@ -183,16 +238,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.loadBeneficiarios = renderWrapper;
     }
 
-    // tenta carregar dados e renderizar
     try {
-        await carregarBeneficiarios(null,null,0);
-    } catch (e) {
-        // carregarBeneficiarios já loga/lança; continuamos com estado vazio
-    }
+        // Carrega inicial sem filtros textuais
+        await carregarBeneficiarios(null, null, '', '', '', '', 0);
+    } catch (e) {}
 
     renderWrapper();
 
-    // liga eventos de filtros
+    // Filtros rápidos visuais da direita continuam existindo para filtrar a tela localmente se o usuário desejar
     const btnFiltrar = document.getElementById('btn-filtrar');
     if (btnFiltrar) btnFiltrar.addEventListener('click', renderWrapper);
 
@@ -203,51 +256,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (el.tagName.toLowerCase() === 'select') el.addEventListener('change', renderWrapper);
     });
 
-    // Handlers de paginação
+    
     const btnFirst = document.getElementById('btn-first');
     const btnPrev = document.getElementById('btn-prev');
     const btnNext = document.getElementById('btn-next');
     const btnLast = document.getElementById('btn-last');
     const selSize = document.getElementById('page-size');
 
-    if (btnFirst) btnFirst.addEventListener('click', async () => {
-        state.page = 0;
-        await carregarBeneficiarios(state.page);
+    const recarregarPagina = async () => {
+        await carregarBeneficiarios(state.currentInicio, state.currentFim, state.currentNome, state.currentCpf, state.currentCidade, state.currentStatus, state.page);
         renderWrapper();
-    });
+    };
 
-    if (btnPrev) btnPrev.addEventListener('click', async () => {
-        const current = Number(state.beneficiariosPage?.number || state.page || 0);
-        state.page = Math.max(0, current - 1);
-        await carregarBeneficiarios(state.page);
-        renderWrapper();
-    });
+    if (btnFirst) btnFirst.addEventListener('click', () => { state.page = 0; recarregarPagina(); });
+    if (btnPrev) btnPrev.addEventListener('click', () => { state.page = Math.max(0, state.page - 1); recarregarPagina(); });
+    if (btnNext) btnNext.addEventListener('click', () => { state.page = Math.min(state.beneficiariosPage.totalPages - 1, state.page + 1); recarregarPagina(); });
+    if (btnLast) btnLast.addEventListener('click', () => { state.page = Math.max(state.beneficiariosPage.totalPages - 1, 0); recarregarPagina(); });
 
-    if (btnNext) btnNext.addEventListener('click', async () => {
-        const current = Number(state.beneficiariosPage?.number || state.page || 0);
-        const totalPages = Number(state.beneficiariosPage?.totalPages || 0);
-        state.page = Math.min(Math.max(totalPages - 1, 0), current + 1);
-        await carregarBeneficiarios(state.page);
-        renderWrapper();
-    });
-
-    if (btnLast) btnLast.addEventListener('click', async () => {
-        const totalPages = Number(state.beneficiariosPage?.totalPages || 0);
-        state.page = Math.max(totalPages - 1, 0);
-        await carregarBeneficiarios(state.page);
-        renderWrapper();
-    });
-
-    if (selSize) selSize.addEventListener('change', async (e) => {
+    if (selSize) selSize.addEventListener('change', (e) => {
         const newSize = parseInt(e.target.value, 10);
         if (!isNaN(newSize) && newSize > 0) {
             state.size = newSize;
-            state.page = 0; // reinicia na primeira página ao alterar o tamanho
-            await carregarBeneficiarios(state.page);
-            renderWrapper();
+            state.page = 0; 
+            recarregarPagina();
         }
     });
 
-    // primeira atualização de UI
     updatePaginationUI();
 });
