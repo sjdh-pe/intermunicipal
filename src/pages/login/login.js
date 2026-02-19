@@ -12,12 +12,62 @@ document.addEventListener('DOMContentLoaded', () => {
         $('.date-mask').mask('00/00/0000');
     }
 
+    // ==========================================
+    // LÓGICA DO OLHO (MOSTRAR/OCULTAR SENHA)
+    // ==========================================
+    const togglePassword = document.querySelector('#togglePassword');
+    const dataInput = document.querySelector('#datanasc');
+    
+    if (togglePassword && dataInput) {
+        const icon = togglePassword.querySelector('i');
+        togglePassword.addEventListener('click', function () {
+            const type = dataInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            dataInput.setAttribute('type', type);
+            icon.classList.toggle('bi-eye');
+            icon.classList.toggle('bi-eye-slash');
+        });
+    }
+
+    // ==========================================
+    // LÓGICA DO CALENDÁRIO (BOTÃO ESQUERDO)
+    // ==========================================
+    const btnCalendar = document.getElementById('btn-open-calendar');
+    const hiddenDatePicker = document.getElementById('hidden-date-picker');
+
+    if (btnCalendar && hiddenDatePicker) {
+        // Ao clicar no ícone do calendário, abre o calendário do input escondido
+        btnCalendar.addEventListener('click', () => {
+            if ('showPicker' in hiddenDatePicker) {
+                try {
+                    hiddenDatePicker.showPicker();
+                } catch (error) {
+                    hiddenDatePicker.focus();
+                }
+            } else {
+                hiddenDatePicker.focus();
+            }
+        });
+
+        // Quando o usuário seleciona uma data no calendário...
+        hiddenDatePicker.addEventListener('change', function() {
+            if (this.value) {
+                // A data vem no formato AAAA-MM-DD. Precisamos converter para DD/MM/AAAA
+                const partes = this.value.split('-');
+                if (partes.length === 3) {
+                    dataInput.value = `${partes[2]}/${partes[1]}/${partes[0]}`;
+                }
+            }
+        });
+    }
+
+    // ==========================================
+    // LÓGICA DE SUBMIT DO SEU CÓDIGO ORIGINAL
+    // ==========================================
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const cpfInput = document.getElementById('cpf');
-            const dataInput = document.getElementById('datanasc');
 
             if (!loginForm.checkValidity()) {
                 e.stopPropagation();
@@ -28,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const cpf = cpfInput.value;
             const dataDigitada = dataInput.value;
 
-            // Converter Data
+            // Converter Data (DD/MM/AAAA -> AAAA-MM-DD para a API)
             const partes = dataDigitada.split('/');
             if (partes.length !== 3) {
                 alert("Data incompleta.");
@@ -44,13 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (usuarios.length > 0) {
                     const usuario = usuarios[0];
                     
-                    // Em vez de mandar na URL, salvamos no navegador
+                    // Salvamos no navegador
                     localStorage.setItem('user_id', usuario.id);
-                    localStorage.setItem('user_nome', usuario.nome); // Opcional, para boas vindas rápida
+                    localStorage.setItem('user_nome', usuario.nome); 
                     
                     console.log("Login salvo. Redirecionando...");
                     
-                    // Redireciona SEM precisar do ?id=...
+                    // Redireciona
                     window.location.href = '../beneficiario/index.html';
                 } else {
                     alert("Dados incorretos. Verifique CPF e Data de Nascimento.");
