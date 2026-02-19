@@ -3,66 +3,104 @@ import { api } from "../../services/api.js";
 let beneficiarioData = {};
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Tenta pegar os parâmetros da URL (conforme seu código anterior)
     const urlParams = new URLSearchParams(window.location.search);
     const userCpf = urlParams.get('cpf');
     const userDatanasc = urlParams.get('datanasc');
-    console.log ('cpf, datanasc', userCpf, userDatanasc)
-    // const resp = buscarBeneficiario (userCpf, userDatanasc);
-    // console.log (resp) 
-    // --- MUDANÇA AQUI ---
-    // Recupera o ID do LocalStorage (memória do navegador)
-    // http://127.0.0.1:4200/pages/beneficiario/index.html?cpf=00000000003&datanasc=01012026
+    
+    // Fallback: Se não tiver na URL, tenta pegar o ID do localStorage (caso mude a lógica de login)
+    const idLocalStorage = localStorage.getItem('user_id');
+
+    console.log('Parâmetros:', { userCpf, userDatanasc, idLocalStorage });
 
     try {
-        const dados = await buscarBeneficiario(userCpf, userDatanasc);
-        
-        beneficiarioData = dados;
-        console.log("Dados carregados:", beneficiarioData);
-        
-        preencherBeneficiario(beneficiarioData);
+        let dados = null;
+
+        // Estratégia de Busca:
+        if (userCpf && userDatanasc) {
+            // Opção A: Busca por CPF e Data (conforme seu código)
+            dados = await buscarBeneficiarioPorDados(userCpf, userDatanasc);
+        } else if (idLocalStorage) {
+            // Opção B: Busca por ID do localStorage (mais seguro)
+            dados = await buscarBeneficiarioPorId(idLocalStorage);
+        }
+
+        if (dados) {
+            // Se a API retornar um array (comum no json-server ao filtrar), pegamos o primeiro item
+            if (Array.isArray(dados)) {
+                beneficiarioData = dados[0]; 
+            } else {
+                beneficiarioData = dados;
+            }
+
+            if(beneficiarioData) {
+                console.log("Dados carregados com sucesso:", beneficiarioData);
+                preencherBeneficiario(beneficiarioData);
+            } else {
+                throw new Error("Usuário não encontrado na resposta da API");
+            }
+        } else {
+            alert("Dados de acesso não encontrados. Por favor, faça login novamente.");
+            window.location.href = "../login/index.html";
+        }
 
     } catch (error) {
         console.error("Erro ao buscar beneficiário:", error);
-        // Se der erro 404, pode ser que o usuário foi deletado, então limpamos a sessão
         alert("Erro ao carregar seus dados.");
-        // localStorage.removeItem('user_id'); // Opcional: forçar logout se der erro
         // window.location.href = "../login/index.html";
     }
-   
-    console.log (beneficiarioData)
-
-    // Se não tiver ID salvo, chuta de volta pro login
-    if (!id) {
-        alert("Sessão inválida ou expirada. Faça login novamente.");
-        window.location.href = "../login/index.html";
-        return;
-    }
-
 });
 
-async function buscarBeneficiario(cpf, datanasc) {
-    const resposta = await api.get(`/beneficiarios/cpf/${cpf}/${datanasc}`);
+// Busca usando CPF e Data (Filtro)
+async function buscarBeneficiarioPorDados(cpf, datanasc) {
+    // Nota: O endpoint depende de como seu back-end espera. 
+    // Se for json-server filtrando, seria: /beneficiarios?cpf=${cpf}&datanasc=${datanasc}
+    // Se for sua API customizada, mantenha a rota que você criou:
+    const resposta = await api.get(`/beneficiarios?cpf=${cpf}&datanasc=${datanasc}`);
+    return resposta.data;
+}
+
+// Busca usando ID direto (Opcional, mas recomendado)
+async function buscarBeneficiarioPorId(id) {
+    const resposta = await api.get(`/beneficiarios/${id}`);
     return resposta.data;
 }
 
 function preencherBeneficiario(dados) {
-    // Função auxiliar (mantida igual)
+    // Função auxiliar
     const setVal = (id, valor) => {
         const el = document.getElementById(id);
         if (el) el.value = valor || "";
     };
 
-    // --- Card 1: Dados Pessoais ---
+    // Cabeçalho
+    const headerTitle = document.getElementById('header-welcome');
+    if (headerTitle) {
+        // Garante formatação do CPF (caso venha sem pontos do banco)
+        let cpfFormatado = dados.cpf || "";
+        if (cpfFormatado.length === 11 && !cpfFormatado.includes('.')) {
+            cpfFormatado = cpfFormatado.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+        }
+
+        headerTitle.innerHTML = `
+            Bem-vindo, <strong>${dados.nome}</strong> <br>
+            <span class="user-header-cpf"><i class="fa-regular fa-address-card"></i> CPF: ${cpfFormatado}</span>
+        `;
+    }
+
+    // --- Restante do preenchimento dos campos ---
+    
+    // Card 1: Dados Pessoais
     setVal('nome', dados.nome);
     setVal('cpf', dados.cpf);
     setVal('rg', dados.rg);
     setVal('datanasc', dados.datanasc || dados.dataNascimento);
-    setVal('genero', dados.sexo);
+    setVal('genero', dados.genero || dados.sexo); // Tenta as duas chaves comuns
     setVal('etnia', dados.etnia);
     setVal('nomemae', dados.nomemae || dados.nomeMae);
     setVal('tipodeficiencia', dados.tipodeficiencia || dados.tipoDeficiencia);
     
-    const temAcomp = (dados.acompanhante == '1' || dados.acompanhante === 'Sim') ? 'Sim' : 'Não';
+    const temAcomp = (dados.acompanhante == '1' || dados.acompanhante === 'Sim' || dados.acompanhante === true) ? 'Sim' : 'Não';
     setVal('acompanhante', temAcomp);
 
     const statusInput = document.getElementById('status');
@@ -70,6 +108,10 @@ function preencherBeneficiario(dados) {
         statusInput.value = dados.statusBeneficio || "Em Análise";
         const st = (dados.statusBeneficio || "").toLowerCase();
         
+        // Limpa cores anteriores
+        statusInput.style.backgroundColor = '';
+        statusInput.style.color = '';
+
         if (st.includes('aprovado') || st.includes('ativo')) {
             statusInput.style.backgroundColor = '#d4edda';
             statusInput.style.color = '#155724';
@@ -82,7 +124,7 @@ function preencherBeneficiario(dados) {
         }
     }
 
-    // --- Card 2: Contato ---
+    // Card 2: Contato
     setVal('edit-email', dados.email);
     setVal('edit-telefone', dados.telefone);
     setVal('edit-cep', dados.cep);
@@ -92,24 +134,15 @@ function preencherBeneficiario(dados) {
     setVal('edit-numero', dados.numero);
     setVal('edit-complemento', dados.complemento);
 
-    // --- Card 3: Responsável ---
+    // Card 3: Responsável
     setVal('nomeresponsavel', dados.nomeresponsavel || dados.nomeResponsavel);
     setVal('cpfresponsavel', dados.cpfresponsavel || dados.cpfResponsavel);
     setVal('rgresponsavel', dados.rgresponsavel || dados.rgResponsavel);
-
-    // --- Cabeçalho ---
-    const headerTitle = document.querySelector('.user-name p');
-    if (headerTitle) {
-        // Tenta pegar o primeiro nome
-        const primeiroNome = dados.nome ? dados.nome.split(' ')[0] : 'Beneficiário';
-        headerTitle.innerText = `Bem-vindo, ${primeiroNome} (ID: ${dados.id})`;
-    }
 }
 
-// Botão de Sair (Adicione um botão de logout no HTML se quiser usar isso)
+// Botão de Sair
 function logout() {
     localStorage.removeItem('user_id');
     window.location.href = "../login/index.html";
 }
-// Torna a função logout global para ser usada no onclick do HTML
 window.logout = logout;

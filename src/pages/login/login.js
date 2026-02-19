@@ -44,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (usuarios.length > 0) {
                     const usuario = usuarios[0];
                     
-                    // --- MUDANÇA AQUI ---
                     // Em vez de mandar na URL, salvamos no navegador
                     localStorage.setItem('user_id', usuario.id);
                     localStorage.setItem('user_nome', usuario.nome); // Opcional, para boas vindas rápida

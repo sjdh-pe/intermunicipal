@@ -15,8 +15,9 @@ class CustomAccessibility extends HTMLElement {
                 body.acc-high-contrast { filter: contrast(150%) saturate(150%); }
                 body.acc-monochrome { filter: grayscale(100%); }
                 body.acc-light-contrast { filter: contrast(80%) brightness(110%); }
+                
                 body.acc-big-cursor, body.acc-big-cursor * { 
-                    cursor: url('https://cur.cursors-4u.net/arrows/arr-2/arr112.cur'), auto !important; 
+                    cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJibGFjayIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxIj48cGF0aCBkPSJNNS41IDMuMjFsMTAuMDggMTAuMDgtNC4yIDEuNjMgMy45NyA2Ljg4LTIuNiAxLjUtMy45Ny02Ljg4LTIuOTIgMi45MlYzLjIxeiIvPjwvc3ZnPg=='), auto !important; 
                 }
             `;
             document.head.appendChild(globalStyles);

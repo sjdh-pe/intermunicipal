@@ -64,4 +64,3 @@ export function formatCPF(cpf) {
     if (digits.length !== 11) return cpf; // retorna original se não tiver 11 dígitos
     return digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
 }
-
