@@ -28,15 +28,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .user-name h1{
-            padding-top: 30px;
-            padding-left: 40px;
-        }
-
-        .user-name p{
-            padding-left: 40px;
-        }
-
         .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
 
         .dashboard-grid {
@@ -143,67 +134,149 @@
             .action-bar { flex-direction: column; padding: 15px; }
             .btn { width: 100%; justify-content: center; }
         }
+
+        .header-custom {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 30px auto 20px auto;
+            padding: 0 20px 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            gap: 20px;
+        }
+
+        @media (min-width: 992px) {
+            .header-custom {
+                flex-direction: row;
+            }
+        }
+
+        .header-custom h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        @media (min-width: 992px) {
+            .header-custom h1 {
+                text-align: left;
+            }
+        }
+
+        .user-card-badge {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            min-width: 250px;
+        }
+
+        .user-card-icon {
+            background-color: #e6f0fa; /* Azul claro do fundo do ícone */
+            color: var(--primary-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .user-card-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-card-name {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--text-main);
+            margin: 0 0 2px 0;
+        }
+
+        .user-card-cpf {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
     </style>
 </head>
 <body>
 
-    <!-- header-top -->
     <custom-navbar></custom-navbar>
     <script src="../../components/navbar.js"></script>
 
-    <div class="user-name">
-        <h1><i class="fa-solid fa-id-card"></i> PE Livre Acesso Intermunicipal</h1>
-        <p id="header-welcome">Carregando dados do beneficiário...</p>
-    </div>
-
-<div class="container">
-<div class="dashboard-grid">
-
-    <div class="card">
-        <h3><i class="fa-solid fa-user"></i> Dados Pessoais e Benefício</h3>
-        <div class="form-grid">
-            <div class="input-group full-width">
-                <label>Nome Completo</label>
-                <input id="nome" type="text" disabled>
+    <div class="header-custom">
+        <h1><i></i> PE Livre Acesso Intermunicipal</h1>
+        
+        <div class="user-card-badge">
+            <div class="user-card-icon">
+                <i class="fa-solid fa-user"></i>
             </div>
-            <div class="input-group">
-                <label>CPF</label>
-                <input id="cpf" type="text" disabled>
-            </div>
-            <div class="input-group">
-                <label>RG</label>
-                <input id="rg" type="text" disabled>
-            </div>
-            <div class="input-group">
-                <label>Data de Nascimento</label>
-                <input id="datanasc" type="date" disabled>
-            </div>
-            <div class="input-group">
-                <label>Gênero</label>
-                <input id="genero" type="text" disabled>
-            </div>
-            <div class="input-group">
-                <label>Etnia</label>
-                <input id="etnia" type="text" disabled>
-            </div>
-            <div class="input-group full-width">
-                <label>Nome da Mãe</label>
-                <input id="nomemae" type="text" disabled>
-            </div>
-            <div class="input-group full-width">
-                <label>Tipo de Deficiência</label>
-                <input id="tipodeficiencia" type="text" disabled>
-            </div>
-            <div class="input-group">
-                <label>Possui Acompanhante?</label>
-                <input id="acompanhante" type="text" disabled>
-            </div>
-            <div class="input-group">
-                <label>Status do Benefício</label>
-                <input id="status" type="text" disabled style="font-weight: bold;">
+            <div class="user-card-info">
+                <p id="header-user-name" class="user-card-name">Carregando...</p>
+                <p id="header-user-cpf" class="user-card-cpf">...</p>
             </div>
         </div>
     </div>
+
+    <div class="container">
+        <div class="dashboard-grid">
+
+            <div class="card">
+                <h3><i class="fa-solid fa-user"></i> Dados Pessoais e Benefício</h3>
+                <div class="form-grid">
+                    <div class="input-group full-width">
+                        <label>Nome Completo</label>
+                        <input id="nome" type="text" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>CPF</label>
+                        <input id="cpf" type="text" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>RG</label>
+                        <input id="rg" type="text" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Data de Nascimento</label>
+                        <input id="datanasc" type="date" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Gênero</label>
+                        <input id="genero" type="text" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Etnia</label>
+                        <input id="etnia" type="text" disabled>
+                    </div>
+                    <div class="input-group full-width">
+                        <label>Nome da Mãe</label>
+                        <input id="nomemae" type="text" disabled>
+                    </div>
+                    <div class="input-group full-width">
+                        <label>Tipo de Deficiência</label>
+                        <input id="tipodeficiencia" type="text" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Possui Acompanhante?</label>
+                        <input id="acompanhante" type="text" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Status do Benefício</label>
+                        <input id="status" type="text" disabled style="font-weight: bold;">
+                    </div>
+                </div>
+            </div>
 
             <div class="card">
                 <h3><i class="fa-solid fa-map-location-dot"></i> Contato e Endereço</h3>
@@ -248,15 +321,15 @@
                 <div class="form-grid">
                     <div class="input-group full-width">
                         <label>Nome do Responsável</label>
-                        <input type="text" disabled>
+                        <input id="nomeresponsavel" type="text" disabled>
                     </div>
                     <div class="input-group">
                         <label>CPF Responsável</label>
-                        <input type="text" disabled>
+                        <input id="cpfresponsavel" type="text" disabled>
                     </div>
                     <div class="input-group">
                         <label>RG Responsável</label>
-                        <input type="text" disabled>
+                        <input id="rgresponsavel" type="text" disabled>
                     </div>
                 </div>
 
@@ -303,15 +376,12 @@
         </button>
     </div>
 
-    <!-- VLibras -->
-        <div vw class="enabled">
-            <div vw-access-button class="active"></div>
-            <div vw-plugin-wrapper>
-                <div class="vw-plugin-top-wrapper"></div>
-            </div>
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
         </div>
     </div>
-
 
     <script>
         // Lógica de upload de arquivos
@@ -327,33 +397,12 @@
             if(this.files && this.files.length > 0) {
                 const fileName = this.files[0].name;
                 alert(`Arquivo "${fileName}" selecionado para o documento: ${currentDocType}.\n(Aqui entraria a requisição para o servidor)`);
-                // Limpar o input para permitir selecionar o mesmo arquivo novamente
                 this.value = ''; 
             }
         });
 
-        // Ações dos botões inferiores
-        function emitirSegundaVia() {
-            // Pode abrir um Modal para confirmar dados ou motivo da perda/roubo
-            alert("Iniciando processo de emissão da 2ª via...");
-        }
-
-        function atualizarInformacoes() {
-            // Coletar dados dos campos editáveis
-            const dadosAtualizados = {
-                cep: document.getElementById('edit-cep').value,
-                cidade: document.getElementById('edit-cidade').value,
-                bairro: document.getElementById('edit-bairro').value,
-                endereco: document.getElementById('edit-endereco').value,
-                numero: document.getElementById('edit-numero').value,
-                complemento: document.getElementById('edit-complemento').value,
-                email: document.getElementById('edit-email').value,
-                telefone: document.getElementById('edit-telefone').value
-            };
-            
-            console.log("Dados prontos para envio:", dadosAtualizados);
-            alert("Informações de contato e endereço atualizadas com sucesso!");
-        }
+        function emitirSegundaVia() { alert("Iniciando processo de emissão da 2ª via..."); }
+        function atualizarInformacoes() { alert("Informações atualizadas com sucesso!"); }
     </script>
 
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
@@ -362,10 +411,9 @@
     </script>
     <custom-accessibility></custom-accessibility>
     <script src="../../components/accessibility.js"></script>
-       <custom-footer></custom-footer>
+    <custom-footer></custom-footer>
     <script src="../../components/footer.js"></script>
     <script type="module" src="./beneficiario.js"></script>
-    <script>
-    </script>
+
 </body>
 </html>

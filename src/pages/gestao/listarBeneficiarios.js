@@ -41,14 +41,30 @@ state.onChange = () => {
 };
 
 document.getElementById("btn-buscar-periodo")?.addEventListener('click', async () => {
-    const inicio = document.getElementById('search-data-inicio')?.value;
-    const fim = document.getElementById('search-data-fim')?.value;
+    // 1. Pega os valores do NOVO bloco de Pesquisa (lado esquerdo)
+    const inicio = document.getElementById('pesquisa-data-inicio')?.value;
+    const fim = document.getElementById('pesquisa-data-fim')?.value;
+    
+    const nome = document.getElementById('pesquisa-nome')?.value || '';
+    const cpf = document.getElementById('pesquisa-cpf')?.value || '';
+    const cidade = document.getElementById('pesquisa-cidade')?.value || '';
+    const status = document.getElementById('pesquisa-status')?.value || '';
+
     try {
+        // 2. Traz do backend os beneficiários no período selecionado
         await carregarBeneficiarios(inicio, fim, 0);
+
+        // 3. Sincroniza os filtros rápidos da tela com o que foi pesquisado
+        if (document.getElementById('search-nome')) document.getElementById('search-nome').value = nome;
+        if (document.getElementById('search-cpf')) document.getElementById('search-cpf').value = cpf;
+        if (document.getElementById('search-cidade')) document.getElementById('search-cidade').value = cidade;
+        if (document.getElementById('search-status')) document.getElementById('search-status').value = status;
+
+        // 4. Dispara a renderização (que aplica a filtragem visual instantaneamente)
         state.onChange();
     } catch (e) {
-        console.error('Erro ao filtrar por período:', e);
-        alert('Erro ao filtrar por período. Verifique o console para detalhes.');
+        console.error('Erro ao pesquisar:', e);
+        alert('Erro ao realizar a pesquisa. Verifique o console para detalhes.');
     }
 });
 

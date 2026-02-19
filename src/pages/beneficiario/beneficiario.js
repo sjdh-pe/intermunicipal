@@ -3,99 +3,81 @@ import { api } from "../../services/api.js";
 let beneficiarioData = {};
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Tenta pegar os parâmetros da URL (conforme seu código anterior)
+    // 1. Pega os parâmetros exatos que estão vindo da sua URL de login
     const urlParams = new URLSearchParams(window.location.search);
     const userCpf = urlParams.get('cpf');
     const userDatanasc = urlParams.get('datanasc');
     
-    // Fallback: Se não tiver na URL, tenta pegar o ID do localStorage (caso mude a lógica de login)
-    const idLocalStorage = localStorage.getItem('user_id');
+    console.log('Parâmetros capturados da URL:', userCpf, userDatanasc);
 
-    console.log('Parâmetros:', { userCpf, userDatanasc, idLocalStorage });
+    // Se a URL não tiver os dados, barra o acesso
+    if (!userCpf || !userDatanasc) {
+        alert("Sessão inválida. Retornando para a tela de login.");
+        window.location.href = "../login/index.html";
+        return;
+    }
 
     try {
-        let dados = null;
-
-        // Estratégia de Busca:
-        if (userCpf && userDatanasc) {
-            // Opção A: Busca por CPF e Data (conforme seu código)
-            dados = await buscarBeneficiarioPorDados(userCpf, userDatanasc);
-        } else if (idLocalStorage) {
-            // Opção B: Busca por ID do localStorage (mais seguro)
-            dados = await buscarBeneficiarioPorId(idLocalStorage);
-        }
-
+        // 2. Busca na rota exata da sua API
+        const dados = await buscarBeneficiario(userCpf, userDatanasc);
+        
         if (dados) {
-            // Se a API retornar um array (comum no json-server ao filtrar), pegamos o primeiro item
-            if (Array.isArray(dados)) {
-                beneficiarioData = dados[0]; 
-            } else {
-                beneficiarioData = dados;
-            }
-
-            if(beneficiarioData) {
-                console.log("Dados carregados com sucesso:", beneficiarioData);
-                preencherBeneficiario(beneficiarioData);
-            } else {
-                throw new Error("Usuário não encontrado na resposta da API");
-            }
+            beneficiarioData = dados;
+            console.log("Dados carregados do banco:", beneficiarioData);
+            
+            // 3. Preenche a tela
+            preencherBeneficiario(beneficiarioData);
         } else {
-            alert("Dados de acesso não encontrados. Por favor, faça login novamente.");
-            window.location.href = "../login/index.html";
+            throw new Error("Dados não retornados pela API");
         }
 
     } catch (error) {
         console.error("Erro ao buscar beneficiário:", error);
-        alert("Erro ao carregar seus dados.");
-        // window.location.href = "../login/index.html";
+        alert("Erro ao carregar seus dados. Verifique se o cadastro existe.");
+        window.location.href = "../login/index.html";
     }
 });
 
-// Busca usando CPF e Data (Filtro)
-async function buscarBeneficiarioPorDados(cpf, datanasc) {
-    // Nota: O endpoint depende de como seu back-end espera. 
-    // Se for json-server filtrando, seria: /beneficiarios?cpf=${cpf}&datanasc=${datanasc}
-    // Se for sua API customizada, mantenha a rota que você criou:
-    const resposta = await api.get(`/beneficiarios?cpf=${cpf}&datanasc=${datanasc}`);
-    return resposta.data;
-}
-
-// Busca usando ID direto (Opcional, mas recomendado)
-async function buscarBeneficiarioPorId(id) {
-    const resposta = await api.get(`/beneficiarios/${id}`);
+// Busca usando a rota personalizada do seu backend
+async function buscarBeneficiario(cpf, datanasc) {
+    const resposta = await api.get(`/beneficiarios/cpf/${cpf}/${datanasc}`);
     return resposta.data;
 }
 
 function preencherBeneficiario(dados) {
-    // Função auxiliar
+    // Função auxiliar para evitar erro se o campo não existir
     const setVal = (id, valor) => {
         const el = document.getElementById(id);
         if (el) el.value = valor || "";
     };
 
-    // Cabeçalho
-    const headerTitle = document.getElementById('header-welcome');
-    if (headerTitle) {
-        // Garante formatação do CPF (caso venha sem pontos do banco)
+   //cabeçalho
+    const headerName = document.getElementById('header-user-name');
+    const headerCpf = document.getElementById('header-user-cpf');
+    
+    if (headerName && headerCpf) {
+        // Formata o CPF caso venha do banco apenas com números
         let cpfFormatado = dados.cpf || "";
         if (cpfFormatado.length === 11 && !cpfFormatado.includes('.')) {
             cpfFormatado = cpfFormatado.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
         }
 
-        headerTitle.innerHTML = `
-            Bem-vindo, <strong>${dados.nome}</strong> <br>
-            <span class="user-header-cpf"><i class="fa-regular fa-address-card"></i> CPF: ${cpfFormatado}</span>
-        `;
+        // Se o nome for muito grande, pega só as duas primeiras palavras
+        const primeiroNome = dados.nome ? dados.nome.split(' ').slice(0, 2).join(' ') : 'Beneficiário';
+
+        // Injeta os dados nos parágrafos do novo card
+        headerName.textContent = primeiroNome;
+        headerCpf.innerHTML = `<i class="fa-regular fa-address-card"></i> CPF: ${cpfFormatado}`;
     }
 
-    // --- Restante do preenchimento dos campos ---
+
     
     // Card 1: Dados Pessoais
     setVal('nome', dados.nome);
     setVal('cpf', dados.cpf);
     setVal('rg', dados.rg);
     setVal('datanasc', dados.datanasc || dados.dataNascimento);
-    setVal('genero', dados.genero || dados.sexo); // Tenta as duas chaves comuns
+    setVal('genero', dados.genero || dados.sexo); // Cobre as duas possibilidades de nome no banco
     setVal('etnia', dados.etnia);
     setVal('nomemae', dados.nomemae || dados.nomeMae);
     setVal('tipodeficiencia', dados.tipodeficiencia || dados.tipoDeficiencia);
@@ -108,7 +90,7 @@ function preencherBeneficiario(dados) {
         statusInput.value = dados.statusBeneficio || "Em Análise";
         const st = (dados.statusBeneficio || "").toLowerCase();
         
-        // Limpa cores anteriores
+        // Limpa cores padrão
         statusInput.style.backgroundColor = '';
         statusInput.style.color = '';
 
@@ -142,7 +124,6 @@ function preencherBeneficiario(dados) {
 
 // Botão de Sair
 function logout() {
-    localStorage.removeItem('user_id');
     window.location.href = "../login/index.html";
 }
 window.logout = logout;
