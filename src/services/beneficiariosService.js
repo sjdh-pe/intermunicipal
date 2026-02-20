@@ -78,7 +78,8 @@ export async function uploadArquivoBeneficiario(id, tipoArquivoId, file) {
                 id_tipo_arquivo: tipoArquivoId
             },
             // NÃO precisa setar Content-Type, o axios/browser faz isso com boundary
-             headers: { "Content-Type": "multipart/form-data" }
+             headers: { "Content-Type": "multipart/form-data" },
+             timeout: 0
         }
     );
     return resp.data;

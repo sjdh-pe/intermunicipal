@@ -1,16 +1,41 @@
 import { api } from "../../services/api.js";
+import { uploadArquivoBeneficiario } from "../../services/beneficiariosService.js";
+
+// Variável para saber qual documento o usuário clicou (RG, CPF, etc)
+window.currentDocType = '';
+
+// Função do botão Sair (Logout)
+window.logout = function() {
+    console.log("Saindo do sistema...");
+    window.location.href = "../login/index.html";
+};
+
+window.triggerUpload = function(docType) {
+    window.currentDocType = docType;
+    const fileInput = document.getElementById('file-input');
+    if (fileInput) fileInput.click();
+};
+
+window.emitirSegundaVia = function() { 
+    alert("Iniciando processo de emissão da 2ª via..."); 
+};
+
+window.atualizarInformacoes = function() { 
+    alert("Informações atualizadas com sucesso!"); 
+};
+
+
+// Função de carregamento dos dados do beneficiario
 
 let beneficiarioData = {};
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Pega os parâmetros exatos que estão vindo da sua URL de login
+    
+    // Pega CPF e Data de Nascimento da URL
     const urlParams = new URLSearchParams(window.location.search);
     const userCpf = urlParams.get('cpf');
     const userDatanasc = urlParams.get('datanasc');
     
-    console.log('Parâmetros capturados da URL:', userCpf, userDatanasc);
-
-    // Se a URL não tiver os dados, barra o acesso
     if (!userCpf || !userDatanasc) {
         alert("Sessão inválida. Retornando para a tela de login.");
         window.location.href = "../login/index.html";
@@ -18,66 +43,102 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-        // 2. Busca na rota exata da sua API
+
         const dados = await buscarBeneficiario(userCpf, userDatanasc);
         
         if (dados) {
             beneficiarioData = dados;
-            console.log("Dados carregados do banco:", beneficiarioData);
-            
-            // 3. Preenche a tela
             preencherBeneficiario(beneficiarioData);
-        } else {
-            throw new Error("Dados não retornados pela API");
         }
 
     } catch (error) {
         console.error("Erro ao buscar beneficiário:", error);
-        alert("Erro ao carregar seus dados. Verifique se o cadastro existe.");
+        alert("Erro ao carregar seus dados.");
         window.location.href = "../login/index.html";
+    }
+
+    // Função de upload
+
+    const fileInput = document.getElementById('file-input');
+    
+    if (fileInput) {
+       
+        fileInput.addEventListener('change', async function(e) {
+            if(this.files && this.files.length > 0) {
+                const file = this.files[0];
+                const userId = beneficiarioData.id;
+
+                if (!userId) {
+                    alert("Erro: ID do usuário não encontrado.");
+                    this.value = '';
+                    return;
+                }
+
+                // Descobre o ID do tipo de documento para a API
+                let tipoArquivoId = 1;
+                switch(window.currentDocType) {
+                    case 'RG': tipoArquivoId = 1; break;
+                    case 'CPF': tipoArquivoId = 2; break;
+                    case 'FOTO': tipoArquivoId = 3; break;
+                    case 'RESIDENCIA': tipoArquivoId = 5; break;
+                    case 'LAUDO': tipoArquivoId = 6; break;
+                    case 'CPF_RESP': tipoArquivoId = 7; break;
+                }
+
+                try {
+                    console.log(`Iniciando upload do arquivo: ${file.name}...`);
+                    
+                    // Resultado, é a resposta do servidor
+                    const resultado = await uploadArquivoBeneficiario(userId, tipoArquivoId, file);
+                    
+                    console.log("✅ Upload finalizado com sucesso! Resposta da API:", resultado);
+                    
+                    alert("Documento salvo com sucesso!");
+                    
+                } catch (error) {
+                    console.error("❌ Erro no upload:", error);
+                    alert("Falha ao enviar documento. Tente novamente.");
+                } finally {
+                    this.value = ''; 
+                }
+            }
+        });
     }
 });
 
-// Busca usando a rota personalizada do seu backend
+// Funções de Busca e preenchicmento
+
 async function buscarBeneficiario(cpf, datanasc) {
     const resposta = await api.get(`/beneficiarios/cpf/${cpf}/${datanasc}`);
     return resposta.data;
 }
 
 function preencherBeneficiario(dados) {
-    // Função auxiliar para evitar erro se o campo não existir
     const setVal = (id, valor) => {
         const el = document.getElementById(id);
         if (el) el.value = valor || "";
     };
 
-   //cabeçalho
+    // Preenche Cabeçalho
     const headerName = document.getElementById('header-user-name');
     const headerCpf = document.getElementById('header-user-cpf');
     
     if (headerName && headerCpf) {
-        // Formata o CPF caso venha do banco apenas com números
         let cpfFormatado = dados.cpf || "";
         if (cpfFormatado.length === 11 && !cpfFormatado.includes('.')) {
             cpfFormatado = cpfFormatado.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
         }
-
-        // Se o nome for muito grande, pega só as duas primeiras palavras
-        const primeiroNome = dados.nome ? dados.nome.split(' ').slice(0, 2).join(' ') : 'Beneficiário';
-
-        // Injeta os dados nos parágrafos do novo card
+        const primeiroNome = dados.nome ? dados.nome.split(' ').slice(0, 2).join(' ').toUpperCase() : 'BENEFICIÁRIO';
         headerName.textContent = primeiroNome;
-        headerCpf.innerHTML = `<i class="fa-regular fa-address-card"></i> CPF: ${cpfFormatado}`;
+        headerCpf.innerHTML = `<i class="fa-regular fa-address-card" style="margin-right: 5px;"></i> CPF: ${cpfFormatado}`;
     }
 
-
-    
-    // Card 1: Dados Pessoais
+    // Preenche Cards
     setVal('nome', dados.nome);
     setVal('cpf', dados.cpf);
     setVal('rg', dados.rg);
     setVal('datanasc', dados.datanasc || dados.dataNascimento);
-    setVal('genero', dados.genero || dados.sexo); // Cobre as duas possibilidades de nome no banco
+    setVal('genero', dados.genero || dados.sexo);
     setVal('etnia', dados.etnia);
     setVal('nomemae', dados.nomemae || dados.nomeMae);
     setVal('tipodeficiencia', dados.tipodeficiencia || dados.tipoDeficiencia);
@@ -90,7 +151,6 @@ function preencherBeneficiario(dados) {
         statusInput.value = dados.statusBeneficio || "Em Análise";
         const st = (dados.statusBeneficio || "").toLowerCase();
         
-        // Limpa cores padrão
         statusInput.style.backgroundColor = '';
         statusInput.style.color = '';
 
@@ -106,7 +166,6 @@ function preencherBeneficiario(dados) {
         }
     }
 
-    // Card 2: Contato
     setVal('edit-email', dados.email);
     setVal('edit-telefone', dados.telefone);
     setVal('edit-cep', dados.cep);
@@ -115,15 +174,7 @@ function preencherBeneficiario(dados) {
     setVal('edit-endereco', dados.endereco || dados.logradouro);
     setVal('edit-numero', dados.numero);
     setVal('edit-complemento', dados.complemento);
-
-    // Card 3: Responsável
     setVal('nomeresponsavel', dados.nomeresponsavel || dados.nomeResponsavel);
     setVal('cpfresponsavel', dados.cpfresponsavel || dados.cpfResponsavel);
     setVal('rgresponsavel', dados.rgresponsavel || dados.rgResponsavel);
 }
-
-// Botão de Sair
-function logout() {
-    window.location.href = "../login/index.html";
-}
-window.logout = logout;
