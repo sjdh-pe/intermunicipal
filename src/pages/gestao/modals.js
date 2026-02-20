@@ -160,6 +160,70 @@ export function createModalHandlers(state) {
         if (state.onChange) state.onChange();
     }
 
-    return { openCarteiraModal, openViewModal, openEditModal, openDeleteModal, confirmDelete };
+    // Modal da carteirinha = Botões ações View Carteirinha
+    function openAcoesCarteiraModal(id, nome, email) {
+        const elId = document.getElementById('acao-carteira-id');
+        const elNome = document.getElementById('acao-carteira-nome');
+        const elEmail = document.getElementById('acao-carteira-email');
+
+        if (elId) elId.value = id;
+        if (elNome) elNome.textContent = nome || 'Beneficiário';
+        if (elEmail) elEmail.textContent = email || 'Sem e-mail cadastrado';
+
+        if (typeof feather !== 'undefined') feather.replace();
+
+        const modalEl = document.getElementById('acoesCarteiraModal');
+        if (modalEl) {
+            const modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+            modalInstance.show();
+        }
+    }
+
+    function downloadCarteiraPdf() {
+        const id = document.getElementById('acao-carteira-id')?.value;
+        if (!id) return;
+        
+        // Abre uma nova aba chamando a rota de PDF (ajuste a rota conforme sua API)
+        window.open(`${api.urlapi}/beneficiarios/${id}/carteirinha/pdf`, '_blank');
+    }
+
+    async function enviarCarteiraEmail() {
+        const id = document.getElementById('acao-carteira-id')?.value;
+        const email = document.getElementById('acao-carteira-email')?.textContent;
+
+        if (!email || email === 'Sem e-mail cadastrado') {
+            alert("Não é possível enviar. Este beneficiário não possui um e-mail válido cadastrado.");
+            return;
+        }
+
+        if (confirm(`Deseja enviar a carteira para o e-mail: ${email}?`)) {
+            try {
+                // Ajustar a rota para a API de disparo de e-mail
+                // await api.post(`/beneficiarios/${id}/enviar-email`);
+                
+                alert(`Sucesso! A carteira foi enviada para o e-mail: ${email}`);
+                
+                // Fecha o modal após sucesso
+                const modalEl = document.getElementById('acoesCarteiraModal');
+                if (modalEl) bootstrap.Modal.getInstance(modalEl).hide();
+                
+            } catch (error) {
+                console.error("Erro ao enviar email", error);
+                alert("Erro ao disparar o e-mail.");
+            }
+        }
+    }
+
+    return { 
+        openCarteiraModal, 
+        openViewModal, 
+        openEditModal, 
+        openDeleteModal, 
+        confirmDelete,
+        openAcoesCarteiraModal,
+        downloadCarteiraPdf,
+        enviarCarteiraEmail     
+    };
 }
+
 

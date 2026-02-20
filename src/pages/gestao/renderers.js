@@ -33,6 +33,8 @@ export function loadBeneficiarios(beneficiariosPage) {
                 <button onclick="openViewModal('${b.id}')" class="text-blue-600 hover:text-blue-900 mr-3" title="Ver dados"><i data-feather="eye"></i></button>
                 <button onclick="openEditModal('${b.id}')" class="text-amber-600 hover:text-amber-900 mr-3" title="Editar"><i data-feather="edit"></i></button>
                 <button onclick="openCarteiraModal('${b.id}')" class="${cardClass} mr-3" title="${isAprovado ? 'Visualizar Carteira' : 'Carteira Indisponível'}"><i data-feather="credit-card"></i></button>
+                <button onclick="openAcoesCarteiraModal('${b.id}', '${b.nome}', '${b.email}')" class="text-blue-600 hover:text-blue-900 mx-1" title="Ações da Carteira">
+                <i data-feather="file-text" class="w-4 h-4"></i></button>
 <!--                <button onclick="openDeleteModal('${b.id}')" class="text-red-600 hover:text-red-900" title="Deletar"><i data-feather="trash-2"></i></button>-->
             </td>
         `;
