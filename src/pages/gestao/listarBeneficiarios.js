@@ -118,8 +118,6 @@ export async function carregarBeneficiarios(inicio, fim, nome = '', cpf = '', ci
             state.size
         );
 
-        console.log ("log", result)
-        
         state.beneficiariosPage = result || __EMPTY_PAGE__;
         if (typeof window !== 'undefined') window.beneficiariosData = state.beneficiariosPage;
         return result;

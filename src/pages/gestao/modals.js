@@ -4,8 +4,6 @@ import { motivoBeneficiario, listarArquivosBeneficiario } from "../../services/b
 
 export function createModalHandlers(state) {
     function findById(id) {
-        console.log("modals.js findById")
-        console.log(state.beneficiariosPage?.content || [])
         return (state.beneficiariosPage?.content || []).find(u => u.id === id);
     }
     function openCarteiraModal(id) {
@@ -49,7 +47,7 @@ export function createModalHandlers(state) {
          set("view-cpf", user.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4"));
          set("view-rg", user.rg);
          set("view-espera", user.diasDesdeCriacao);
-         document.getElementById("view-espera").innerHTML = user.diasDesdeCriacao ;
+          document.getElementById("view-espera").innerHTML = user.diasDesdeCriacao ;
          set("view-cidade", user.cidade);
          set('view-deficiencia', user.tipoDeficiencia);
          set('view-endereco', user.enderecoCompleto );
@@ -58,7 +56,6 @@ export function createModalHandlers(state) {
          set("view-cep", user.cep);
          set("view-email", user.email);
          set("view-telefone", formatPhone(user.telefone));
-
          const applyLinkState = (btnId, url) => {
              const el = document.getElementById(btnId);
              if (!el) return;
@@ -101,6 +98,7 @@ export function createModalHandlers(state) {
 
     async function openEditModal(id) {
         const user = findById(id);
+
         if (!user) return;
         user.motivo = await motivoBeneficiario(id);
 
