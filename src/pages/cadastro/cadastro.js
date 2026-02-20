@@ -1,7 +1,7 @@
 
 import {
     cadastrarBeneficiario,
-    cadastrarResponsavelBeneficiario, validarArquivo, uploadArquivoBeneficiario
+    cadastrarResponsavelBeneficiario, validarArquivo, uploadArquivoBeneficiario, enviarEmailConfirmacao
 } from "../../services/beneficiariosService.js";
 
 // Estado do beneficiário deve iniciar nulo para permitir a checagem correta
@@ -571,14 +571,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     const laudoDeficienciaFile = document.getElementById('laudoFile').files[0];
                     await uploadArquivoBeneficiario(beneficiario.id, 6, laudoDeficienciaFile);
 
-
                     await uploadArquivoBeneficiario(beneficiario.id, 3, croppedFile);
 
-                    // Redirecionar ou atualizar a página conforme necessário
-                    alert('Cadastro concluido com sucesso!');
+                    const rg_responsavel = document.getElementById('rgFileResponsavel').files[0];
+                    await uploadArquivoBeneficiario(beneficiario.id, 16, rg_responsavel);
 
+                    const cpf_responsavel = document.getElementById('cpfFileResponsavel').files[0];
+                    await uploadArquivoBeneficiario(beneficiario.id, 15, cpf_responsavel);
+
+                    const confirmar = await enviarEmailConfirmacao(beneficiario);
+                    if (confirmar) {
+                        window.location.href = './concluido.html';
+                    } else {
+                        console.error('Erro ao enviar o email de confirmação.', confirmar);
+                    }
 
                 } catch (error) {
+                    console.error('Erro ao enviar os documentos.', error);
                     alert('Erro ao enviar os documentos.'+ (error.message || ''));
                 }
             }
@@ -594,7 +603,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const photoPreview = document.getElementById('photo-preview');
         const photoPreviewContainer = document.getElementById('photo-preview-container');
-        const hiddenInput = document.getElementById('croppedPhoto');
         let cropper;
 
         fileInput.addEventListener('change', (e) => {
