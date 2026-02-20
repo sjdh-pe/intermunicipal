@@ -21,27 +21,7 @@ export async function listarBeneficiarios(inicio, fim, nome = '', cpf = '', cida
         size 
     };
 
-    // Só adiciona os parâmetros extras na URL se o usuário tiver digitado algo
-    if (nome) queryParams.nome = nome;
-    
-    // Remove pontos e traços do CPF para a API receber apenas os números (Opcional, mas recomendado)
-    if (cpf) queryParams.cpf = cpf.replace(/\D/g, ''); 
-    
-    if (cidade) queryParams.cidade = cidade;
-    
-    // ATENÇÃO: Verifique qual é o nome exato que seu backend espera para o status. 
-    // Pode ser 'status', 'statusId', 'statusBeneficioId', etc.
-    if (status) queryParams.statusBeneficioId = status; 
-
-    // A requisição vai juntar a rota base (com inicio e fim) e os novos queryParams
-    
-    // Select cidadeId - index.html -> cadastro linha 296
-    const resp = await api.get(`/beneficiarios?inicio=${inicio}
-        &fim=${fim}
-        &nome=${nome}
-        &cpf=${cpf}
-        &cidadeId=${cidadeId}&selected=${selected}
-        &statusNemeficio=${statusBeneficio}`, {
+    const resp = await api.get(`/beneficiarios`, {
         params: queryParams
     });
 
@@ -104,6 +84,38 @@ export async function uploadArquivoBeneficiario(id, tipoArquivoId, file) {
     return resp.data;
 }
 
+/**
+ * Enviar e-mail confirmação cadastro
+ * @param {object} beneficiario - beneficiário cadastrado
+ * */
+export async function enviarEmailConfirmacao(beneficiario) {
+
+    const body = `Prezado(a), ${beneficiario.nome}
+
+Informamos que os seus dados foram enviados para a Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência  para análise e elaboração da Cartão PE Livre Acesso Intermunicipal.
+
+Por favor, fique atento(a) a este e-mail, pois informaremos o progresso.
+
+Atenciosamente,
+
+Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência
+Secretaria de Justiça, Direitos Humanos e Prevenção à Violência`;
+
+    try {
+        const resp = await api.post(`/email/sucesso`,
+            {
+                params: {
+                    to: beneficiario.email,
+                    subject: "Cartão PE Livre Acesso Intermunicipal - Confirmação de Cadastro",
+                    body: body
+                }
+            });
+        console.log(resp);
+        return resp.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 /**
  * Obtém o do status atual do beneficiário
@@ -113,7 +125,6 @@ export async function uploadArquivoBeneficiario(id, tipoArquivoId, file) {
 export async function motivoBeneficiario(id) {
 
     const resp = await api.get(`/beneficiarios/${id}/historico-status/atual`);
-    console.log(resp.data.motivo)
     return resp.data.motivo;
 }
 
