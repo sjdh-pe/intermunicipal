@@ -236,7 +236,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.openDeleteModal = handlers.openDeleteModal;
         window.confirmDelete = handlers.confirmDelete;
         window.loadBeneficiarios = renderWrapper;
-        window.openAcoesCarteiraModal = handlers.openAcoesCarteiraModal;
         window.downloadCarteiraPdf = handlers.downloadCarteiraPdf;
         window.enviarCarteiraEmail = handlers.enviarCarteiraEmail;
     }

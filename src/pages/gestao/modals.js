@@ -161,7 +161,7 @@ export function createModalHandlers(state) {
     }
 
     // Modal da carteirinha = Botões ações View Carteirinha
-    function openAcoesCarteiraModal(id, nome, email) {
+    function openCarteiraModal(id, nome, email) {
         const elId = document.getElementById('acao-carteira-id');
         const elNome = document.getElementById('acao-carteira-nome');
         const elEmail = document.getElementById('acao-carteira-email');
@@ -179,14 +179,15 @@ export function createModalHandlers(state) {
         }
     }
 
+    // A lógica de abrir o PDF 
     function downloadCarteiraPdf() {
         const id = document.getElementById('acao-carteira-id')?.value;
         if (!id) return;
         
-        // Abre uma nova aba chamando a rota de PDF (ajuste a rota conforme sua API)
-        window.open(`${api.urlapi}/beneficiarios/${id}/carteirinha/pdf`, '_blank');
+        window.open(`${api.urlapi}/beneficiarios/${id}/carteirinha`, '_blank');
     }
 
+    // Função de envio de E-mail 
     async function enviarCarteiraEmail() {
         const id = document.getElementById('acao-carteira-id')?.value;
         const email = document.getElementById('acao-carteira-email')?.textContent;
@@ -198,15 +199,10 @@ export function createModalHandlers(state) {
 
         if (confirm(`Deseja enviar a carteira para o e-mail: ${email}?`)) {
             try {
-                // Ajustar a rota para a API de disparo de e-mail
                 // await api.post(`/beneficiarios/${id}/enviar-email`);
-                
                 alert(`Sucesso! A carteira foi enviada para o e-mail: ${email}`);
-                
-                // Fecha o modal após sucesso
                 const modalEl = document.getElementById('acoesCarteiraModal');
                 if (modalEl) bootstrap.Modal.getInstance(modalEl).hide();
-                
             } catch (error) {
                 console.error("Erro ao enviar email", error);
                 alert("Erro ao disparar o e-mail.");
@@ -220,7 +216,6 @@ export function createModalHandlers(state) {
         openEditModal, 
         openDeleteModal, 
         confirmDelete,
-        openAcoesCarteiraModal,
         downloadCarteiraPdf,
         enviarCarteiraEmail     
     };

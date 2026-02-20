@@ -223,7 +223,7 @@
                 <i class="fa-solid fa-user"></i>
             </div>
             <div class="user-card-info">
-                <p id="header-user-name" class="user-card-name">Carregando...</p>
+                <p id="header-user-name" class="user-card-name bg">Carregando...</p>
                 <p id="header-user-cpf" class="user-card-cpf">...</p>
             </div>
         </div>
@@ -368,6 +368,10 @@
     </div>
 
     <div class="action-bar">
+        <button class="btn btn-danger btn-terciary" onclick="logout()" style="margin-right: auto; background-color: #dc3545; color: white;">
+            <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </button>
+
         <button class="btn btn-secondary" onclick="emitirSegundaVia()">
             <i class="fa-solid fa-print"></i> Emitir 2ª Via
         </button>

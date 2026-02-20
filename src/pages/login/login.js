@@ -8,13 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Máscaras
     if ($ && $.fn.mask) {
-        $('.cpf-masck').mask('000.000.000-00');
+        $('.cpf-masck').mask('00000000000');
         $('.date-mask').mask('00/00/0000');
     }
 
-    // ==========================================
-    // LÓGICA DO OLHO (MOSTRAR/OCULTAR SENHA)
-    // ==========================================
     const togglePassword = document.querySelector('#togglePassword');
     const dataInput = document.querySelector('#datanasc');
     
@@ -28,9 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ==========================================
-    // LÓGICA DO CALENDÁRIO (BOTÃO ESQUERDO)
-    // ==========================================
+
     const btnCalendar = document.getElementById('btn-open-calendar');
     const hiddenDatePicker = document.getElementById('hidden-date-picker');
 
@@ -60,9 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ==========================================
-    // LÓGICA DE SUBMIT DO SEU CÓDIGO ORIGINAL
-    // ==========================================
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
