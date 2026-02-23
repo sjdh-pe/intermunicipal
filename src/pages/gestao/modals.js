@@ -6,9 +6,6 @@ export function createModalHandlers(state) {
     function findById(id) {
         return (state.beneficiariosPage?.content || []).find(u => u.id === id);
     }
-    function openCarteiraModal(id) {
-        window.open(`${api.urlapi}/beneficiarios/${id}/carteirinha`, '_blank');
-    }
 
      async function openViewModal(id) {
 
@@ -129,7 +126,14 @@ export function createModalHandlers(state) {
         setValue('edit-responsavel-rg' , user.responsavelRg);
         setValue('edit-obs', user.motivo);
         setValue('edit-cidade', user.cidadeId);
-        setValue('edit-acompanhante', user.acompanhante);
+
+        if( user.acompanhante === null || user.acompanhante === undefined ){
+            setValue('edit-acompanhante', "");
+        }else if(user.acompanhante === false ){
+            setValue('edit-acompanhante', "false");
+        }else {
+            setValue('edit-acompanhante', user.acompanhante);
+        }
 
         const select = document.getElementById('edit-status');
         if (select) {

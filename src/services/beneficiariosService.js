@@ -14,11 +14,11 @@ import { api } from "./api.js";
  * @param {number} size - tamanho da página
  */
 export async function listarBeneficiarios(inicio, fim, nome = '', cpf = '', cidade = '', status = '', page = 0, size = 10) {
-    
+
     // Objeto com os parâmetros que serão adicionados na URL
-    const queryParams = { 
-        page, 
-        size 
+    const queryParams = {
+        page,
+        size
     };
 
     const resp = await api.get(`/beneficiarios`, {
@@ -65,23 +65,20 @@ export async function cadastrarResponsavelBeneficiario(payload) {
  * @param {File} file - Arquivo a ser enviado
  */
 export async function uploadArquivoBeneficiario(id, tipoArquivoId, file) {
-    const formData = new FormData();
-    formData.append("file", file); // 👈 nome do campo igual ao -F 'file=@...' do curl
 
-    const resp = await api.post(
-        "/upload",
-        formData,
-        {
-            // params → vira ?id=...&id_tipo_arquivo=...
-            params: {
-                id: id,
-                id_tipo_arquivo: tipoArquivoId
-            },
-            // NÃO precisa setar Content-Type, o axios/browser faz isso com boundary
-             headers: { "Content-Type": "multipart/form-data" },
-             timeout: 0
-        }
-    );
+    if (!(file instanceof File)) {
+        throw new Error("Arquivo inválido: file não é File. Verifique o input.files[0].");
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const resp = await api.post("/upload", formData, {
+        params: { id, id_tipo_arquivo: tipoArquivoId },
+        timeout: 0,
+        headers: { "Content-Type": "multipart/form-data" },
+    });
+
     return resp.data;
 }
 
@@ -117,6 +114,74 @@ Secretaria de Justiça, Direitos Humanos e Prevenção à Violência`;
         console.error(error);
     }
 }
+
+
+/**
+ * Enviar e-mail Aprovação do Benefício
+ * @param {object} beneficiario - beneficiário
+ * */
+export async function enviarEmailAprovado(beneficiario) {
+
+    const body = `Prezado(a), ${beneficiario.nome}
+
+Informamos que os seus dados foram enviados para a Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência  para análise e elaboração da Cartão PE Livre Acesso Intermunicipal.
+
+Por favor, fique atento(a) a este e-mail, pois informaremos o progresso.
+
+Atenciosamente,
+
+Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência
+Secretaria de Justiça, Direitos Humanos e Prevenção à Violência`;
+
+    try {
+        const resp = await api.post(`/email/sucesso`,
+            {
+                params: {
+                    to: beneficiario.email,
+                    subject: "Cartão PE Livre Acesso Intermunicipal - Beneficio Aprovado!",
+                    body: body
+                }
+            });
+        console.log(resp);
+        return resp.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+/**
+ * Enviar e-mail com cartão digital
+ * @param {object} beneficiario - beneficiário
+ * */
+export async function enviarEmailViaDigital(beneficiario) {
+
+    const body = `Prezado(a), ${beneficiario.nome}
+
+Informamos que os seus dados foram enviados para a Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência  para análise e elaboração da Cartão PE Livre Acesso Intermunicipal.
+
+Por favor, fique atento(a) a este e-mail, pois informaremos o progresso.
+
+Atenciosamente,
+
+Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência
+Secretaria de Justiça, Direitos Humanos e Prevenção à Violência`;
+
+    try {
+        const resp = await api.post(`/email/sucesso`,
+            {
+                params: {
+                    to: beneficiario.email,
+                    subject: "Cartão PE Livre Acesso Intermunicipal - Cartão Digital disponivel.",
+                    body: body
+                }
+            });
+        console.log(resp);
+        return resp.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 
 /**
  * Obtém o do status atual do beneficiário

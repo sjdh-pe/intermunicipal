@@ -1,0 +1,50 @@
+/* src/styles/loader.css */
+
+#app-loader-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(2px);
+}
+
+#app-loader-overlay.is-visible {
+    display: flex;
+}
+
+.app-loader-box {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 20px;
+    min-width: 180px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.app-spinner {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 4px solid rgba(0,0,0,0.15);
+    border-top-color: rgba(0,0,0,0.65);
+    animation: appspin 0.8s linear infinite;
+}
+
+.app-loader-text {
+    font-size: 14px;
+    color: rgba(0,0,0,0.75);
+}
+
+@keyframes appspin {
+    to { transform: rotate(360deg); }
+}
+
+.app-no-scroll {
+    overflow: hidden;
+}

@@ -6,11 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loginForm = document.getElementById('login-form');
 
-    // Máscaras
-    if ($ && $.fn.mask) {
-        $('.cpf-masck').mask('00000000000');
-        $('.date-mask').mask('00/00/0000');
-    }
 
     const togglePassword = document.querySelector('#togglePassword');
     const dataInput = document.querySelector('#datanasc');
@@ -67,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const cpf = cpfInput.value;
+            const cpf = cpfInput.value.replace(/\D/g, '');
             const dataDigitada = dataInput.value;
 
             // Converter Data (DD/MM/AAAA -> AAAA-MM-DD para a API)
@@ -78,22 +73,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const dataFormatada = `${partes[2]}-${partes[1]}-${partes[0]}`;
 
+            console.log('Data selecionada:', dataFormatada);
+            console.log('CPF:', cpf);
             try {
                 // Busca na API
-                const response = await api.get(`/beneficiarios?cpf=${cpf}&datanasc=${dataFormatada}`);
-                const usuarios = response.data;
+                const response = await api.get(`/beneficiarios/cpf/${cpf}/${dataFormatada}`);
+                console.log('API Response:', response.data);
+                const usuario = response.data;
 
-                if (usuarios.length > 0) {
-                    const usuario = usuarios[0];
-                    
-                    // Salvamos no navegador
-                    localStorage.setItem('user_id', usuario.id);
-                    localStorage.setItem('user_nome', usuario.nome); 
-                    
-                    console.log("Login salvo. Redirecionando...");
-                    
-                    // Redireciona
-                    window.location.href = '../beneficiario/index.html';
+                if (usuario) {
+
+                    window.location.href = `../beneficiario/?cpf=${cpf}&datanasc=${dataFormatada}`;
+
                 } else {
                     alert("Dados incorretos. Verifique CPF e Data de Nascimento.");
                 }
