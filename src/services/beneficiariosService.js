@@ -90,14 +90,26 @@ export async function enviarEmailConfirmacao(beneficiario) {
 
     const body = `Prezado(a), ${beneficiario.nome}
 
-Informamos que os seus dados foram enviados para a Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência  para análise e elaboração da Cartão PE Livre Acesso Intermunicipal.
+Confirmamos o recebimento do seu cadastro e da documentação anexa para a solicitação do Cartão PE Livre Acesso Intermunicipal.
 
-Por favor, fique atento(a) a este e-mail, pois informaremos o progresso.
+Seus dados foram enviados com sucesso para a equipe da a Secretaria Executiva de Promoção dos Direitos da Pessoa com Deficiência, para análise e elaboração da Cartão PE Livre Acesso Intermunicipal.
+
+O que acontece agora?
+
+Nossa equipe irá verificar se todos os documentos (Laudo Médico, RG, CPF, Comprovante de Residência e Foto) estão em conformidade com a Lei Estadual nº 12.045/2001.
+
+Prazo de Análise: O prazo máximo para análise e emissão é de até 90 dias.
+
+Você receberá um novo e-mail assim que houver uma atualização no status do seu pedido (Aprovado, Pendente ou Indeferido).
+
+Caso seja identificada alguma pendência na documentação, entraremos em contato por e-mail.
+
+Dúvidas? Entre em contato: pelivreacesso@sjdh.pe.gov.br
 
 Atenciosamente,
 
 Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência
-Secretaria de Justiça, Direitos Humanos e Prevenção à Violência`;
+Secretaria de Justiça, Direitos Humanos e Prevenção à Violência (SJDH)`;
 
     try {
         const resp = await api.post(`/email/sucesso`,
@@ -124,14 +136,26 @@ export async function enviarEmailAprovado(beneficiario) {
 
     const body = `Prezado(a), ${beneficiario.nome}
 
-Informamos que os seus dados foram enviados para a Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência  para análise e elaboração da Cartão PE Livre Acesso Intermunicipal.
+Temos uma ótima notícia: Sua solicitação foi APROVADA!
 
-Por favor, fique atento(a) a este e-mail, pois informaremos o progresso.
+Você já pode exercer o seu direito à gratuidade no transporte coletivo intermunicipal em Pernambuco utilizando a sua Carteira Digital.
+
+Como acessar sua carteira:
+
+Acesse neste link: <a href:"api.sjdh.pe.gpv.br/beneficiarios/${beneficiario.id/carteirinha}" target="_blank">Carteirinha PE Livre Intermunicipal</a>
+
+Como utilizar na viagem:
+
+Vá diretamente ao balcão da empresa de transporte e apresente a sua Carteira Digital (na tela do celular) juntamente com seu documento de identidade original (RG).
+
+Lembre-se: As empresas são obrigadas a reservar assentos para atender aos beneficiários, e a passagem pode ser solicitada até cinco minutos antes do início da viagem, desde que existam lugares vagos.
+
+Dúvidas? Entre em contato: pelivreacesso@sjdh.pe.gov.br
 
 Atenciosamente,
 
 Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência
-Secretaria de Justiça, Direitos Humanos e Prevenção à Violência`;
+Secretaria de Justiça, Direitos Humanos e Prevenção à Violência (SJDH)`;
 
     try {
         const resp = await api.post(`/email/sucesso`,
@@ -157,14 +181,26 @@ export async function enviarEmailViaDigital(beneficiario) {
 
     const body = `Prezado(a), ${beneficiario.nome}
 
-Informamos que os seus dados foram enviados para a Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência  para análise e elaboração da Cartão PE Livre Acesso Intermunicipal.
+Sua solicitação foi  da Carteira PE Livre Intermunicipal foi APROVADA!
 
-Por favor, fique atento(a) a este e-mail, pois informaremos o progresso.
+Você já pode exercer o seu direito à gratuidade no transporte coletivo intermunicipal em Pernambuco utilizando a sua Carteira Digital.
+
+Como acessar sua carteira:
+
+Acesse neste link: <a href:"api.sjdh.pe.gpv.br/beneficiarios/${beneficiario.id/carteirinha}" target="_blank">Carteirinha PE Livre Intermunicipal</a>
+
+Como utilizar na viagem:
+
+Vá diretamente ao balcão da empresa de transporte e apresente a sua Carteira Digital (na tela do celular) juntamente com seu documento de identidade original (RG).
+
+Lembre-se: As empresas são obrigadas a reservar assentos para atender aos beneficiários, e a passagem pode ser solicitada até cinco minutos antes do início da viagem, desde que existam lugares vagos.
+
+Dúvidas? Entre em contato: pelivreacesso@sjdh.pe.gov.br
 
 Atenciosamente,
 
 Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência
-Secretaria de Justiça, Direitos Humanos e Prevenção à Violência`;
+Secretaria de Justiça, Direitos Humanos e Prevenção à Violência (SJDH)`;
 
     try {
         const resp = await api.post(`/email/sucesso`,
