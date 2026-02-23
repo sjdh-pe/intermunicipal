@@ -14,11 +14,11 @@ import { api } from "./api.js";
  * @param {number} size - tamanho da página
  */
 export async function listarBeneficiarios(inicio, fim, nome = '', cpf = '', cidade = '', status = '', page = 0, size = 10) {
-    
+
     // Objeto com os parâmetros que serão adicionados na URL
-    const queryParams = { 
-        page, 
-        size 
+    const queryParams = {
+        page,
+        size
     };
 
     const resp = await api.get(`/beneficiarios`, {
@@ -65,23 +65,20 @@ export async function cadastrarResponsavelBeneficiario(payload) {
  * @param {File} file - Arquivo a ser enviado
  */
 export async function uploadArquivoBeneficiario(id, tipoArquivoId, file) {
-    const formData = new FormData();
-    formData.append("file", file); // 👈 nome do campo igual ao -F 'file=@...' do curl
 
-    const resp = await api.post(
-        "/upload",
-        formData,
-        {
-            // params → vira ?id=...&id_tipo_arquivo=...
-            params: {
-                id: id,
-                id_tipo_arquivo: tipoArquivoId
-            },
-            // NÃO precisa setar Content-Type, o axios/browser faz isso com boundary
-             headers: { "Content-Type": "multipart/form-data" },
-             timeout: 0
-        }
-    );
+    if (!(file instanceof File)) {
+        throw new Error("Arquivo inválido: file não é File. Verifique o input.files[0].");
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const resp = await api.post("/upload", formData, {
+        params: { id, id_tipo_arquivo: tipoArquivoId },
+        timeout: 0,
+        headers: { "Content-Type": "multipart/form-data" },
+    });
+
     return resp.data;
 }
 

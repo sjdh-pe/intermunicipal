@@ -4,6 +4,7 @@ $(document).ready(function(){
     $('#cpfResponsavel').mask('000.000.000-00', {reverse: true});
     $('.telefone-masck').mask('(00) 00000-0000');
     $('#cep').mask('00000-000');
+    $('.date-mask').mask('00/00/0000');
 });
 
 function formatPhone(phone){

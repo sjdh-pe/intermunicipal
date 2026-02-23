@@ -1,47 +1,58 @@
-class GlobalLoader extends HTMLElement {
-    connectedCallback() {
-        this.innerHTML = `
-            <style>
-                :host {
-                    position: fixed;
-                    inset: 0;
-                    z-index: 9999;
-                    display: none;
-                }
 
-                .backdrop {
-                    position: absolute;
-                    inset: 0;
-                    background: rgba(0, 0, 0, 0.4);
-                }
+let overlayEl = null;
+let counter = 0;
 
-                .content {
-                    position: absolute;
-                    inset: 0;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-direction: column;
-                    color: #fff;
-                    font-size: 1rem;
-                }
-            </style>
+function ensureOverlay() {
+    if (overlayEl) return overlayEl;
 
-            <div class="backdrop"></div>
-            <div class="content">
-                <div class="spinner-border" role="status"></div>
-                <span class="mt-2">Carregando...</span>
-            </div>
-        `;
-    }
+    overlayEl = document.getElementById("app-loader-overlay");
+    if (overlayEl) return overlayEl;
 
-    show() {
-        this.style.display = "block";
-    }
+    const el = document.createElement("div");
+    el.id = "app-loader-overlay";
+    el.setAttribute("aria-hidden", "true");
+    el.innerHTML = `
+    <div class="app-loader-box" role="status" aria-live="polite" aria-label="Carregando">
+      <div class="app-spinner"></div>
+      <div class="app-loader-text">Carregando...</div>
+    </div>
+  `;
 
-    hide() {
-        this.style.display = "none";
-    }
+    document.body.appendChild(el);
+    return el;
 }
 
-customElements.define("global-loader", GlobalLoader);
+export function showLoading() {
+    counter += 1;
+
+    // Garante que o DOM está pronto
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
+            const el = ensureOverlay();
+            el.classList.add("is-visible");
+            document.body.classList.add("app-no-scroll");
+        }, { once: true });
+        return;
+    }
+
+    const el = ensureOverlay();
+    el.classList.add("is-visible");
+    document.body.classList.add("app-no-scroll");
+}
+
+export function hideLoading() {
+    counter = Math.max(0, counter - 1);
+    if (counter > 0) return;
+
+    if (!overlayEl) return;
+
+    overlayEl.classList.remove("is-visible");
+    document.body.classList.remove("app-no-scroll");
+}
+
+export function resetLoading() {
+    counter = 0;
+    if (!overlayEl) return;
+    overlayEl.classList.remove("is-visible");
+    document.body.classList.remove("app-no-scroll");
+}

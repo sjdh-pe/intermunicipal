@@ -573,11 +573,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     await uploadArquivoBeneficiario(beneficiario.id, 3, croppedFile);
 
-                    const rg_responsavel = document.getElementById('rgFileResponsavel').files[0];
-                    await uploadArquivoBeneficiario(beneficiario.id, 16, rg_responsavel);
+                    if(beneficiario.responsavelId){
+                        const rg_responsavel = document.getElementById('rgFileResponsavel').files[0];
+                        await uploadArquivoBeneficiario(beneficiario.id, 16, rg_responsavel);
 
-                    const cpf_responsavel = document.getElementById('cpfFileResponsavel').files[0];
-                    await uploadArquivoBeneficiario(beneficiario.id, 15, cpf_responsavel);
+                        const cpf_responsavel = document.getElementById('cpfFileResponsavel').files[0];
+                        await uploadArquivoBeneficiario(beneficiario.id, 15, cpf_responsavel);
+                    }
+
 
                     const confirmar = await enviarEmailConfirmacao(beneficiario);
                     if (confirmar) {
