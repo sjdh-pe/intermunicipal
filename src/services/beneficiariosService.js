@@ -115,6 +115,74 @@ Secretaria de Justiça, Direitos Humanos e Prevenção à Violência`;
     }
 }
 
+
+/**
+ * Enviar e-mail Aprovação do Benefício
+ * @param {object} beneficiario - beneficiário
+ * */
+export async function enviarEmailAprovado(beneficiario) {
+
+    const body = `Prezado(a), ${beneficiario.nome}
+
+Informamos que os seus dados foram enviados para a Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência  para análise e elaboração da Cartão PE Livre Acesso Intermunicipal.
+
+Por favor, fique atento(a) a este e-mail, pois informaremos o progresso.
+
+Atenciosamente,
+
+Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência
+Secretaria de Justiça, Direitos Humanos e Prevenção à Violência`;
+
+    try {
+        const resp = await api.post(`/email/sucesso`,
+            {
+                params: {
+                    to: beneficiario.email,
+                    subject: "Cartão PE Livre Acesso Intermunicipal - Beneficio Aprovado!",
+                    body: body
+                }
+            });
+        console.log(resp);
+        return resp.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+/**
+ * Enviar e-mail com cartão digital
+ * @param {object} beneficiario - beneficiário
+ * */
+export async function enviarEmailViaDigital(beneficiario) {
+
+    const body = `Prezado(a), ${beneficiario.nome}
+
+Informamos que os seus dados foram enviados para a Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência  para análise e elaboração da Cartão PE Livre Acesso Intermunicipal.
+
+Por favor, fique atento(a) a este e-mail, pois informaremos o progresso.
+
+Atenciosamente,
+
+Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência
+Secretaria de Justiça, Direitos Humanos e Prevenção à Violência`;
+
+    try {
+        const resp = await api.post(`/email/sucesso`,
+            {
+                params: {
+                    to: beneficiario.email,
+                    subject: "Cartão PE Livre Acesso Intermunicipal - Cartão Digital disponivel.",
+                    body: body
+                }
+            });
+        console.log(resp);
+        return resp.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
 /**
  * Obtém o do status atual do beneficiário
  * @param {string} id - Identificador do beneficiário

@@ -13,8 +13,8 @@
 
 import {
     atualizarBeneficiario as atualizarBeneficiarioAPI,
-    atualizarBeneficiarioStatus as atualizarBeneficiarioStatusAPI
-    } from "../../services/beneficiariosService.js";
+    atualizarBeneficiarioStatus as atualizarBeneficiarioStatusAPI, enviarEmailAprovado
+} from "../../services/beneficiariosService.js";
 
 import { carregarBeneficiarios } from "./listarBeneficiarios.js";
 
@@ -140,6 +140,11 @@ export async function atualizarBeneficiarioUI() {
           motivo: getValue(ui.fields.motivo) || undefined
       };
 
+      if (payloadStatus.statusBeneficioId === 4 && payload.acompanhante === null){
+          alert("Acompanhante não informado");
+          return;
+      }
+
     // Remove chaves undefined para enviar somente campos preenchidos
     Object.keys(payload).forEach(k => payload[k] === undefined && delete payload[k]);
     // Remove chaves undefined para enviar somente campos preenchidos
@@ -148,6 +153,11 @@ export async function atualizarBeneficiarioUI() {
       // 2) Chamada à API
     const atualizado = await atualizarBeneficiarioAPI(id, payload);
     console.log('✅ Beneficiário atualizado:', atualizado);
+
+    if (payloadStatus.statusBeneficioId === 4 && atualizado){
+        // await enviarEmailAprovado(atualizado)
+        alert("await enviarEmailAprovado(atualizado)")
+    }
 
     if (payloadStatus.motivo){
         const status = await atualizarBeneficiarioStatusAPI(id, payloadStatus);
