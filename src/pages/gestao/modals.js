@@ -1,6 +1,12 @@
 import { resolveStatus } from './utils.js';
 import { api } from '../../services/api.js'
-import { motivoBeneficiario, listarArquivosBeneficiario } from "../../services/beneficiariosService.js";
+import {
+    motivoBeneficiario,
+    listarArquivosBeneficiario,
+    enviarEmailAprovado
+} from "../../services/beneficiariosService.js";
+import Swal from "https://esm.sh/sweetalert2@11";
+
 
 export function createModalHandlers(state) {
     function findById(id) {
@@ -192,27 +198,68 @@ export function createModalHandlers(state) {
     // Função de envio de E-mail 
     async function enviarCarteiraEmail() {
         const id = document.getElementById('acao-carteira-id')?.value;
-        const email = document.getElementById('acao-carteira-email')?.textContent;
+        const beneficiario = findById(id);
 
-        if (!email || email === 'Sem e-mail cadastrado') {
-            alert("Não é possível enviar. Este beneficiário não possui um e-mail válido cadastrado.");
+        if (!beneficiario.email || beneficiario.email.trim().length === 0) {
+            // alert("Não é possível enviar. Este beneficiário não possui um e-mail válido cadastrado.");
+            Swal.fire({
+                title: 'E-mail não cadastrado',
+                text: 'Este beneficiário não possui um e-mail válido cadastrado.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
             return;
         }
 
-        if (confirm(`Deseja enviar a carteira para o e-mail: ${email}?`)) {
-            try {
-                // await api.post(`/beneficiarios/${id}/enviar-email`);
-                alert(`Sucesso! A carteira foi enviada para o e-mail: ${email}`);
-                const modalEl = document.getElementById('acoesCarteiraModal');
-                if (modalEl) bootstrap.Modal.getInstance(modalEl).hide();
-            } catch (error) {
-                console.error("Erro ao enviar email", error);
-                alert("Erro ao disparar o e-mail.");
+        const result = await Swal.fire({
+            title: "Enviar carteira?",
+            text: `Deseja enviar a carteira para o e-mail: ${beneficiario.email}?`,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#0d6efd",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sim, enviar",
+            cancelButtonText: "Cancelar"
+        });
+
+        if (!result.isConfirmed) return;
+
+        // Modal de loading enquanto envia
+        Swal.fire({
+            title: "Enviando...",
+            text: "Aguarde enquanto o e-mail é enviado.",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
             }
+        });
+
+        try {
+            await enviarEmailAprovado(beneficiario);
+
+            Swal.fire({
+                title: "E-mail enviado!",
+                text: `A carteira foi enviada para ${beneficiario.email}.`,
+                icon: "success",
+                confirmButtonText: "OK"
+            });
+
+            const modalEl = document.getElementById('acoesCarteiraModal');
+            if (modalEl) bootstrap.Modal.getInstance(modalEl)?.hide();
+
+        } catch (error) {
+            console.error("Erro ao enviar email", error);
+
+            Swal.fire({
+                title: "Erro ao enviar e-mail",
+                text: "Não foi possível enviar o e-mail.",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
         }
     }
 
-    return { 
+    return {
         openCarteiraModal, 
         openViewModal, 
         openEditModal, 

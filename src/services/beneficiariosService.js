@@ -163,7 +163,7 @@ export async function enviarEmailAprovado(beneficiario) {
 `;
 
     try {
-        const resp = await api.post(`/email/sucesso`,
+        const resp = await api.post(`/email/html`,
         {
                 to: beneficiario.email,
                 subject: "Cartão PE Livre Acesso Intermunicipal - Beneficio Aprovado!",

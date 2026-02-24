@@ -1,4 +1,5 @@
 import { api } from "../../services/api.js";
+import Swal from "https://esm.sh/sweetalert2@11";
 
 document.addEventListener('DOMContentLoaded', () => {
     // Limpa qualquer sessão anterior ao abrir a tela de login
@@ -68,7 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Converter Data (DD/MM/AAAA -> AAAA-MM-DD para a API)
             const partes = dataDigitada.split('/');
             if (partes.length !== 3) {
-                alert("Data incompleta.");
+                // alert("Data incompleta.");
+                Swal.fire({
+                    title: 'Data incompleta',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
                 return;
             }
             const dataFormatada = `${partes[2]}-${partes[1]}-${partes[0]}`;
@@ -86,12 +92,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.location.href = `../beneficiario/?cpf=${cpf}&datanasc=${dataFormatada}`;
 
                 } else {
-                    alert("Dados incorretos. Verifique CPF e Data de Nascimento.");
+                    // alert("Dados incorretos. Verifique CPF e Data de Nascimento.");
+                    Swal.fire({
+                        title: 'Dados incorretos',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 }
 
             } catch (error) {
                 console.error("Erro API:", error);
-                alert("Erro ao conectar com o servidor.");
+                // alert("Erro ao conectar com o servidor.");
+                Swal.fire({
+                    title: 'Erro ao conectar com o servidor',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             }
         });
     }

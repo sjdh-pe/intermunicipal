@@ -3,6 +3,7 @@ import {
     cadastrarBeneficiario,
     cadastrarResponsavelBeneficiario, validarArquivo, uploadArquivoBeneficiario, enviarEmailConfirmacao
 } from "../../services/beneficiariosService.js";
+import Swal from "https://esm.sh/sweetalert2@11";
 
 // Estado do beneficiário deve iniciar nulo para permitir a checagem correta
 let beneficiario = null;
@@ -64,7 +65,13 @@ async function buscarEnderecoPorCep(cep) {
             }
         }
         if (!cidadeEncontrada && nomeCidadeApi) {
-            alert(`A cidade "${nomeCidadeApi}" retornada pelo CEP não foi encontrada na lista de opções. Por favor, selecione manualmente.`);
+            //alert(`A cidade "${nomeCidadeApi}" retornada pelo CEP não foi encontrada na lista de opções. Por favor, selecione manualmente.`);
+            Swal.fire({
+                title: 'CEP não encontrado',
+                text: `A cidade "${nomeCidadeApi}" retornada pelo CEP não foi encontrada na lista de opções. Por favor, selecione manualmente.`,
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
             selectCidade.value = "0";
         }
         document.getElementById('uf').value = dados.uf || '';
@@ -360,7 +367,14 @@ function validateSection(sectionNumber) {
             ['application/pdf', 'image/jpeg', 'image/png'],
             ['pdf', 'jpg', 'jpeg', 'png']);
         if (message) {
-            alert("RG: "+message);
+            //alert("RG: "+message);
+            Swal.fire({
+                title: 'Arquivo RG',
+                text: message,
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+
             return false;
         }
 
@@ -369,7 +383,13 @@ function validateSection(sectionNumber) {
             ['application/pdf', 'image/jpeg', 'image/png'],
             ['pdf', 'jpg', 'jpeg', 'png']);
         if (cpfFileMessage) {
-            alert("CPF: "+cpfFileMessage);
+            // alert("CPF: "+cpfFileMessage);
+            Swal.fire({
+                title: 'Arquivo CPF',
+                text: cpfFileMessage,
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            })
             return false;
         }
 
@@ -378,7 +398,13 @@ function validateSection(sectionNumber) {
             ['application/pdf', 'image/jpeg', 'image/png'],
             ['pdf', 'jpg', 'jpeg', 'png']);
         if (laudoMessage) {
-            alert("Laudo Médico: "+laudoMessage);
+            // alert("Laudo Médico: "+laudoMessage);
+            Swal.fire({
+                title: 'Arquivo Laudo Médico',
+                text: laudoMessage,
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
             return false;
         }
 
@@ -387,7 +413,13 @@ function validateSection(sectionNumber) {
             ['application/pdf', 'image/jpeg', 'image/png'],
             ['pdf', 'jpg', 'jpeg', 'png']);
         if (CRFmessage) {
-            alert("Comprovante de Residência: "+CRFmessage);
+            // alert("Comprovante de Residência: "+CRFmessage);
+            Swal.fire({
+                title: 'Arquivo Comprovante de Residência',
+                text: CRFmessage,
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
             return false;
         }
 
@@ -395,7 +427,13 @@ function validateSection(sectionNumber) {
 
         const fotoMessage = validarFoto();
         if (fotoMessage) {
-            alert("Foto 3x4: "+fotoMessage);
+            // alert("Foto 3x4: "+fotoMessage);
+            Swal.fire({
+                title: 'Arquivo Foto 3x4',
+                text: fotoMessage,
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
             return false;
         }
 
@@ -405,7 +443,13 @@ function validateSection(sectionNumber) {
                 ['application/pdf', 'image/jpeg', 'image/png'],
                 ['pdf', 'jpg', 'jpeg', 'png']);
             if (rgFileResponsavelMessage) {
-                alert("RG do Responsável: " + rgFileResponsavelMessage);
+                // alert("RG do Responsável: " + rgFileResponsavelMessage);
+                Swal.fire({
+                    title: 'Arquivo RG do Responsável',
+                    text: rgFileResponsavelMessage,
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
                 return false;
             }
 
@@ -414,7 +458,13 @@ function validateSection(sectionNumber) {
                 ['application/pdf', 'image/jpeg', 'image/png'],
                 ['pdf', 'jpg', 'jpeg', 'png']);
             if (cpfFileResponsavelMessage) {
-                alert("CPF do Responsável: " + cpfFileResponsavelMessage);
+                // alert("CPF do Responsável: " + cpfFileResponsavelMessage);
+                Swal.fire({
+                    title: 'Arquivo CPF do Responsável',
+                    text: cpfFileResponsavelMessage,
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
                 return false;
             }
         }
@@ -544,7 +594,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
             } else {
-                alert('Existem erros no formulário. Por favor, verifique todas as etapas.');
+                // alert('Existem erros no formulário. Por favor, verifique todas as etapas.');
+                Swal.fire({
+                    title: 'Formulário com erros',
+                    text: 'Existem erros no formulário. Por favor, verifique todas as etapas.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
             }
         });
         
@@ -591,7 +647,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 } catch (error) {
                     console.error('Erro ao enviar os documentos.', error);
-                    alert('Erro ao enviar os documentos.'+ (error.message || ''));
+                    // alert('Erro ao enviar os documentos.'+ (error.message || ''));
+                    Swal.fire({
+                        title: 'Erro ao enviar os documentos.',
+                        text: error.message || '',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 }
             }
         });
@@ -644,7 +706,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             canvas.toBlob((blob) => {
                 if (!blob) {
-                    alert("Erro ao gerar a imagem.");
+                    // alert("Erro ao gerar a imagem.");
+                    Swal.fire({
+                        title: 'Erro ao gerar a imagem',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                     return;
                 }
 

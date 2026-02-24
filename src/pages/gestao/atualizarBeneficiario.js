@@ -15,6 +15,7 @@ import {
     atualizarBeneficiario as atualizarBeneficiarioAPI,
     atualizarBeneficiarioStatus as atualizarBeneficiarioStatusAPI, enviarEmailAprovado
 } from "../../services/beneficiariosService.js";
+import Swal from "https://esm.sh/sweetalert2@11";
 
 import { carregarBeneficiarios } from "./listarBeneficiarios.js";
 
@@ -91,7 +92,13 @@ export async function atualizarBeneficiarioUI() {
     // 1) Captura e validação básica
     const id = getValue(ui.fields.id);
     if (!id) {
-      alert('Não foi possível identificar o beneficiário. Tente novamente.');
+      // alert('Não foi possível identificar o beneficiário. Tente novamente.');
+        Swal.fire({
+            title: 'Beneficiário não identificado',
+            text: 'Não foi possível identificar o beneficiário. Tente novamente.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
       return;
     }
       const payload = {
@@ -141,7 +148,12 @@ export async function atualizarBeneficiarioUI() {
       };
 
       if (payloadStatus.statusBeneficioId === 4 && payload.acompanhante === null){
-          alert("Acompanhante não informado");
+          // alert("Acompanhante não informado");
+          Swal.fire({
+              title: 'Acompanhante não informado',
+              icon: 'warning',
+              confirmButtonText: 'OK'
+          });
           return;
       }
 
@@ -188,11 +200,22 @@ export async function atualizarBeneficiarioUI() {
       console.warn('Atualizado com sucesso, mas falhou ao recarregar a lista:', e);
     }
 
-    alert('Beneficiário atualizado com sucesso!');
+    // alert('Beneficiário atualizado com sucesso!');
+      Swal.fire({
+          title: 'Beneficiário atualizado com sucesso',
+          icon: 'success',
+          confirmButtonText: 'OK'
+      });
   } catch (error) {
     console.error('Erro ao atualizar beneficiário:', error);
     const message = error?.message || 'Falha ao atualizar beneficiário.';
-    alert(message);
+    // alert(message);
+      Swal.fire({
+          title: 'Erro',
+          text: message,
+          icon: 'error',
+          confirmButtonText: 'OK'
+      });
   }
 }
 

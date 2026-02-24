@@ -18,6 +18,7 @@ import { listarBeneficiarios } from "../../services/beneficiariosService.js";
 import { loadBeneficiarios } from "./renderers.js";
 import { createModalHandlers } from "./modals.js";
 import { statusMap } from "./utils.js";
+import Swal from "https://esm.sh/sweetalert2@11";
 
 // Estado inicial seguro
 const __EMPTY_PAGE__ = { content: [], totalElements: 0, number: 0, size: 0, totalPages: 0 };
@@ -71,7 +72,13 @@ document.getElementById("btn-buscar-periodo")?.addEventListener('click', async (
         state.onChange();
     } catch (e) {
         console.error('Erro ao pesquisar na API:', e);
-        alert('Erro ao realizar a pesquisa. Verifique a conexão.');
+        // alert('Erro ao realizar a pesquisa. Verifique a conexão.');
+        Swal.fire({
+            title: 'Erro ao realizar a pesquisa',
+            text: 'Verifique a conexão.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     }
 });
 

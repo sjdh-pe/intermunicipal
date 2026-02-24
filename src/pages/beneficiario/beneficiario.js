@@ -26,14 +26,19 @@ window.emitirSegundaVia = async function() {
         title: 'Emissão da 2ª via',
         text: 'A emissão da 2ª via foi enviada para seu e-mail!',
         icon: 'success',
-        timer: 2000,
+        timer: 5000,
         confirmButtonText: 'OK'
     });
 
 };
 
 window.atualizarInformacoes = function() { 
-    alert("Informações atualizadas com sucesso!"); 
+    Swal.fire({
+        title: 'Atualização de informações',
+        text: 'Informações atualizadas com sucesso!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+    });
 };
 
 
