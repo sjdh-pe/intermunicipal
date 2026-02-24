@@ -1,4 +1,3 @@
-
 let overlayEl = null;
 let counter = 0;
 
@@ -19,6 +18,7 @@ function ensureOverlay() {
   `;
 
     document.body.appendChild(el);
+    overlayEl = el; // ✅ garante cache
     return el;
 }
 
@@ -27,11 +27,16 @@ export function showLoading() {
 
     // Garante que o DOM está pronto
     if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", () => {
-            const el = ensureOverlay();
-            el.classList.add("is-visible");
-            document.body.classList.add("app-no-scroll");
-        }, { once: true });
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+                if (counter <= 0) return; // ✅ evita aparecer atrasado
+                const el = ensureOverlay();
+                el.classList.add("is-visible");
+                document.body.classList.add("app-no-scroll");
+            },
+            { once: true }
+        );
         return;
     }
 
@@ -44,15 +49,20 @@ export function hideLoading() {
     counter = Math.max(0, counter - 1);
     if (counter > 0) return;
 
-    if (!overlayEl) return;
+    // ✅ não depende do cache overlayEl
+    const el = overlayEl || document.getElementById("app-loader-overlay");
+    if (!el) return;
 
-    overlayEl.classList.remove("is-visible");
+    el.classList.remove("is-visible");
     document.body.classList.remove("app-no-scroll");
 }
 
 export function resetLoading() {
     counter = 0;
-    if (!overlayEl) return;
-    overlayEl.classList.remove("is-visible");
+
+    const el = overlayEl || document.getElementById("app-loader-overlay");
+    if (!el) return;
+
+    el.classList.remove("is-visible");
     document.body.classList.remove("app-no-scroll");
 }

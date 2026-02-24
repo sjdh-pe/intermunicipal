@@ -6,7 +6,7 @@ const TOKEN_KEY = 'app_auth_token';
 const REDIRECT_KEY = 'redirect_after_login';
 
 export async function getProfile() {
-    const res = await api.get('/auth/profile'); // ou '/auth/me'
+    const res = await api.get('/auth/profile');
     return res.data;
 }
 

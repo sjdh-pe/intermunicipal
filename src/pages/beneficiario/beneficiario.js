@@ -1,5 +1,7 @@
 import { api } from "../../services/api.js";
-import { uploadArquivoBeneficiario } from "../../services/beneficiariosService.js";
+import {enviarEmailViaDigital, uploadArquivoBeneficiario} from "../../services/beneficiariosService.js";
+import Swal from "https://esm.sh/sweetalert2@11";
+
 
 // Variável para saber qual documento o usuário clicou (RG, CPF, etc)
 window.currentDocType = '';
@@ -15,9 +17,19 @@ window.triggerUpload = function(docType) {
     const fileInput = document.getElementById('file-input');
     if (fileInput) fileInput.click();
 };
+let beneficiario = {};
+window.emitirSegundaVia = async function() {
+    console.log("emitirSegundaVia");
+    await enviarEmailViaDigital(beneficiario);
+    // alert("emissão da 2ª via foi para seu e-mail!");
+    Swal.fire({
+        title: 'Emissão da 2ª via',
+        text: 'A emissão da 2ª via foi enviada para seu e-mail!',
+        icon: 'success',
+        timer: 2000,
+        confirmButtonText: 'OK'
+    });
 
-window.emitirSegundaVia = function() { 
-    alert("Iniciando processo de emissão da 2ª via..."); 
 };
 
 window.atualizarInformacoes = function() { 
@@ -110,6 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function buscarBeneficiario(cpf, datanasc) {
     const resposta = await api.get(`/beneficiarios/cpf/${cpf}/${datanasc}`);
+    beneficiario = resposta.data;
     return resposta.data;
 }
 
@@ -143,7 +156,7 @@ function preencherBeneficiario(dados) {
     setVal('nomemae', dados.nomemae || dados.nomeMae);
     setVal('tipodeficiencia', dados.tipodeficiencia || dados.tipoDeficiencia);
     
-    const temAcomp = (dados.acompanhante == '1' || dados.acompanhante === 'Sim' || dados.acompanhante === true) ? 'Sim' : 'Não';
+    const temAcomp = (dados.acompanhante === '1' || dados.acompanhante === 'Sim' || dados.acompanhante === true) ? 'Sim' : 'Não';
     setVal('acompanhante', temAcomp);
 
     const statusInput = document.getElementById('status');

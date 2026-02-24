@@ -155,8 +155,8 @@ export async function atualizarBeneficiarioUI() {
     console.log('✅ Beneficiário atualizado:', atualizado);
 
     if (payloadStatus.statusBeneficioId === 4 && atualizado){
-        // await enviarEmailAprovado(atualizado)
-        alert("await enviarEmailAprovado(atualizado)")
+        await enviarEmailAprovado(atualizado);
+
     }
 
     if (payloadStatus.motivo){

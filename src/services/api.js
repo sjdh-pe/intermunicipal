@@ -1,19 +1,20 @@
 import axios from "https://esm.sh/axios@1.7.7";
-import { showLoading, hideLoading } from "../components/loader.js";
+import { showLoading, hideLoading, resetLoading } from "../components/loader.js";
 
+// const defaultBase = "http://localhost:3000";
+const defaultBase = "https://api.sjdh.pe.gov.br";
 
-const defaultBase = "http://11.0.0.104:3000";
 
 const TOKEN_KEY = "app_auth_token";
 
 // Loader com contador (evita piscar quando várias requests rodam juntas)
 let __pending = 0;
 function startLoading() {
-    __pending += 1;
+    __pending ++;
     if (__pending === 1) showLoading();
 }
 function stopLoading() {
-    __pending = Math.max(0, __pending - 1);
+    __pending --;
     if (__pending === 0) hideLoading();
 }
 
@@ -31,58 +32,22 @@ function readTokenValue() {
     }
 }
 
-/**
- * Cliente axios centralizado usado pela aplicação.
- * @type {import("axios").AxiosInstance}
- */
 export const api = axios.create({
     baseURL: defaultBase,
-    timeout: 10000,
-    // headers: { "Content-Type": "application/json" }
+    timeout: 10000
+    // ⚠️ não fixe Content-Type aqui pra não quebrar FormData (upload)
 });
 
-// ✅ Request: mostra loader
-api.interceptors.request.use(
-    (config) => {
-        showLoading();
-        return config;
-    },
-    (error) => {
-        hideLoading();
-        return Promise.reject(error);
-    }
-);
-
-// ✅ Response: esconde loader SEMPRE (sucesso e erro)
-api.interceptors.response.use(
-    (response) => {
-        hideLoading();
-        return response;
-    },
-    (error) => {
-        hideLoading();
-        return Promise.reject(error);
-    }
-);
-
-// Helpers (mantendo compatibilidade com seu projeto)
-function setAuthToken(token) {
-    if (token) api.defaults.headers.common.Authorization = token;
-}
-function clearAuthToken() {
-    delete api.defaults.headers.common.Authorization;
-}
-
-// (Opcional) evita spam de alert se uma página dispara várias chamadas que falham juntas
+// (Opcional) evita spam de alert
 let __lastAlertAt = 0;
 function safeAlert(msg) {
     const now = Date.now();
-    if (now - __lastAlertAt < 600) return; // 0,6s de "cooldown"
+    if (now - __lastAlertAt < 600) return;
     __lastAlertAt = now;
     alert(msg);
 }
 
-// ✅ 1 interceptador de request: loader + token
+// ✅ ÚNICO request interceptor: loader + token + content-type (quando NÃO for FormData)
 api.interceptors.request.use(
     (config) => {
         startLoading();
@@ -93,6 +58,15 @@ api.interceptors.request.use(
             config.headers.Authorization = token;
         }
 
+        // não forçar JSON em uploads
+        const isFormData = typeof FormData !== "undefined" && config.data instanceof FormData;
+        if (!isFormData) {
+            config.headers = config.headers || {};
+            if (!config.headers["Content-Type"]) {
+                config.headers["Content-Type"] = "application/json";
+            }
+        }
+
         return config;
     },
     (error) => {
@@ -101,7 +75,7 @@ api.interceptors.request.use(
     }
 );
 
-// ✅ 1 interceptador de response: hide loader + erro unificado
+// ✅ ÚNICO response interceptor: hide loader + erro unificado
 api.interceptors.response.use(
     (response) => {
         stopLoading();
@@ -113,30 +87,22 @@ api.interceptors.response.use(
         const status = error?.response?.status;
         const data = error?.response?.data;
 
-        // Melhor mensagem possível (prioridade: API -> axios -> fallback)
         let message = "Ocorreu um erro inesperado. Tente novamente.";
         if (data?.message) message = data.message;
         else if (data?.error) message = data.error;
         else if (error?.message) message = error.message;
 
-        // Log útil pro dev
         console.error(`❌ Erro da API [${status ?? "Rede"}]: ${message}`, {
             url: error?.config?.url,
             method: error?.config?.method,
             params: error?.config?.params,
-            data: data
+            data
         });
 
-        // Tratamentos específicos (opcional)
-        if (status === 401) {
-            console.warn("Sessão expirada ou não autorizada.");
-            // aqui você pode disparar logout/redirect se quiser
-        }
+        if (status === 401) console.warn("Sessão expirada ou não autorizada.");
 
-        // Feedback pro usuário
         safeAlert(message);
 
-        // Normaliza o erro para os callers
         const normalized = new Error(message);
         normalized.status = status;
         normalized.data = data;
@@ -146,7 +112,26 @@ api.interceptors.response.use(
     }
 );
 
-// extras compatibilidade
+// helpers compatibilidade
 api.urlapi = defaultBase;
-api.setAuthToken = setAuthToken;
-api.clearAuthToken = clearAuthToken;
+api.setAuthToken = (token) => {
+    if (token) api.defaults.headers.common.Authorization = token;
+};
+api.clearAuthToken = () => {
+    delete api.defaults.headers.common.Authorization;
+};
+
+// Salvaguardas: se a página for descarregada/ocultar antes das respostas chegarem,
+// garantimos que o loader não fique preso na tela
+window.addEventListener("pagehide", () => {
+    // zera pendências locais e esconde overlay
+    __pending = 0;
+    resetLoading();
+});
+
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        __pending = 0;
+        resetLoading();
+    }
+});
