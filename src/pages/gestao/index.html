@@ -35,7 +35,10 @@
             feather.replace();
 
             // Carrega token
-            loadTokenOnStart();
+            if(!loadTokenOnStart()) {
+                window.location.href = '../usuario/';
+                return;
+            }
 
             try {
                 // 1. Busca dados do usuário logado

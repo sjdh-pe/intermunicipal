@@ -67,7 +67,7 @@ export function isAuthenticated() {
  * Chame no topo de páginas que exigem login.
  * Ex.: import { requireAuth } from '../services/auth.js'; requireAuth({ redirect: '/pages/usuario/' });
  */
-export function requireAuth({ redirect = '/pages/usuario/' } = {}) {
+export function requireAuth({ redirect = '../usuario/' } = {}) {
     if (!isAuthenticated()) {
         // salva a rota atual para redirecionar após login
         localStorage.setItem(REDIRECT_KEY, location.pathname + location.search);

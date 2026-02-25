@@ -111,7 +111,7 @@ export async function enviarEmailConfirmacao(beneficiario) {
   Secretaria de Justiça, Direitos Humanos e Prevenção à Violência (SJDH)</p>`;
 
     try {
-        const resp = await api.post(`/email/sucesso`, {
+        const resp = await api.post(`/email/html`, {
                     to: beneficiario.email,
                     subject: "Cartão PE Livre Acesso Intermunicipal - Confirmação de Cadastro",
                     body: bodyHtml
@@ -212,7 +212,7 @@ export async function enviarEmailViaDigital(beneficiario) {
 
 
     try {
-        const resp = await api.post(`/email/sucesso`, {
+        const resp = await api.post(`/email/html`, {
                 to: beneficiario.email,
                 subject: "Cartão PE Livre Acesso Intermunicipal - Cartão Digital disponivel.",
                 body: bodyHtml
@@ -295,11 +295,10 @@ export async function atualizarBeneficiarioStatus(id, data) {
  *  @returns {Promise<object>} Objeto do beneficiário atualizado (conforme retorno da API)
  */
 export async function validarBeneficiario(idBeneficiario) {
-    const apiBase =
-        `${window.location.protocol}//${window.location.hostname}:3000`;
+
 
     const resp = await api.get(
-        `${apiBase}/beneficiarios/${encodeURIComponent(idBeneficiario)}/validar`
+        `/beneficiarios/${encodeURIComponent(idBeneficiario)}/validar`
     );
 
     return resp.data;
