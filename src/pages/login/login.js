@@ -5,21 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Limpa qualquer sessão anterior ao abrir a tela de login
     localStorage.removeItem('user_id'); 
 
-    const loginForm = document.getElementById('login-form');
+    const loginForm = document.getElementById('login-form');    
 
-
-    const togglePassword = document.querySelector('#togglePassword');
-    const dataInput = document.querySelector('#datanasc');
-    
-    if (togglePassword && dataInput) {
-        const icon = togglePassword.querySelector('i');
-        togglePassword.addEventListener('click', function () {
-            const type = dataInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            dataInput.setAttribute('type', type);
-            icon.classList.toggle('bi-eye');
-            icon.classList.toggle('bi-eye-slash');
-        });
-    }
+    const dataInput = document.getElementById('datanasc');
 
 
     const btnCalendar = document.getElementById('btn-open-calendar');

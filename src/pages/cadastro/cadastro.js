@@ -512,7 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ATUALIZAÇÃO: ÍCONE VERDE AO ANEXAR
+    // Icone verde de imagem
     document.querySelectorAll('input[type="file"]:not(#photo)').forEach(input => {
         input.addEventListener('change', function() {
             const fileNameDisplay = document.getElementById(`${this.id}Name`);

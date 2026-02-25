@@ -59,27 +59,99 @@ export function createModalHandlers(state) {
          set("view-cep", user.cep);
          set("view-email", user.email);
          set("view-telefone", formatPhone(user.telefone));
-         const applyLinkState = (btnId, url) => {
+         
+         // Modal dos documentos anexados 
+
+        const applyLinkState = (btnId, url) => {
              const el = document.getElementById(btnId);
              if (!el) return;
+
+             // Limpeza de eventos antigos
+             if (el._preventClick) el.removeEventListener('click', el._preventClick);
+             if (el._swalClick) el.removeEventListener('click', el._swalClick);
+
              if (url) {
-                 el.href = url;
+                 el.href = 'javascript:void(0)';
+                 el.removeAttribute('target');
                  el.setAttribute('aria-disabled', 'false');
                  el.removeAttribute('tabindex');
                  el.removeAttribute('data-disabled');
-                 el.removeEventListener('click', el._preventClick, false);
-                 el.target = '_blank';
+
+                 // LÓGICA DO SWEETALERT2 COM LAYOUT CONTROLADO
+                 const swalHandler = (ev) => {
+                     ev.preventDefault();
+
+                     const isPdf = url.toLowerCase().includes('.pdf');
+
+                     // Título limpo e arrastável
+                     const modalTitle = `<span style="color: #21409A; font-weight: bold; font-size: 1.25rem; cursor: move;">Documento Anexado</span>`;
+
+                     // Botão com o ícone do Feather Icons (external-link)
+                     const btnNovaJanela = `
+                         <div style="margin-top: 5px; margin-bottom: 5px;">
+                             <a href="${url}" target="_blank" class="btn btn-primary btn-sm px-4" style="border-radius: 7px; font-weight: 600; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                                 Abrir em nova janela <i data-feather="external-link" style="width: 16px; height: 16px;"></i>
+                             </a>
+                         </div>
+                     `;
+
+                     if (isPdf) {
+                         Swal.fire({
+                             title: modalTitle,
+                             html: `
+                                 <div style="display: flex; flex-direction: column; gap: 10px;">
+                                     <iframe src="${url}" style="width: 100%; height: 65vh; border: 1px solid #dee2e6; border-radius: 8px; background: #f8f9fa;"></iframe>
+                                     ${btnNovaJanela}
+                                 </div>
+                             `,
+                             width: '50%',             
+                             position: 'top-end',      
+                             draggable: true,          
+                             showCloseButton: true,
+                             showConfirmButton: false,
+                             padding: '1em 1em 0.5em 1em',
+                             // O "pulo do gato": Avisa o Feather para desenhar o ícone assim que o modal abrir
+                             didOpen: () => {
+                                 if (typeof feather !== 'undefined') feather.replace();
+                             }
+                         });
+                     } else {
+                         Swal.fire({
+                             title: modalTitle,
+                             html: `
+                                 <div style="display: flex; flex-direction: column; gap: 10px;">
+                                     <div style="max-height: 65vh; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 8px; padding: 5px; background: #f8f9fa;">
+                                         <img src="${url}" style="max-width: 100%; height: auto; border-radius: 4px;" alt="Documento do Beneficiário">
+                                     </div>
+                                     ${btnNovaJanela}
+                                 </div>
+                             `,
+                             width: 'auto',            
+                             position: 'top-end',      
+                             draggable: true,          
+                             showCloseButton: true,
+                             showConfirmButton: false,
+                             padding: '1em 1em 0.5em 1em',
+                             // Avisa o Feather para desenhar o ícone assim que o modal abrir
+                             didOpen: () => {
+                                 if (typeof feather !== 'undefined') feather.replace();
+                             }
+                         });
+                     }
+                 };
+
+                 el._swalClick = swalHandler;
+                 el.addEventListener('click', swalHandler);
+
              } else {
                  el.href = '#';
                  el.setAttribute('aria-disabled', 'true');
                  el.setAttribute('tabindex', '-1');
                  el.setAttribute('data-disabled', 'true');
-                 // evita navegação quando desabilitado
+                 
                  const handler = (ev) => { ev.preventDefault(); ev.stopPropagation(); };
-                 // guarda referência para poder remover depois
                  el._preventClick = handler;
-                 el.addEventListener('click', handler, false);
-                 el.removeAttribute('target');
+                 el.addEventListener('click', handler);
              }
          };
 

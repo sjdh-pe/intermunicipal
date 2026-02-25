@@ -1,8 +1,8 @@
 import axios from "https://esm.sh/axios@1.7.7";
 import { showLoading, hideLoading, resetLoading } from "../components/loader.js";
 
-// const defaultBase = "http://localhost:3000";
-const defaultBase = "https://api.sjdh.pe.gov.br";
+const defaultBase = "http://11.0.0.104:3000";
+// const defaultBase = "https://api.sjdh.pe.gov.br";
 
 
 const TOKEN_KEY = "app_auth_token";
