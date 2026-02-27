@@ -49,8 +49,9 @@ state.onChange = () => {
 };
 
 //buscar api
+// Ação do Botão "Buscar" (Pesquisa Direta na API)
 document.getElementById("btn-buscar-periodo")?.addEventListener('click', async () => {
-    // 1. Pega os valores do bloco de Pesquisa Direta
+    // 1. Pega os valores digitados na tela
     const inicio = document.getElementById('pesquisa-data-inicio')?.value;
     const fim = document.getElementById('pesquisa-data-fim')?.value;
     const nome = document.getElementById('pesquisa-nome')?.value || '';
@@ -58,24 +59,32 @@ document.getElementById("btn-buscar-periodo")?.addEventListener('click', async (
     const cidade = document.getElementById('pesquisa-cidade')?.value || '';
     const status = document.getElementById('pesquisa-status')?.value || '';
 
+    // 2. Coloca um alerta de carregamento para o usuário não clicar duas vezes
+    Swal.fire({
+        title: 'Buscando...',
+        text: 'Aguarde enquanto consultamos os beneficiários.',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading(); }
+    });
+
     try {
-        // 2. Envia TODOS os parâmetros para o Backend (Página volta para o 0)
+        // 3. Envia os parâmetros para o Backend (A página volta para 0 numa nova pesquisa)
         await carregarBeneficiarios(inicio, fim, nome, cpf, cidade, status, 0);
 
-        // 3. Limpa os filtros rápidos (da direita) para que eles não escondam o resultado da API
-        if (document.getElementById('search-nome')) document.getElementById('search-nome').value = '';
-        if (document.getElementById('search-cpf')) document.getElementById('search-cpf').value = '';
-        if (document.getElementById('search-cidade')) document.getElementById('search-cidade').value = '';
-        if (document.getElementById('search-status')) document.getElementById('search-status').value = '';
+        // 4. Limpa os campos do bloco de "Filtro Visual" (direita) para não bugar a tabela
+        ['search-nome', 'search-cpf', 'search-cidade', 'search-status'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
 
-        // 4. Renderiza a tabela com os dados que vieram do servidor
+        // 5. Renderiza a tabela e fecha o modal
         state.onChange();
+        Swal.close();
+
     } catch (e) {
-        console.error('Erro ao pesquisar na API:', e);
-        // alert('Erro ao realizar a pesquisa. Verifique a conexão.');
         Swal.fire({
-            title: 'Erro ao realizar a pesquisa',
-            text: 'Verifique a conexão.',
+            title: 'Erro na Pesquisa',
+            text: 'Não foi possível conectar ao servidor. Verifique sua conexão.',
             icon: 'error',
             confirmButtonText: 'OK'
         });

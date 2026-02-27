@@ -3,7 +3,8 @@ import { api } from '../../services/api.js'
 import {
     motivoBeneficiario,
     listarArquivosBeneficiario,
-    enviarEmailAprovado
+    enviarEmailAprovado,
+    uploadArquivoBeneficiario
 } from "../../services/beneficiariosService.js";
 import Swal from "https://esm.sh/sweetalert2@11";
 
@@ -60,9 +61,9 @@ export function createModalHandlers(state) {
          set("view-email", user.email);
          set("view-telefone", formatPhone(user.telefone));
          
-         // Modal dos documentos anexados 
 
-        const applyLinkState = (btnId, url) => {
+         // Modal dos documentos anexados e upload
+         const applyLinkState = (btnId, url, tipoArquivoId) => {
              const el = document.getElementById(btnId);
              if (!el) return;
 
@@ -77,7 +78,7 @@ export function createModalHandlers(state) {
                  el.removeAttribute('tabindex');
                  el.removeAttribute('data-disabled');
 
-                 // LÓGICA DO SWEETALERT2 COM LAYOUT CONTROLADO
+                 // LÓGICA DO SWEETALERT2 COM LAYOUT CONTROLADO E UPLOAD
                  const swalHandler = (ev) => {
                      ev.preventDefault();
 
@@ -86,14 +87,134 @@ export function createModalHandlers(state) {
                      // Título limpo e arrastável
                      const modalTitle = `<span style="color: #21409A; font-weight: bold; font-size: 1.25rem; cursor: move;">Documento Anexado</span>`;
 
-                     // Botão com o ícone do Feather Icons (external-link)
+                     // Botões e o Input Invisível
                      const btnNovaJanela = `
-                         <div style="margin-top: 5px; margin-bottom: 5px;">
+                         <div style="display: flex; gap: 10px; justify-content: center; margin-top: 5px; margin-bottom: 5px; flex-wrap: wrap;">
                              <a href="${url}" target="_blank" class="btn btn-primary btn-sm px-4" style="border-radius: 7px; font-weight: 600; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
-                                 Abrir em nova janela <i data-feather="external-link" style="width: 16px; height: 16px;"></i>
+                                 Abrir <i data-feather="external-link" style="width: 16px; height: 16px;"></i>
                              </a>
+                             <button type="button" id="btn-atualizar-doc" class="btn btn-warning btn-sm px-4 text-white" style="border-radius: 7px; font-weight: 600; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                                 Atualizar <i data-feather="upload" style="width: 16px; height: 16px;"></i>
+                             </button>
+                             <input type="file" id="hidden-upload-input" style="display: none;" accept=".pdf, image/jpeg, image/png">
                          </div>
                      `;
+
+                     // Função que roda assim que o modal abre (para injetar os eventos JS)
+                     // Função que roda assim que o modal de documento abre
+                     const didOpenConfig = () => {
+                         if (typeof feather !== 'undefined') feather.replace();
+
+                         const btnAtualizar = document.getElementById('btn-atualizar-doc');
+                         const fileInput = document.getElementById('hidden-upload-input');
+
+                         if (btnAtualizar && fileInput) {
+                             // 1. Clicou no botão laranja -> Abre a janela para escolher arquivo
+                             btnAtualizar.addEventListener('click', () => {
+                                 fileInput.click(); 
+                             });
+
+                             // FUNÇÃO CENTRALIZADA DE UPLOAD (Para não repetir código)
+                             const processarUpload = async (arquivoUpload) => {
+                                 try {
+                                     Swal.fire({
+                                         title: 'Enviando documento...',
+                                         text: 'Por favor, aguarde o envio para o servidor.',
+                                         allowOutsideClick: false,
+                                         returnFocus: false, // Evita bug do aria-hidden
+                                         didOpen: () => { Swal.showLoading(); }
+                                     });
+
+                                     const resultado = await uploadArquivoBeneficiario(user.id, tipoArquivoId, arquivoUpload);
+                                     console.warn(`[UPLOAD SUCCESS] Documento atualizado com sucesso!`, resultado);
+
+                                     Swal.fire({
+                                         title: 'Atualizado com Sucesso!',
+                                         text: 'O documento foi substituído. Feche e abra a janela do beneficiário novamente para ver o novo documento.',
+                                         icon: 'success',
+                                         confirmButtonText: 'OK',
+                                         returnFocus: false
+                                     });
+                                 } catch (error) {
+                                     console.error('[UPLOAD ERROR]:', error);
+                                     Swal.fire({
+                                         title: 'Erro', 
+                                         text: 'Falha ao atualizar. Verifique sua conexão.', 
+                                         icon: 'error',
+                                         returnFocus: false
+                                     });
+                                 }
+                             };
+
+                             // 2. Escolheu o arquivo -> Decide se corta ou se envia
+                             fileInput.addEventListener('change', async (e) => {
+                                 if (e.target.files && e.target.files.length > 0) {
+                                     const file = e.target.files[0];
+                                     
+                                     console.warn(`[UPLOAD START] Iniciando Tipo ID: ${tipoArquivoId}. Arquivo: ${file.name}`);
+                                     Swal.close(); // Fecha o documento atual
+
+                                     // SE FOR FOTO 3X4 (ID == 3), ABRE O CROPPER NO SWEETALERT
+                                     if (tipoArquivoId === 3) {
+                                         if (!file.type.startsWith('image/')) {
+                                             Swal.fire('Atenção', 'Para a foto 3x4, selecione uma imagem (JPG, PNG).', 'warning');
+                                             return;
+                                         }
+
+                                         const reader = new FileReader();
+                                         reader.onload = function(evt) {
+                                             Swal.fire({
+                                                 title: 'Ajuste a Foto 3x4',
+                                                 html: `<div style="max-height: 50vh; overflow: hidden; display: flex; justify-content: center; background: #f0f0f0;"><img id="swal-crop-img" src="${evt.target.result}" style="max-width: 100%;"></div>`,
+                                                 showCancelButton: true,
+                                                 confirmButtonText: '<i class="fa-solid fa-crop"></i> Cortar e Salvar',
+                                                 cancelButtonText: 'Cancelar',
+                                                 allowOutsideClick: false,
+                                                 width: '600px',
+                                                 didOpen: () => {
+                                                     const image = document.getElementById('swal-crop-img');
+                                                     // Inicia o Cropper.js na imagem dentro do SweetAlert
+                                                     window.swalCropper = new Cropper(image, {
+                                                         aspectRatio: 3 / 4,
+                                                         viewMode: 1,
+                                                         autoCropArea: 1,
+                                                     });
+                                                 },
+                                                 preConfirm: () => {
+                                                     // Transforma o corte em um novo arquivo (Blob) antes de fechar
+                                                     return new Promise((resolve) => {
+                                                         window.swalCropper.getCroppedCanvas({
+                                                             width: 300,
+                                                             height: 400,
+                                                             imageSmoothingEnabled: true,
+                                                             imageSmoothingQuality: 'high',
+                                                         }).toBlob((blob) => {
+                                                             resolve(new File([blob], "foto_3x4_atualizada.jpg", { type: "image/jpeg" }));
+                                                         }, 'image/jpeg', 0.9);
+                                                     });
+                                                 },
+                                                 willClose: () => {
+                                                     // Limpa a memória
+                                                     if (window.swalCropper) window.swalCropper.destroy();
+                                                 }
+                                             }).then(async (result) => {
+                                                 if (result.isConfirmed) {
+                                                     // Pega o arquivo cortado e manda pro upload
+                                                     const croppedFile = result.value;
+                                                     await processarUpload(croppedFile);
+                                                 }
+                                             });
+                                         };
+                                         reader.readAsDataURL(file);
+                                         
+                                     } else {
+                                         // SE FOR QUALQUER OUTRO DOCUMENTO (PDF, ETC), ENVIA DIRETO
+                                         await processarUpload(file);
+                                     }
+                                 }
+                             });
+                         }
+                     };
 
                      if (isPdf) {
                          Swal.fire({
@@ -110,10 +231,7 @@ export function createModalHandlers(state) {
                              showCloseButton: true,
                              showConfirmButton: false,
                              padding: '1em 1em 0.5em 1em',
-                             // O "pulo do gato": Avisa o Feather para desenhar o ícone assim que o modal abrir
-                             didOpen: () => {
-                                 if (typeof feather !== 'undefined') feather.replace();
-                             }
+                             didOpen: didOpenConfig
                          });
                      } else {
                          Swal.fire({
@@ -132,17 +250,14 @@ export function createModalHandlers(state) {
                              showCloseButton: true,
                              showConfirmButton: false,
                              padding: '1em 1em 0.5em 1em',
-                             // Avisa o Feather para desenhar o ícone assim que o modal abrir
-                             didOpen: () => {
-                                 if (typeof feather !== 'undefined') feather.replace();
-                             }
+                             didOpen: didOpenConfig 
                          });
                      }
                  };
 
                  el._swalClick = swalHandler;
                  el.addEventListener('click', swalHandler);
-
+                 
              } else {
                  el.href = '#';
                  el.setAttribute('aria-disabled', 'true');
@@ -155,11 +270,11 @@ export function createModalHandlers(state) {
              }
          };
 
-         applyLinkState("btn-view-rg", linkDocumentos.rg);
-         applyLinkState("btn-view-cpf", linkDocumentos.cpf);
-         applyLinkState("btn-view-comp", linkDocumentos.comp);
-         applyLinkState("btn-view-laudo", linkDocumentos.laudo);
-         applyLinkState("btn-view-foto", linkDocumentos.foto);
+         applyLinkState("btn-view-rg", linkDocumentos.rg, 1);
+         applyLinkState("btn-view-cpf", linkDocumentos.cpf, 2);
+         applyLinkState("btn-view-comp", linkDocumentos.comp, 5);
+         applyLinkState("btn-view-laudo", linkDocumentos.laudo, 6);
+         applyLinkState("btn-view-foto", linkDocumentos.foto, 3);
 
          const infoStatus = resolveStatus(user);
          const viewStatusEl = document.getElementById('view-status');

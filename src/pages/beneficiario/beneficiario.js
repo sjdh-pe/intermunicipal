@@ -220,7 +220,64 @@ async function enviarParaApi(userId, tipoArquivoId, arquivoFinal) {
 
 
 // =================================================================
-// 5. FUNÇÕES AUXILIARES DE BUSCA E PREENCHIMENTO
+// 5. FUNÇÕES DE MÁSCARA (NOVIDADE)
+// =================================================================
+
+function mascararCPF(cpf) {
+    if (!cpf) return '';
+    const limpo = cpf.replace(/\D/g, '');
+    if (limpo.length !== 11) return '***.***.***-**';
+    return `***.${limpo.substring(3, 6)}.***-**`;
+}
+
+function mascararRG(rg) {
+    if (!rg) return '';
+    // Mostra só os dois últimos números
+    if (rg.length > 2) {
+        return '*'.repeat(rg.length - 2) + rg.slice(-2);
+    }
+    return '*******';
+}
+
+function mascararEmail(email) {
+    if (!email || !email.includes('@')) return '';
+    const partes = email.split('@');
+    const nome = partes[0];
+    const dominio = partes[1];
+    
+    if (nome.length <= 2) {
+        return `*@${dominio}`;
+    }
+    // Mostra a primeira letra, esconde o meio e mostra a última antes do @
+    return `${nome[0]}***${nome.slice(-1)}@${dominio}`;
+}
+
+function mascararTelefone(telefone) {
+    if (!telefone) return '';
+    const limpo = telefone.replace(/\D/g, '');
+    if (limpo.length >= 10) {
+        // Mostra (**) *****-1234
+        return `(**) *****-${limpo.slice(-4)}`;
+    }
+    return '(**) *****-****';
+}
+
+function mascararTexto(texto) {
+    if (!texto) return '';
+    // Substitui a maior parte do texto por asteriscos, ex: R**************
+    if (texto.length > 3) {
+        return texto.substring(0, 2) + '*'.repeat(texto.length - 2);
+    }
+    return '***';
+}
+
+function mascararData() {
+    // Para a data de nascimento, vamos deixar a data de exemplo de 01/01/2000 ou simplesmente mascarada
+    return "**/MM/AAAA";
+}
+
+// =================================================================
+// 6. FUNÇÕES AUXILIARES DE BUSCA E PREENCHIMENTO
 // =================================================================
 
 async function buscarBeneficiario(cpf, datanasc) {
@@ -239,22 +296,29 @@ function preencherBeneficiario(dados) {
     const headerCpf = document.getElementById('header-user-cpf');
     
     if (headerName && headerCpf) {
-        let cpfFormatado = dados.cpf || "";
-        if (cpfFormatado.length === 11 && !cpfFormatado.includes('.')) {
-            cpfFormatado = cpfFormatado.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-        }
         const primeiroNome = dados.nome ? dados.nome.split(' ').slice(0, 2).join(' ').toUpperCase() : 'BENEFICIÁRIO';
         headerName.textContent = primeiroNome;
-        headerCpf.innerHTML = `<i class="fa-regular fa-address-card" style="margin-right: 5px;"></i> CPF: ${cpfFormatado}`;
+        headerCpf.innerHTML = `<i class="fa-regular fa-address-card" style="margin-right: 5px;"></i> CPF: ${mascararCPF(dados.cpf)}`;
     }
 
+    // NOME FICA VISÍVEL E CIDADE FICA VISÍVEL (Como você pediu)
     setVal('nome', dados.nome);
-    setVal('cpf', dados.cpf);
-    setVal('rg', dados.rg);
-    setVal('datanasc', dados.datanasc || dados.dataNascimento);
-    setVal('genero', dados.genero || dados.sexo);
-    setVal('etnia', dados.etnia);
-    setVal('nomemae', dados.nomemae || dados.nomeMae);
+    setVal('edit-cidade', dados.cidade);
+
+    // O RESTO FICA MASCARADO:
+    setVal('cpf', mascararCPF(dados.cpf));
+    setVal('rg', mascararRG(dados.rg));
+    
+    // Troca o type do input para "text" via JS só pra conseguir jogar os asteriscos, já que "date" não aceita letra
+    const inputData = document.getElementById('datanasc');
+    if (inputData) {
+        inputData.type = 'text';
+        inputData.value = mascararData();
+    }
+
+    setVal('genero', dados.genero || dados.sexo); 
+    setVal('etnia', dados.etnia); 
+    setVal('nomemae', mascararTexto(dados.nomemae || dados.nomeMae));
     setVal('tipodeficiencia', dados.tipodeficiencia || dados.tipoDeficiencia);
     
     const temAcomp = (dados.acompanhante === '1' || dados.acompanhante === 'Sim' || dados.acompanhante === true) ? 'Sim' : 'Não';
@@ -280,15 +344,17 @@ function preencherBeneficiario(dados) {
         }
     }
 
-    setVal('edit-email', dados.email);
-    setVal('edit-telefone', dados.telefone);
-    setVal('edit-cep', dados.cep);
-    setVal('edit-cidade', dados.cidade);
-    setVal('edit-bairro', dados.bairro);
-    setVal('edit-endereco', dados.endereco || dados.logradouro);
-    setVal('edit-numero', dados.numero);
-    setVal('edit-complemento', dados.complemento);
-    setVal('nomeresponsavel', dados.nomeresponsavel || dados.nomeResponsavel);
-    setVal('cpfresponsavel', dados.cpfresponsavel || dados.cpfResponsavel);
-    setVal('rgresponsavel', dados.rgresponsavel || dados.rgResponsavel);
+    // Contato mascarado
+    setVal('edit-email', mascararEmail(dados.email));
+    setVal('edit-telefone', mascararTelefone(dados.telefone));
+    setVal('edit-cep', mascararTexto(dados.cep));
+    setVal('edit-bairro', mascararTexto(dados.bairro));
+    setVal('edit-endereco', mascararTexto(dados.endereco || dados.logradouro));
+    setVal('edit-numero', '***');
+    setVal('edit-complemento', '***');
+    
+    // Responsável mascarado
+    setVal('nomeresponsavel', mascararTexto(dados.nomeresponsavel || dados.nomeResponsavel));
+    setVal('cpfresponsavel', mascararCPF(dados.cpfresponsavel || dados.cpfResponsavel));
+    setVal('rgresponsavel', mascararRG(dados.rgresponsavel || dados.rgResponsavel));
 }

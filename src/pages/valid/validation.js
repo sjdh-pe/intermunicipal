@@ -12,6 +12,39 @@ function getDataUrlFromBase64(base64) {
     return `data:${mime};base64,${base64}`;
 }
 
+// Função para formatar a data de validade (Ex: 2025-05-20 -> Maio de 2025)
+function formatarDataValidade(dataStr) {
+    if (!dataStr || dataStr === "Indeterminado") return "Indeterminado";
+    
+    let mes, ano;
+    
+    // Verifica se a API mandou no formato AAAA-MM-DD
+    if (dataStr.includes('-')) {
+        const partes = dataStr.split('-');
+        ano = partes[0];
+        mes = parseInt(partes[1], 10);
+    } 
+    // Verifica se a API mandou no formato DD/MM/AAAA
+    else if (dataStr.includes('/')) {
+        const partes = dataStr.split('/');
+        ano = partes[2];
+        mes = parseInt(partes[1], 10);
+    } else {
+        return dataStr; // Retorna original se for um formato desconhecido
+    }
+
+    const meses = [
+        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ];
+
+    if (mes >= 1 && mes <= 12) {
+        return `${meses[mes - 1]} de ${ano}`;
+    }
+    
+    return dataStr;
+}
+
 // Função principal que roda ao carregar a página
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -63,7 +96,9 @@ function renderWallet(user, cardElement) {
     document.getElementById('user-name').textContent = user.nome;
     document.getElementById('user-cpf').textContent = formatCPF(user.cpf);
     document.getElementById('user-cidade').textContent = user.cidade;
-    document.getElementById('user-validade').textContent = user.dataValidade || "Indeterminado";
+    
+    // APLICANDO A FORMATAÇÃO DE DATA AQUI:
+    document.getElementById('user-validade').textContent = formatarDataValidade(user.dataValidade);
 
     // Foto
     const imgEl = document.getElementById('user-photo');
