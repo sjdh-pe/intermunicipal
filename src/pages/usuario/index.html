@@ -28,7 +28,9 @@
     <main class="d-flex align-items-center min-vh-100 py-5">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                
+                <div class="col-11 col-sm-10 col-md-8 col-lg-8 col-xl-8">
+                    
                     <div class="card shadow-sm border-0">
                         <div class="card-body p-4 p-md-5">
                             <div class="text-center mb-4">
@@ -41,13 +43,11 @@
                             </p>
 
                             <form id="login-form" class="needs-validation" novalidate>
-
-
                                 <div class="mb-3">
                                     <label for="cpf" class="form-label">CPF</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-person-vcard"></i></span>
-                                        <input type="text" inputmode="numeric" class="form-control" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+                                        <input type="text" inputmode="numeric" class="form-control cpf-masck" id="cpf" name="cpf" placeholder="000.000.000-00" required>
                                         <div class="invalid-feedback">Informe um CPF válido.</div>
                                     </div>
                                 </div>

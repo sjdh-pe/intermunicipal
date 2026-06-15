@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const username = onlyDigits(cpfInput.value);
         const password = passwordInput.value;
-        console.log(username, password)
         await login(username, password);
         const dest = restoreRedirectAfterLogin('/pages/gestao/');
         location.href = dest;

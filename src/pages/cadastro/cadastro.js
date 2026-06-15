@@ -512,7 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ATUALIZAÇÃO: ÍCONE VERDE AO ANEXAR
+    // Icone verde de imagem
     document.querySelectorAll('input[type="file"]:not(#photo)').forEach(input => {
         input.addEventListener('change', function() {
             const fileNameDisplay = document.getElementById(`${this.id}Name`);
@@ -540,9 +540,26 @@ document.addEventListener('DOMContentLoaded', () => {
             e.stopPropagation();
 
             const sec1 = validateSection(1);
-             const sec2 = validateSection(2);
+            const sec2 = validateSection(2);
 
             if (sec1 && sec2) {
+                nextSection(2);
+            }
+    });
+        
+    // form-beneficiary-documents
+    document.getElementById('form-beneficiary-documents')
+        .addEventListener('submit', async function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const sec1 = validateSection(1);
+            const sec2 = validateSection(2);
+
+            const ValidoBeneficiaryDocuments = validateSection(3);
+
+            if (sec1 && sec2 && ValidoBeneficiaryDocuments) {
                 const payload = {
                     nome: p.nome,
                     cpf: p.cpf,
@@ -587,10 +604,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
-                // Cadastra apenas se ainda não existir um beneficiário salvo neste fluxo
                 if(!beneficiario){
                     beneficiario = await cadastrarBeneficiario(payload);
-                    nextSection(2);
                 }
 
             } else {
@@ -602,15 +617,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     confirmButtonText: 'OK'
                 });
             }
-        });
-        
-    // form-beneficiary-documents
-    document.getElementById('form-beneficiary-documents')
-        .addEventListener('submit', async function (e) {
-
-            e.preventDefault();
-            e.stopPropagation();
-            const ValidoBeneficiaryDocuments = validateSection(3);
 
             if (beneficiario && beneficiario.id && ValidoBeneficiaryDocuments) {
                 try {

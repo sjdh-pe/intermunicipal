@@ -1,8 +1,9 @@
 import axios from "https://esm.sh/axios@1.7.7";
 import { showLoading, hideLoading, resetLoading } from "../components/loader.js";
+import Swal from "https://esm.sh/sweetalert2@11";
 
-// const defaultBase = "http://localhost:3000";
-const defaultBase = "https://api.sjdh.pe.gov.br";
+const defaultBase = "http://localhost:3000";
+// const defaultBase = "http://api.sjdh.pe.gov.br";
 
 
 const TOKEN_KEY = "app_auth_token";
@@ -44,7 +45,14 @@ function safeAlert(msg) {
     const now = Date.now();
     if (now - __lastAlertAt < 600) return;
     __lastAlertAt = now;
-    alert(msg);
+    // alert(msg);
+    Swal.fire({
+        title: 'Erro na API',
+        text: msg,
+        icon: 'error',
+        timer: 3000,
+        confirmButtonText: 'OK'
+    });
 }
 
 // ✅ ÚNICO request interceptor: loader + token + content-type (quando NÃO for FormData)

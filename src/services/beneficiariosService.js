@@ -3,30 +3,56 @@
 import { api } from "./api.js";
 
 /**
- * Lista beneficiários com paginação e filtros avançados
- * @param {string} inicio - data inicial (formato YYYY-MM-DD)
- * @param {string} fim - data final (formato YYYY-MM-DD)
- * @param {string} nome - filtro por nome
- * @param {string} cpf - filtro por cpf
- * @param {string} cidade - filtro por cidade
- * @param {string} status - filtro por status do benefício
- * @param {number} page - página (0-based)
- * @param {number} size - tamanho da página
+ * Lista beneficiários com paginação e filtros avançados para a API
  */
 export async function listarBeneficiarios(inicio, fim, nome = '', cpf = '', cidade = '', status = '', page = 0, size = 10) {
-
-    // Objeto com os parâmetros que serão adicionados na URL
+    
+    // Inicia com os parâmetros obrigatórios
     const queryParams = {
-        page,
-        size
+        page: page,
+        size: size
     };
 
-    const resp = await api.get(`/beneficiarios`, {
-        params: queryParams
-    });
+    // Adiciona os filtros dinamicamente apenas se estiverem preenchidos
+    if (nome && nome.trim() !== '') {
+        queryParams.nome = nome.trim();
+    }
 
-    return resp.data;
+    if (cpf && cpf.trim() !== '') {
+        // Remove pontos e traços do CPF para enviar só os números para a API
+        const cpfLimpo = cpf.replace(/\D/g, ''); 
+        if (cpfLimpo) queryParams.cpf = cpfLimpo;
+    }
+
+    if (cidade && cidade.trim() !== '') {
+        queryParams.cidadeNome = cidade.trim(); // Padrão que a API espera
+    }
+
+    if (status && status !== '') {
+        queryParams.statusBeneficioId = status; // Padrão que a API espera
+    }
+
+    if (inicio && inicio !== '') {
+        queryParams.inicio = inicio;
+    }
+
+    if (fim && fim !== '') {
+        queryParams.fim = fim;
+    }
+
+    try {
+
+        const resp = await api.get(`/beneficiarios`, {
+            params: queryParams
+        });
+
+        return resp.data;
+    } catch (error) {
+        console.error("❌ Erro ao buscar beneficiários na API:", error);
+        throw error;
+    }
 }
+
 
 /** Lista links de arquivos de um beneficiário
 * @param {string} id - Identificador do beneficiário
