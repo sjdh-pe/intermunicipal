@@ -67,12 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const dataFormatada = `${partes[2]}-${partes[1]}-${partes[0]}`;
 
-            console.log('Data selecionada:', dataFormatada);
-            console.log('CPF:', cpf);
             try {
-                // Busca na API
                 const response = await api.get(`/beneficiarios/cpf/${cpf}/${dataFormatada}`);
-                console.log('API Response:', response.data);
                 const usuario = response.data;
 
                 if (usuario) {

@@ -129,7 +129,7 @@ api.clearAuthToken = () => {
     delete api.defaults.headers.common.Authorization;
 };
 
-// Salvaguardas: se a página for descarregada/ocultar antes das respostas chegarem,
+// Salva-guardas: se a página for descarregada/ocultar antes das respostas chegarem,
 // garantimos que o loader não fique preso na tela
 window.addEventListener("pagehide", () => {
     // zera pendências locais e esconde overlay

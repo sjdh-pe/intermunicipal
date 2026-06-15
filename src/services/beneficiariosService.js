@@ -111,142 +111,45 @@ export async function uploadArquivoBeneficiario(id, tipoArquivoId, file) {
 /**
  * Enviar e-mail confirmação cadastro
  * @param {object} beneficiario - beneficiário cadastrado
- * */
+ */
 export async function enviarEmailConfirmacao(beneficiario) {
-
-    const bodyHtml = `Prezado(a), ${beneficiario.nome}
-
-<p>Confirmamos o recebimento do seu cadastro e da documentação anexa para a solicitação do <strong>Cartão PE Livre Acesso Intermunicipal</strong>.</p>
-
-<p>Seus dados foram enviados com sucesso para a equipe da a Secretaria Executiva de Promoção dos Direitos da Pessoa com Deficiência, para análise e elaboração da Cartão PE Livre Acesso Intermunicipal.</p>
-
-<p>O que acontece agora?</p>
-
-<p>Nossa equipe irá verificar se todos os documentos (Laudo Médico, RG, CPF, Comprovante de Residência e Foto) estão em conformidade com a Lei Estadual <strong>nº 12.045/2001</strong>.</p>
-
-<p>Prazo de Análise: O prazo máximo para análise e emissão é de até 90 dias.</p>
-
-<p>Você receberá um novo e-mail assim que houver uma atualização no status do seu pedido (Aprovado, Pendente ou Indeferido).</p>
-
-<p>Caso seja identificada alguma pendência na documentação, entraremos em contato por e-mail.</p>
-
-<p>Dúvidas? Entre em contato: <a href="mailto:pelivreacesso@sjdh.pe.gov.br">pelivreacesso@sjdh.pe.gov.br</a></p>
-
-<p>Atenciosamente,<br>
-  Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência<br>
-  Secretaria de Justiça, Direitos Humanos e Prevenção à Violência (SJDH)</p>`;
-
-    try {
-        const resp = await api.post(`/email/html`, {
-                    to: beneficiario.email,
-                    subject: "Cartão PE Livre Acesso Intermunicipal - Confirmação de Cadastro",
-                    body: bodyHtml
-            });
-        console.log(resp);
-        return resp.data;
-    } catch (error) {
-        console.error(error);
-    }
+    const resp = await api.post('/email/confirmacao-cadastro', {
+        to: beneficiario.email,
+        nomeBeneficiario: beneficiario.nome,
+        cpf: beneficiario.cpf
+    });
+    return resp.data || true;
 }
 
 
 /**
-* Enviar e-mail Aprovação do Benefício
-* @param {object} beneficiario - beneficiário
-* */
-export async function enviarEmailAprovado(beneficiario) {
-
-    const urlCarteirinha = `https://api.sjdh.pe.gov.br/beneficiarios/${beneficiario.id}/carteirinha`;
-
-    const bodyHtml = `
-  <p>Prezado(a), <strong>${beneficiario.nome}</strong></p>
-
-  <p>Temos uma ótima notícia: Sua solicitação foi <strong>APROVADA</strong>!</p>
-
-  <p>Você já pode exercer o seu direito à gratuidade no transporte coletivo intermunicipal em Pernambuco utilizando a sua <strong>Carteira Digital</strong>.</p>
-
-  <p><strong>Como acessar sua carteira:</strong></p>
-
-  <p>
-    Acesse neste link:
-    <a href="${urlCarteirinha}" target="_blank" rel="noopener noreferrer">
-      Carteirinha PE Livre Intermunicipal
-    </a>
-  </p>
-
-  <p><strong>Como utilizar na viagem:</strong></p>
-
-  <p>Vá diretamente ao balcão da empresa de transporte e apresente a sua Carteira Digital (na tela do celular) juntamente com seu <strong>documento de identidade original (RG)</strong>.</p>
-
-  <p>Lembre-se: As empresas são obrigadas a reservar assentos para atender aos beneficiários, e a passagem pode ser solicitada até cinco minutos antes do início da viagem, desde que existam lugares vagos.</p>
-
-  <p>Dúvidas? Entre em contato: <a href="mailto:pelivreacesso@sjdh.pe.gov.br">pelivreacesso@sjdh.pe.gov.br</a></p>
-
-  <p>Atenciosamente,<br>
-  Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência<br>
-  Secretaria de Justiça, Direitos Humanos e Prevenção à Violência (SJDH)</p>
-`;
-
-    try {
-        const resp = await api.post(`/email/html`,
-        {
-                to: beneficiario.email,
-                subject: "Cartão PE Livre Acesso Intermunicipal - Beneficio Aprovado!",
-                body: bodyHtml
-            });
-        console.log(resp);
-        return resp.data;
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-/**
- * Enviar e-mail com cartão digital
+ * Enviar e-mail de aprovação do benefício
  * @param {object} beneficiario - beneficiário
- * */
+ */
+export async function enviarEmailAprovado(beneficiario) {
+    const resp = await api.post('/email/cadastro-aprovado', {
+        to: beneficiario.email,
+        nomeBeneficiario: beneficiario.nome,
+        cpf: beneficiario.cpf,
+        localRetirada: beneficiario.localRetirada || '',
+        linkCarteirinha: `${api.urlapi}/beneficiarios/${beneficiario.id}/carteirinha`
+    });
+    return resp.data;
+}
+
+/**
+ * Enviar e-mail com cartão digital (2ª via)
+ * @param {object} beneficiario - beneficiário
+ */
 export async function enviarEmailViaDigital(beneficiario) {
-
-    const urlCarteirinha = `https://api.sjdh.pe.gov.br/beneficiarios/${beneficiario.id}/carteirinha`;
-
-    const bodyHtml = `Prezado(a), ${beneficiario.nome}
-
-<p>Sua solicitação da <strong>Carteira PE Livre Intermunicipal</strong> foi <p>APROVADA</strong>!</p>
-
-<p>Você já pode exercer o seu direito à gratuidade no transporte coletivo intermunicipal em Pernambuco utilizando a sua <strong>Carteira Digital</strong>.</p>
-
-<p>Como acessar sua carteira:</p>
-
-<p>
-    Acesse neste link:
-    <a href="${urlCarteirinha}" target="_blank" rel="noopener noreferrer">
-      Carteirinha PE Livre Intermunicipal
-    </a>
-  </p>
-
-<p>Como utilizar na viagem:</p>
-
-<p>Vá diretamente ao balcão da empresa de transporte e apresente a sua Carteira Digital (na tela do celular) juntamente com seu <strong>documento de identidade original (RG)</strong>.</p>
-
-<p>Lembre-se: As empresas são obrigadas a reservar assentos para atender aos beneficiários, e a passagem pode ser solicitada até cinco minutos antes do início da viagem, desde que existam lugares vagos.</p>
-
-<p>Dúvidas? Entre em contato: <a href="mailto:pelivreacesso@sjdh.pe.gov.br">pelivreacesso@sjdh.pe.gov.br</a></p>
-
-<p>Atenciosamente,<br>
-  Secretário Executivo de Promoção dos Direitos da Pessoa com Deficiência<br>
-  Secretaria de Justiça, Direitos Humanos e Prevenção à Violência (SJDH)</p>`;
-
-
-    try {
-        const resp = await api.post(`/email/html`, {
-                to: beneficiario.email,
-                subject: "Cartão PE Livre Acesso Intermunicipal - Cartão Digital disponivel.",
-                body: bodyHtml
-            });
-        return resp.data;
-    } catch (error) {
-        console.error(error);
-    }
+    const resp = await api.post('/email/cadastro-aprovado', {
+        to: beneficiario.email,
+        nomeBeneficiario: beneficiario.nome,
+        cpf: beneficiario.cpf,
+        localRetirada: beneficiario.localRetirada || '',
+        linkCarteirinha: `${api.urlapi}/beneficiarios/${beneficiario.id}/carteirinha`
+    });
+    return resp.data;
 }
 
 
