@@ -10,7 +10,8 @@ export async function listarBeneficiarios(inicio, fim, nome = '', cpf = '', cida
     // Inicia com os parâmetros obrigatórios
     const queryParams = {
         page: page,
-        size: size
+        size: size,
+        sort: 'diasDesdeCriacao,desc'
     };
 
     // Adiciona os filtros dinamicamente apenas se estiverem preenchidos
@@ -139,15 +140,16 @@ export async function enviarEmailAprovado(beneficiario) {
 
 /**
  * Enviar e-mail com cartão digital (2ª via)
+ * Dispara dois e-mails: confirmação ao beneficiário + notificação à equipe interna
  * @param {object} beneficiario - beneficiário
  */
 export async function enviarEmailViaDigital(beneficiario) {
-    const resp = await api.post('/email/cadastro-aprovado', {
+    const resp = await api.post('/email/segunda-via', {
         to: beneficiario.email,
+        toEquipe: 'pelivreacesso@sjdh.pe.gov.br',
         nomeBeneficiario: beneficiario.nome,
         cpf: beneficiario.cpf,
-        localRetirada: beneficiario.localRetirada || '',
-        linkCarteirinha: `${api.urlapi}/beneficiarios/${beneficiario.id}/carteirinha`
+        dataNascimento: beneficiario.dataNascimento
     });
     return resp.data;
 }
