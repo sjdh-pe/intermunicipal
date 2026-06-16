@@ -7,9 +7,12 @@
     "clean": "rm -rf public",
     "dev": "live-server src --port=4200 --open=pages/home/index.html",
     "build": "npm run clean && mkdir -p public && cp -a src/. public/ && cp src/pages/home/index.html public/index.html",
-    "server": "json-server --watch db.json --port 3000"
+    "server": "json-server --watch db.json --port 3000",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.0",
     "json-server": "^0.17.4",
     "live-server": "^1.2.2",
     "vite": "^7.3.1"
