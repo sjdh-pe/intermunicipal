@@ -99,138 +99,98 @@
 
         </div>
 
-       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-    
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between">
-        <div>
-            <h2 class="text-sm font-bold text-gray-500 uppercase mb-3 flex items-center">
-                <i data-feather="search" class="w-4 h-4 mr-2"></i> Pesquisa Direta
-            </h2>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+                <h2 class="text-sm font-bold text-gray-500 uppercase flex items-center gap-2 m-0">
+                    <i data-feather="search" class="w-4 h-4"></i> Busca e Filtros
+                </h2>
+                <div class="flex flex-wrap items-center gap-2" id="botoes-periodo">
+                    <span class="text-xs text-gray-400">Período rápido:</span>
+                    <button type="button" data-dias="30"  class="btn-periodo px-3 py-1 border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-colors text-xs font-medium">30d</button>
+                    <button type="button" data-dias="60"  class="btn-periodo px-3 py-1 border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-colors text-xs font-medium">60d</button>
+                    <button type="button" data-dias="90"  class="btn-periodo px-3 py-1 border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-colors text-xs font-medium">90d</button>
+                    <button type="button" data-dias="120" class="btn-periodo px-3 py-1 border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-colors text-xs font-medium">120d</button>
+                </div>
+            </div>
 
-            <div class="col-span-1 md:col-span-2 gap-2 mb-2">
-                    <label class="text-xs text-gray-400 mb-2 block">Período rápido (últimos dias após a solicitação)</label>
-                    <div class="flex flex-wrap gap-2" id="botoes-periodo">
-                        <button type="button" data-dias="30" class="btn-periodo px-3 py-1.5 border border-green-600 text-green-600 rounded-lg hover:bg-green-600 hover:text-white transition-colors text-sm font-medium">30</button>
-                        <button type="button" data-dias="60" class="btn-periodo px-3 py-1.5 border border-green-600 text-green-600 rounded-lg hover:bg-green-600 hover:text-white transition-colors text-sm font-medium">60</button>
-                        <button type="button" data-dias="90" class="btn-periodo px-3 py-1.5 border border-green-600 text-green-600 rounded-lg hover:bg-green-600 hover:text-white transition-colors text-sm font-medium">90</button>
-                        <button type="button" data-dias="120" class="btn-periodo px-3 py-1.5 border border-green-600 text-green-600 rounded-lg hover:bg-green-600 hover:text-white transition-colors text-sm font-medium">120</button>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Data Início</label>
+                    <input type="date" id="filter-data-inicio" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-600">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Data Fim</label>
+                    <input type="date" id="filter-data-fim" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-600">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Nome</label>
+                    <div class="relative">
+                        <input type="text" id="filter-nome" placeholder="Buscar por nome..." class="w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        <i data-feather="user" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4 pointer-events-none"></i>
                     </div>
                 </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="w-full">
-                    <label class="text-xs text-gray-400 mb-1 block" for="pesquisa-data-inicio">Data Início</label>
-                    <input type="date" id="pesquisa-data-inicio" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-600">
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">CPF</label>
+                    <div class="relative">
+                        <input type="text" id="filter-cpf" placeholder="000.000.000-00" class="w-full pl-9 pr-3 py-2 cpf-masck border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        <i data-feather="credit-card" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4 pointer-events-none"></i>
+                    </div>
                 </div>
-                <div class="w-full">
-                    <label class="text-xs text-gray-400 mb-1 block" for="pesquisa-data-fim">Data Final</label>
-                    <input type="date" id="pesquisa-data-fim" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-600">
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Cidade</label>
+                    <div class="relative">
+                        <input type="text" id="filter-cidade" placeholder="Ex: Recife" class="w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        <i data-feather="map-pin" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4 pointer-events-none"></i>
+                    </div>
                 </div>
-
-                <div class="relative">
-                    <input type="text" id="pesquisa-nome" placeholder="Nome do Beneficiário" class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                    <i data-feather="user" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4"></i>
-                </div>
-                <div class="relative">
-                    <input type="text" id="pesquisa-cpf" placeholder="CPF" class="w-full pl-10 pr-4 py-2 cpf-masck border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                    <i data-feather="credit-card" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4"></i>
-                </div>
-                <div class="relative">
-                    <input type="text" id="pesquisa-cidade" placeholder="Cidade" class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                    <i data-feather="map-pin" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4"></i>
-                </div>
-                <div class="relative">
-                    <select id="pesquisa-status" class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-600 text-sm">
-                        <option value="">Todos os status</option>
-                        <option value="1">Em análise</option>
-                        <option value="2">Pendente</option>
-                        <option value="3">Indeferido</option>
-                        <option value="4">Aprovado</option>
-                        <option value="5">Entregue</option>
-                        <option value="6">Enviadas para Confecção</option>
-                        <option value="7">Entregue aos Correios</option>
-                        <option value="8">Entregue ao Município</option>
-                        <option value="9">Disponível para Retirada</option>
-                        <option value="10">Em Processamento</option>
-                        <option value="11">Vencido</option>
-                    </select>
-                    <i data-feather="activity" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4"></i>
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Status</label>
+                    <div class="relative">
+                        <select id="filter-status" class="w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-600 text-sm appearance-none">
+                            <option value="">Todos</option>
+                            <option value="1">Em análise</option>
+                            <option value="2">Pendente</option>
+                            <option value="3">Indeferido</option>
+                            <option value="4">Aprovado</option>
+                            <option value="5">Entregue</option>
+                            <option value="6">Enviadas p/ Confecção</option>
+                            <option value="7">Entregue Correios</option>
+                            <option value="8">Entregue Município</option>
+                            <option value="9">Disponível Retirada</option>
+                            <option value="10">Em Processamento</option>
+                            <option value="11">Vencido</option>
+                        </select>
+                        <i data-feather="activity" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4 pointer-events-none"></i>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="mt-4 flex justify-end">
-            <button id="btn-buscar-periodo" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center transition-colors w-full md:w-auto justify-center">
-                <i data-feather="search" class="w-4 h-4 mr-2"></i> Buscar
-            </button>
-        </div>
-    </div>
 
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between">
-        <div>
-            <h2 class="text-sm font-bold text-gray-500 uppercase mb-3 flex items-center">
-                <i data-feather="filter" class="w-4 h-4 mr-2"></i> Filtros de Dados
-            </h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8"> <div class="relative">
-                    <input type="text" id="search-nome" placeholder="Nome do Beneficiário" class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                    <i data-feather="user" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4"></i>
-                </div>
-                <div class="relative">
-                    <input type="text" id="search-cpf" placeholder="CPF" class="w-full pl-10 pr-4 py-2 cpf-masck border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                    <i data-feather="credit-card" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4"></i>
-                </div>
-                <div class="relative">
-                    <input type="text" id="search-cidade" placeholder="Cidade" class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                    <i data-feather="map-pin" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4"></i>
-                </div>
-                <div class="relative">
-                    <select id="search-status" class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-600 text-sm">
-                        <option value="">Todos os status</option>
-                        <option value="1">Em análise</option>
-                        <option value="2">Pendente</option>
-                        <option value="3">Indeferido</option>
-                        <option value="4">Aprovado</option>
-                        <option value="5">Entregue</option>
-                        <option value="6">Enviadas para Confecção</option>
-                        <option value="7">Entregue aos Correios</option>
-                        <option value="8">Entregue ao Município</option>
-                        <option value="9">Disponível para Retirada</option>
-                        <option value="10">Em Processamento</option>
-                        <option value="11">Vencido</option>
-                    </select>
-                    <i data-feather="activity" class="absolute left-3 top-2.5 text-gray-400 w-4 h-4"></i>
-                </div>
+            <div class="flex justify-end gap-2 mt-3">
+                <button id="btn-limpar" class="border border-gray-300 text-gray-600 hover:bg-gray-100 px-4 py-2 rounded-lg flex items-center gap-2 text-sm transition-colors">
+                    <i data-feather="x" class="w-4 h-4"></i> Limpar
+                </button>
+                <button id="btn-buscar" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors">
+                    <i data-feather="search" class="w-4 h-4"></i> Buscar
+                </button>
             </div>
         </div>
-        
-        <div class="mt-4 flex justify-end">
-            <button id="btn-filtrar" class="bg-blue-800 hover:bg-blue-900 text-white px-6 py-2 rounded-lg flex items-center transition-colors w-full md:w-auto justify-center">
-                <i data-feather="filter" class="w-4 h-4 mr-2"></i> Filtrar Resultados
-            </button>
-        </div>
-    </div>
-
-</div>
 
         <div class="bg-white rounded-xl min-h-[500px] shadow-md overflow-hidden border border-gray-100">
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
+                <table class="w-full divide-y divide-gray-200">
                     <thead class="bg-blue-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">Nome</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">CPF</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">Cidade</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">Deficiência</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">Espera</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">Ações</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">Nome</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider w-36">CPF</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">Cidade</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider">Deficiência</th>
+                        <th class="px-4 py-3 text-center text-xs font-bold text-blue-800 uppercase tracking-wider w-20">Espera</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider w-40">Status</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-blue-800 uppercase tracking-wider w-28">Ações</th>
                     </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200" id="beneficiarios-table">
                         </tbody>
                 </table>
-            </div>
         </div>
 
         <div class="flex flex-col md:flex-row md:justify-between md:items-center mt-4 gap-3 bg-white p-3 rounded-lg shadow-sm">
