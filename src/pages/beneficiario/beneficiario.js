@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const userDatanasc = urlParams.get('datanasc');
     
     if (!userCpf || !userDatanasc) {
-        alert("Sessão inválida. Retornando para a tela de login.");
         window.location.href = "../login/index.html";
         return;
     }
@@ -75,7 +74,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     } catch (error) {
         console.error("Erro ao buscar beneficiário:", error);
-        alert("Erro ao carregar seus dados.");
         window.location.href = "../login/index.html";
     }
 
