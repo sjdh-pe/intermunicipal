@@ -1,51 +1,82 @@
 import { formatCPF, resolveStatus } from './utils.js';
-import { filterBeneficiarios } from './filters.js';
-import {loadTokenOnStart, requireAuth} from '../../services/auth.js';
+import { requireAuth } from '../../services/auth.js';
 
-// loadTokenOnStart();
-requireAuth(); // redireciona ao login se necessário
-
-
+requireAuth();
 
 export function loadBeneficiarios(beneficiariosPage) {
     const tableBody = document.getElementById('beneficiarios-table');
     if (!tableBody) return;
     tableBody.innerHTML = '';
 
-    const filtered = filterBeneficiarios(beneficiariosPage);
+    const items = beneficiariosPage?.content || [];
 
-    filtered.forEach(b => {
+    if (items.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="7" class="px-6 py-14 text-center">
+                    <div class="flex flex-col items-center text-gray-400">
+                        <i data-feather="inbox" class="w-10 h-10 mb-2 opacity-40"></i>
+                        <p class="text-sm">Nenhum beneficiário encontrado para os filtros aplicados</p>
+                    </div>
+                </td>
+            </tr>`;
+        if (typeof feather !== 'undefined') feather.replace();
+        return;
+    }
+
+    items.forEach(b => {
         const row = document.createElement('tr');
-        const infoStatus = resolveStatus(b);
-        const isAprovado = infoStatus.nome === 'Aprovado' || b.statusId === 4;
-        const cardClass = isAprovado ? "text-green-600 hover:text-green-900 cursor-pointer" : "text-gray-300 cursor-not-allowed";
-        // const cardAction = isAprovado ? `onclick="alert('Abrir carteira de: ${b.nome.replace(/"/g, '\\"')}')"` : '';
-         const cardAction = isAprovado ? `onclick="openCarteiraModal('${b.id}')"` : '';
+        row.className = 'hover:bg-blue-50 transition-colors duration-100';
+
+        const infoStatus  = resolveStatus(b);
+        const isAprovado  = infoStatus.nome === 'Aprovado' || b.statusId === 4;
+        const cardBtnClass = isAprovado
+            ? 'p-1.5 text-green-600 hover:bg-green-100 rounded-lg transition-colors'
+            : 'p-1.5 text-gray-300 rounded-lg cursor-not-allowed';
+        const nomeEscapado = (b.nome || '').replace(/'/g, "\\'");
 
         row.innerHTML = `
-            <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">${b.nome || ''}</div></td>
-            <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-900">${formatCPF(b.cpf || '')}</div></td>
-            <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-900">${b.cidade || ''}</div></td>
-            <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-900">${b.tipoDeficiencia || ''}</div></td>
-            <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-900">${b.diasDesdeCriacao || 1}</div></td>
-            <td class="px-6 py-4 whitespace-nowrap"><span class="${infoStatus.estilo} px-2 py-1 rounded-full text-xs font-semibold">${infoStatus.nome}</span></td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <button onclick="openViewModal('${b.id}')" class="text-blue-600 hover:text-blue-900 mr-3" title="Ver dados"><i data-feather="eye"></i></button>
-                <button onclick="openEditModal('${b.id}')" class="text-amber-600 hover:text-amber-900 mr-3" title="Editar"><i data-feather="edit"></i></button>
-                <button onclick="openCarteiraModal('${b.id}', '${b.nome || ''}', '${b.email || ''}')" class="${cardClass} mr-3" title="${isAprovado ? 'Opções da Carteira' : 'Carteira Indisponível'}">
-                    <i data-feather="credit-card"></i>
-                </button>
+            <td class="px-4 py-3">
+                <span class="text-sm font-medium text-gray-900">${b.nome || ''}</span>
             </td>
-<!--                <button onclick="openDeleteModal('${b.id}')" class="text-red-600 hover:text-red-900" title="Deletar"><i data-feather="trash-2"></i></button>-->
+            <td class="px-4 py-3 whitespace-nowrap">
+                <span class="text-sm font-mono text-gray-600">${formatCPF(b.cpf || '')}</span>
+            </td>
+            <td class="px-4 py-3">
+                <span class="text-sm text-gray-700">${b.cidade || ''}</span>
+            </td>
+            <td class="px-4 py-3">
+                <span class="text-sm text-gray-700">${b.tipoDeficiencia || ''}</span>
+            </td>
+            <td class="px-4 py-3 text-center">
+                <span class="text-sm font-medium text-gray-700">${b.diasDesdeCriacao ?? 1}d</span>
+            </td>
+            <td class="px-4 py-3">
+                <span class="${infoStatus.estilo} px-2.5 py-1 rounded-full text-xs font-semibold">${infoStatus.nome}</span>
+            </td>
+            <td class="px-4 py-3 whitespace-nowrap">
+                <div class="flex items-center gap-1">
+                    <button onclick="openViewModal('${b.id}')"
+                        class="p-1.5 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
+                        title="Ver dados">
+                        <i data-feather="eye" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="openEditModal('${b.id}')"
+                        class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg transition-colors"
+                        title="Editar">
+                        <i data-feather="edit" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="openCarteiraModal('${b.id}', '${nomeEscapado}', '${b.email || ''}')"
+                        class="${cardBtnClass}"
+                        title="${isAprovado ? 'Opções da Carteira' : 'Carteira indisponível'}"
+                        ${!isAprovado ? 'disabled' : ''}>
+                        <i data-feather="credit-card" class="w-4 h-4"></i>
+                    </button>
+                </div>
             </td>
         `;
         tableBody.appendChild(row);
     });
 
-    if (document.getElementById('current-items')) document.getElementById('current-items').textContent = filtered.length;
-    if (document.getElementById('total-items')) document.getElementById('total-items').textContent = (beneficiariosPage?.content || []).length;
-    if (document.getElementById('total-count')) document.getElementById('total-count').textContent = beneficiariosPage?.totalElements || 0;
-
     if (typeof feather !== 'undefined') feather.replace();
 }
-
