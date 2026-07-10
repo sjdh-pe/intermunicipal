@@ -1,4 +1,0 @@
-{
-  "/auth/login": "/users?username=:username&password=:password",
-  "/auth/profile": "/profile"
-}
