@@ -23,9 +23,8 @@ function clearToken() {
 }
 
 export async function login(username, password) {
-
+    clearToken();
     const res = await api.post('/auth/login', { username, password });
-    console.log('login response', res.data);
     // espera resposta com { tokenType, accessToken, expiresIn }
     saveToken(res.data);
     return res.data;

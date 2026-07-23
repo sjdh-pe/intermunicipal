@@ -2,8 +2,8 @@ import axios from "https://esm.sh/axios@1.7.7";
 import { showLoading, hideLoading, resetLoading } from "../components/loader.js";
 import Swal from "https://esm.sh/sweetalert2@11";
 
-const defaultBase = "http://localhost:3000";
-// const defaultBase = "http://api.sjdh.pe.gov.br";
+// const defaultBase = "http://localhost:3000";
+const defaultBase = "http://api.sjdh.pe.gov.br";
 
 
 const TOKEN_KEY = "app_auth_token";
@@ -61,7 +61,7 @@ api.interceptors.request.use(
         startLoading();
 
         const token = readTokenValue();
-        if (token) {
+        if (token && !config.url.includes('/auth/login')) {
             config.headers = config.headers || {};
             config.headers.Authorization = token;
         }
